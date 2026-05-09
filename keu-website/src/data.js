@@ -121,6 +121,49 @@ export const SITE = {
     { name: 'Usman Ali',     role: 'Customer Experience Lead', photo: '/images/team/usman.jpg' },
   ],
 
+  faqs: [
+    {
+      q: 'How much does an Umrah package from Pakistan cost?',
+      a: 'Karwan-e-Usmania offers Umrah packages from PKR 185,000 (Economy, 14 nights, 3-star hotels) up to PKR 450,000 (VIP, 14 nights, 5-star hotels like Hilton, Pullman or Makkah Clock Tower). The Premium package at PKR 285,000 — 4-star hotels 500m from the Haram — is our most popular tier.',
+    },
+    {
+      q: 'How long does Saudi Umrah visa processing take?',
+      a: 'With Karwan-e-Usmania, Saudi Umrah visas are typically processed within 5–7 working days. We have a 100% approval rate. The visa fee, biometric appointment, and document attestation are all handled by our team — you do not visit the consulate.',
+    },
+    {
+      q: 'What is included in a Karwan-e-Usmania Hajj/Umrah package?',
+      a: 'Every package includes: Saudi visa processing, return flights from Pakistan, hotel accommodation near the Haram, all ground transport (airport transfers and Makkah-Madinah coach), Urdu-speaking guide, and ziyarah (sacred-site) tours. Premium and VIP tiers add private transport, a dedicated guide, and full concierge support.',
+    },
+    {
+      q: 'When is the best time for Umrah?',
+      a: 'Umrah can be performed any time of year except during Hajj season (8–13 Dhul-Hijjah). The most spiritually rewarding time is the last 10 nights of Ramadan — our Ramadan Umrah package (PKR 550,000) is built around the Laylat-ul-Qadr experience. Cooler months (November–February) are gentler weather-wise for elderly pilgrims.',
+    },
+    {
+      q: 'What is the cost of Hajj 2025 from Lahore?',
+      a: 'Hajj is a government-quota service. Karwan-e-Usmania handles applications for Hajj 2025, 2026, and 2027 in both Economy and VIP tiers. Pricing depends on the official Pakistani Hajj policy each year and is provided on request. Apply early on WhatsApp at +92-333-4883578.',
+    },
+    {
+      q: 'Can children travel for Umrah with Karwan-e-Usmania?',
+      a: 'Yes. We have a dedicated Family Umrah package (PKR 240,000 per person, 12 nights) designed for families with children — family rooms (4 pax), pram-friendly hotels, lighter ziyarah schedule, and a free seat for under-2 children. Female attendants can be arranged on request.',
+    },
+    {
+      q: 'Is Karwan-e-Usmania a registered Hajj and Umrah operator?',
+      a: 'Yes. Karwan-e-Usmania is a Lahore-based travel operator that has served pilgrims since 2005. We work with established Saudi partners on the ground in Makkah and Madinah for hotels, transport, and guides.',
+    },
+    {
+      q: 'Where is the Karwan-e-Usmania office?',
+      a: 'Our office is at Mansoora Homes, Multan Road, Lahore, Pakistan (postal code 54600). Open Monday–Saturday 9 am to 7 pm and Sunday 11 am to 4 pm. WhatsApp is the fastest channel: +92-331-4211935.',
+    },
+    {
+      q: 'What is Qafila e Shoq?',
+      a: 'Qafila e Shoq is a spiritual journey programme led by Pirzada Burhan uddin Ahmed Usmani Sahib (Islamic Scholar). It is a transformative spiritual experience built around four pillars: Ibadah (worship), Riyazat (spiritual discipline), Tarbiyat (development), and Siyahat (sacred travel). It is not a regular travel package — seats are limited and by application only.',
+    },
+    {
+      q: 'How do I book with Karwan-e-Usmania?',
+      a: 'WhatsApp is our primary booking channel — most travellers receive a quote within an hour. Message +92-331-4211935 with your preferred package and travel dates. You can also call +92-333-4883578, email info@keusmania.com, or visit our Lahore office.',
+    },
+  ],
+
   qafila: {
     name: 'Qafila e Shoq',
     tagline: 'A Sacred Caravan of Devotion',

@@ -37,9 +37,11 @@ export default function ContactForm() {
 
     // Send to backend (saves to Mongo + emails admin). On failure we still
     // open WhatsApp so the user is never stuck.
+    let saved = false
     try {
       await api.post('/api/contact', form)
       setStatus('sent')
+      saved = true
     } catch (err) {
       console.warn('[contact] backend send failed:', err.message)
       setStatus('error')
@@ -61,7 +63,7 @@ export default function ContactForm() {
 
     window.open(wa('general', text), '_blank', 'noopener')
 
-    if (status !== 'error') setForm(initial)
+    if (saved) setForm(initial)
   }
 
   return (

@@ -9,7 +9,7 @@
     "dev:web": "vite",
     "dev:api": "node scripts/dev-api.js",
     "vercel-dev": "vercel dev",
-    "build": "vite build",
+    "build": "vite build && node scripts/generate-seo.js",
     "preview": "vite preview",
     "optimize:images": "node scripts/optimize-images.js",
     "seed:admin": "node scripts/seed-admin.js"
