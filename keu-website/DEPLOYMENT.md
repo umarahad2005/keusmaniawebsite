@@ -1,113 +1,167 @@
 # Deployment — Karwan-e-Usmania
 
-This site is a multi-page Vite + Vanilla JS app, ready for Vercel.
+React SPA + Vercel serverless API + MongoDB Atlas + Brevo SMTP + Cloudinary.
 
-## 1. Install dependencies (first time)
+## 1. Local setup (one-off)
 
 ```powershell
 cd D:\personal\projects\keusmaniawebsite\keu-website
 npm install
+copy .env.example .env.local
+# Fill in .env.local with the values from sections 4–7 below
 ```
 
-Three.js, GSAP, Lenis, Sharp, Vite and Terser are pinned in `package.json`.
+## 2. First-time admin seeding
 
-## 2. Run locally
+After setting `MONGODB_URI`, `ADMIN_EMAIL`, `ADMIN_PASSWORD` in `.env.local`:
 
 ```powershell
-npm run dev          # http://localhost:5173
+npm run seed:admin
 ```
 
-The first paint shows the 3D hero on capable GPUs and a CSS gradient fallback on Mali-4xx / Adreno 3xx phones (handled in `src/js/scene.js`).
+This creates (or updates) the admin user. Re-run any time to rotate the password.
 
-## 3. Production build
+## 3. Run locally
 
 ```powershell
-npm run build        # outputs to dist/
-npm run preview      # serve the built bundle
+npm run dev
 ```
 
-Vite produces five entrypoint HTMLs (`index`, `packages`, `about`, `gallery`, `contact`), with Three.js / GSAP / Lenis split into their own chunks (`vite.config.js → manualChunks`). Terser drops `console.*` and `debugger`.
+That single command runs **both** processes via `concurrently`:
 
-## 4. Deploy to Vercel
+- `dev:api` — local Express server on `:3001` that loads every handler in `api/*.js`
+- `dev:web` — Vite React dev server on `:5173`, proxying `/api/*` → `:3001`
+
+Open **http://localhost:5173** for the public site, **http://localhost:5173/admin/login** for the dashboard. If `MONGODB_URI` / `JWT_SECRET` aren't set in `.env.local`, the API still starts but Mongo-backed routes return 503; the public site falls back to the bundled `data.js` so it always renders.
+
+### Production-parity dev (optional)
+
+If you want to test against the real Vercel runtime (e.g. to verify edge headers):
 
 ```powershell
 npm install -g vercel
-vercel              # first run links a project
+npm run vercel-dev    # serves api/* via Vercel CLI on :3000
+# then run:
+npm run dev:web
+# (manually flip vite.config.js proxy target to :3000 first, or set DEV_API_PORT=3000)
+```
+
+## 4. MongoDB Atlas (free tier)
+
+1. Sign up at https://cloud.mongodb.com
+2. Build a Database → free **M0** cluster, region close to Vercel (e.g. AWS `us-east-1`)
+3. **Database Access** → add a user (`keu_admin`, strong password)
+4. **Network Access** → add IP `0.0.0.0/0` (Vercel IP pool is dynamic)
+5. **Connect → Drivers** → copy the `mongodb+srv://` URI
+6. Paste into `.env.local`:
+   ```
+   MONGODB_URI=mongodb+srv://keu_admin:<PASSWORD>@cluster.xxx.mongodb.net/keu?retryWrites=true&w=majority
+   ```
+
+Database collections (auto-created):
+- `admins` — the single admin account
+- `inquiries` — every contact-form submission
+- `contents` — keyed by type (`site`, `packages`) — what the dashboard edits
+
+## 5. Brevo SMTP (or SendGrid)
+
+**Brevo** (formerly Sendinblue):
+1. Sign up at https://brevo.com
+2. Senders → add and verify `info@keusmania.com` (or any domain you own)
+3. SMTP & API → SMTP → copy the host, port, login, master password
+4. `.env.local`:
+   ```
+   SMTP_HOST=smtp-relay.brevo.com
+   SMTP_PORT=587
+   SMTP_USER=<your-brevo-login>
+   SMTP_PASS=<the-smtp-key>
+   MAIL_FROM="Karwan-e-Usmania <noreply@keusmania.com>"
+   MAIL_TO=itdepartpak@gmail.com
+   ```
+
+**SendGrid** alternative:
+```
+SMTP_HOST=smtp.sendgrid.net
+SMTP_PORT=587
+SMTP_USER=apikey
+SMTP_PASS=<your-sendgrid-api-key>
+```
+
+## 6. Cloudinary
+
+1. Sign up at https://cloudinary.com (free, 25 GB)
+2. Dashboard → grab `Cloud name`, `API Key`, `API Secret`
+3. **Settings → Upload → Add upload preset** → Mode: Unsigned (we sign server-side, so it's actually fine to keep signed too — the API uses the secret)
+4. `.env.local`:
+   ```
+   CLOUDINARY_CLOUD_NAME=<cloud_name>
+   CLOUDINARY_API_KEY=<key>
+   CLOUDINARY_API_SECRET=<secret>
+   CLOUDINARY_UPLOAD_PRESET=keu_unsigned
+
+   VITE_CLOUDINARY_CLOUD_NAME=<cloud_name>
+   VITE_CLOUDINARY_UPLOAD_PRESET=keu_unsigned
+   ```
+
+## 7. JWT + admin password
+
+```
+JWT_SECRET=<paste a 32+ char random string here, e.g. openssl rand -hex 32>
+ADMIN_EMAIL=itdepartpak@gmail.com
+ADMIN_PASSWORD=<your-chosen-password>
+```
+
+## 8. Production deploy (Vercel)
+
+```powershell
+vercel              # first run — links the project
 vercel --prod       # ship
 ```
 
-No `vercel.json` is needed — Vercel auto-detects Vite. Build command: `npm run build`, output dir: `dist`.
+In **Vercel → Project → Settings → Environment Variables**, paste every key from your `.env.local` into the production environment (and Preview, if you want preview deployments to work).
 
-After the first deploy, update `agents/project-state.json` with the live URL.
+`vercel.json` is wired so all SPA routes fall back to `index.html`, except `/api/*` which hits the serverless functions.
 
-## 5. Bundled assets
+## 9. The dashboard
 
-These are already in place (sourced from the `umarahad2005/Karwan_e_usmania` reference repo and Vite-served from `public/`):
+Live at `https://your-domain.com/admin/login`. Sign in with `ADMIN_EMAIL` + `ADMIN_PASSWORD`.
 
-| Path                                           | What it is                              |
-| ---------------------------------------------- | --------------------------------------- |
-| `public/logo.png`                              | Brand logo — Kaaba + green dome + plane |
-| `public/favicon.svg`                           | Brand favicon (gold-on-navy)            |
-| `public/images/makkah/*.jpg`                   | Kaaba, Masjid al-Haram, city skyline    |
-| `public/images/madinah/*.jpg`                  | Prophet's Mosque, city, exterior        |
-| `public/images/team/*.jpg`                     | Burhan, Muaz, Umar, Usman               |
-| `public/patterns/geometric.svg`                | Khatam tessellation pattern             |
-| `public/patterns/islamic-pattern.webp`         | Decorative arabesque texture            |
+| Section | What you can do |
+| --- | --- |
+| **Inbox**       | All contact-form submissions, newest first. Filter by status, mark unread/read/replied/archived, reply via WhatsApp or email, delete. |
+| **Company**     | Phone, WhatsApp, email, address, founded year, social URLs |
+| **Packages**    | Add / edit / delete packages — name, price, badge, inclusions, WhatsApp message |
+| **Testimonials**| List of pilgrim quotes — quote, name, location, trip, rating, initials |
+| **Team**        | Names, roles, photos (Cloudinary upload widget) |
+| **Gallery**     | Drop-in image uploads — alt text, size hint (tall/wide) |
+| **Sanctuaries** | Makkah / Madinah cards (JSON editor) |
+| **Why Choose Us** | The four "why" cards (JSON editor) |
 
-Still optional to add:
+Every save writes to MongoDB (`contents` collection). The public site fetches from `/api/content` on every page load — changes go live within seconds.
 
-| Path                  | What it is                                  |
-| --------------------- | ------------------------------------------- |
-| `public/og-image.jpg` | Social-share preview (1200×630). The site falls back gracefully if absent. |
+## 10. Email flow
 
-Run the optimizer to produce 400/800/1200 WebP variants if you want even faster loads:
+When a visitor submits the contact form:
+1. POST `/api/contact` → saves an inquiry to MongoDB
+2. Nodemailer sends a richly-formatted notification to `MAIL_TO`
+3. WhatsApp opens client-side with the same message pre-filled (so visitors are never stuck)
+4. Inquiry shows up at `/admin/inbox` — usually within 1–2 seconds
 
-```powershell
-npm run optimize:images
-```
+If SMTP fails, the inquiry is still saved (so you don't lose leads); the failure is logged.
 
-## 6. Real contact details to substitute
+## 11. QA checklist (passed at handover)
 
-Edit `src/data/site.json` and replace the placeholders:
+- [x] React SPA on `/`, `/packages`, `/about`, `/gallery`, `/contact`
+- [x] Admin SPA on `/admin/*`, JWT cookie auth (httpOnly)
+- [x] Hero with Kaaba photo backdrop + transparent Three.js dome
+- [x] Dynamic content load with bundled-data fallback
+- [x] Contact form → MongoDB + email + WhatsApp
+- [x] Cloudinary signed direct-upload from dashboard
+- [x] Real Mansoora Homes Multan Road embed in contact map
+- [x] No certificate / license copy anywhere
+- [x] Tier-C dashboard: inbox + 7 content editors
 
-- `company.phone`   →  e.g. `+92-300-1234567`
-- `company.whatsapp`→  digits only, e.g. `923001234567`
-- `company.email`
-- `company.address.*`
-- `company.socials[*].url`
-
-Every package-specific WhatsApp message lives in `src/data/packages.json` under `waMessage` per package. Edit there if you want different copy per tier.
-
-## 7. Optional — connect a custom domain
-
-```powershell
-vercel domains add keusmania.com
-```
-
-Update the `<link rel="canonical">` and `og:url` values in each HTML head, plus the `url` field in the JSON-LD on `index.html`.
-
-## 8. QA checklist (passed at handover)
-
-- [x] Five HTML pages with proper SEO meta + canonical + OG tags
-- [x] JSON-LD `TravelAgency` on `index.html`
-- [x] Nav transparent → solid on scroll, mobile drawer, ESC + outside-click close
-- [x] 3D hero scene with Fibonacci particle dome, glow, ring, starfield, mouse parallax
-- [x] Low-end GPU detection → CSS gradient fallback
-- [x] `prefers-reduced-motion` honoured everywhere
-- [x] GSAP timelines: hero entrance, scroll scatter, section heading, card stagger, services, counters, testimonials, CTA, parallax, footer
-- [x] Lenis smooth scroll with ScrollTrigger sync
-- [x] WhatsApp CTAs everywhere — pre-filled message per package
-- [x] WhatsApp float button with delayed greeting bubble
-- [x] Contact form validates name/phone/message → opens WhatsApp
-- [x] Gallery lightbox (Esc + backdrop close)
-- [x] Package filter chips (All / Umrah / Hajj / Ramadan / Family)
-- [x] Tokens-based design system, gold-on-navy palette, Islamic geometric pattern
-- [x] Vite multi-page build, Terser minify, manual chunks for three/gsap/lenis
-- [x] Image optimizer script using sharp
-
-## 9. Lighthouse expectations
-
-After deploy + real images optimized:
+## 12. Lighthouse expectations
 
 | Category       | Target |
 | -------------- | ------ |
@@ -115,5 +169,3 @@ After deploy + real images optimized:
 | Accessibility  | 95+    |
 | Best Practices | 95+    |
 | SEO            | 100    |
-
-The biggest single perf risk is hero canvas on low-end Android — already mitigated by GPU detection.

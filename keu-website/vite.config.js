@@ -1,12 +1,36 @@
 import { defineConfig } from 'vite'
-import { resolve } from 'path'
+import react from '@vitejs/plugin-react'
 
 export default defineConfig({
-  base: './',
+  plugins: [react()],
+  base: '/',
   server: {
     port: 5173,
     open: true,
     host: true,
+    proxy: {
+      // Forward /api/* to the local dev API server (scripts/dev-api.js, port 3001)
+      '/api': {
+        target: 'http://localhost:3001',
+        changeOrigin: true,
+        secure: false,
+        // Don't flood the console when the API isn't running — log once per kind
+        configure(proxy) {
+          const seen = new Set()
+          proxy.on('error', (err, req, res) => {
+            const key = err.code || err.message
+            if (!seen.has(key)) {
+              seen.add(key)
+              console.warn(`[vite] /api proxy: ${err.code || err.message} — is "npm run dev:api" running?`)
+            }
+            if (res && !res.headersSent && typeof res.writeHead === 'function') {
+              res.writeHead(503, { 'Content-Type': 'application/json' })
+              res.end(JSON.stringify({ error: 'API unavailable' }))
+            }
+          })
+        },
+      },
+    },
   },
   build: {
     outDir: 'dist',
@@ -17,18 +41,12 @@ export default defineConfig({
     },
     chunkSizeWarningLimit: 600,
     rollupOptions: {
-      input: {
-        main:     resolve(__dirname, 'index.html'),
-        packages: resolve(__dirname, 'packages.html'),
-        about:    resolve(__dirname, 'about.html'),
-        gallery:  resolve(__dirname, 'gallery.html'),
-        contact:  resolve(__dirname, 'contact.html'),
-      },
       output: {
         manualChunks: {
-          three: ['three'],
-          gsap:  ['gsap'],
-          lenis: ['lenis'],
+          react:  ['react', 'react-dom', 'react-router-dom'],
+          three:  ['three'],
+          gsap:   ['gsap'],
+          lenis:  ['lenis'],
         },
       },
     },
