@@ -1,0 +1,143 @@
+{
+  "currency": "PKR",
+  "packages": [
+    {
+      "id": "economy-umrah",
+      "name": "Economy Umrah",
+      "category": "umrah",
+      "tier": "economy",
+      "icon": "🕋",
+      "price": 185000,
+      "priceLabel": "PKR 185,000",
+      "perPerson": true,
+      "nights": 14,
+      "subtitle": "14 Nights · 3-Star Hotels",
+      "summary": "7 nights Makkah · 7 nights Madinah",
+      "badge": null,
+      "inclusions": [
+        "Economy class flights",
+        "3-star hotels (800m–1km from Haram)",
+        "Visa processing included",
+        "Shared AC transport",
+        "Group guide (Urdu)",
+        "Halal meals on arrival days"
+      ],
+      "waMessage": "Assalamu Alaikum! I am interested in the Economy Umrah package (PKR 185,000). Please share details, available dates, and the booking process."
+    },
+    {
+      "id": "premium-umrah",
+      "name": "Premium Umrah",
+      "category": "umrah",
+      "tier": "premium",
+      "icon": "🕌",
+      "price": 285000,
+      "priceLabel": "PKR 285,000",
+      "perPerson": true,
+      "nights": 14,
+      "subtitle": "14 Nights · 4-Star Hotels",
+      "summary": "7 nights Makkah · 7 nights Madinah",
+      "badge": "Most Popular",
+      "inclusions": [
+        "Economy+ class flights",
+        "4-star hotels (500m from Haram)",
+        "Visa processing included",
+        "Semi-private AC transport",
+        "Ziyarah tours included",
+        "Dedicated Urdu-speaking guide"
+      ],
+      "waMessage": "Assalamu Alaikum! I am interested in the Premium Umrah package (PKR 285,000). Please share details, available dates, and hotel options."
+    },
+    {
+      "id": "vip-umrah",
+      "name": "VIP Umrah",
+      "category": "umrah",
+      "tier": "vip",
+      "icon": "✨",
+      "price": 450000,
+      "priceLabel": "PKR 450,000",
+      "perPerson": true,
+      "nights": 14,
+      "subtitle": "14 Nights · 5-Star Hotels",
+      "summary": "Hilton · Pullman · Makkah Clock Tower tier",
+      "badge": "VIP",
+      "inclusions": [
+        "Business class flights",
+        "5-star hotels (Hilton/Pullman/Clock Tower)",
+        "Private car transfers",
+        "Full ziyarah programme",
+        "Personal Urdu/Arabic guide",
+        "Concierge & 24/7 support"
+      ],
+      "waMessage": "Assalamu Alaikum! I am interested in the VIP Umrah package (PKR 450,000). Please share details, hotel choices, and dates."
+    },
+    {
+      "id": "ramadan-umrah",
+      "name": "Ramadan Umrah",
+      "category": "ramadan_umrah",
+      "tier": "premium",
+      "icon": "🌙",
+      "price": 550000,
+      "priceLabel": "PKR 550,000",
+      "perPerson": true,
+      "nights": 10,
+      "subtitle": "Last 10 Nights of Ramadan",
+      "summary": "Laylat-ul-Qadr experience package",
+      "badge": "Limited Seats",
+      "inclusions": [
+        "5-star hotels close to Haram",
+        "Iftar &amp; Suhoor arrangements",
+        "Laylat-ul-Qadr night programme",
+        "Private transport",
+        "Senior scholar ziyarah talk",
+        "All visa &amp; flights included"
+      ],
+      "waMessage": "Assalamu Alaikum! I am interested in the Ramadan Umrah package. Please share 2025 dates, pricing, and hotel options."
+    },
+    {
+      "id": "hajj-2025",
+      "name": "Hajj 2025",
+      "category": "hajj",
+      "tier": "premium",
+      "icon": "🕋",
+      "price": null,
+      "priceLabel": "On Request",
+      "perPerson": true,
+      "nights": null,
+      "subtitle": "Government Quota · Economy &amp; VIP",
+      "summary": "Full Hajj service — every pillar arranged",
+      "badge": "Hajj 2025",
+      "inclusions": [
+        "Government quota application",
+        "All Hajj pillars arranged",
+        "Mina, Arafat, Muzdalifah camps",
+        "Trained Pakistani moallims",
+        "Pre-Hajj training sessions",
+        "Family group bookings welcome"
+      ],
+      "waMessage": "Assalamu Alaikum! I would like information about Hajj 2025 packages and the government quota application process."
+    },
+    {
+      "id": "family-umrah",
+      "name": "Family Umrah",
+      "category": "family",
+      "tier": "premium",
+      "icon": "👨‍👩‍👧‍👦",
+      "price": 240000,
+      "priceLabel": "PKR 240,000",
+      "perPerson": true,
+      "nights": 12,
+      "subtitle": "Designed for families with children",
+      "summary": "Family rooms · Easy schedule · Kids welcome",
+      "badge": "Family",
+      "inclusions": [
+        "Family rooms (4-pax)",
+        "Direct flights (less stopover)",
+        "4-star hotels — pram friendly",
+        "Lighter ziyarah schedule",
+        "Female attendants on request",
+        "Free seat for under-2 children"
+      ],
+      "waMessage": "Assalamu Alaikum! I am interested in the Family Umrah package. We are travelling with children — please share details."
+    }
+  ]
+}

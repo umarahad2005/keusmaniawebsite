@@ -1,0 +1,187 @@
+/* =========================================================
+   Karwan-e-Usmania — Design Tokens
+   Single source of truth for color, type, space, motion.
+   ========================================================= */
+
+:root {
+  /* ---------- Brand color palette ---------- */
+  --color-navy:        #1a2e5e;
+  --color-navy-light:  #2a4a8c;
+  --color-navy-dark:   #0d1b35;
+
+  --color-gold:        #c9a84c;
+  --color-gold-light:  #e8c97a;
+  --color-gold-dark:   #a8872e;
+
+  --color-green:       #1a6b3c;
+  --color-green-light: #27a85f;
+  --color-whatsapp:    #25d366;
+
+  --color-cream:       #f8f5ef;
+  --color-white:       #ffffff;
+  --color-black:       #000000;
+
+  /* ---------- Text ---------- */
+  --color-text-dark:    #0d1b35;
+  --color-text-body:    #1f2a44;
+  --color-text-muted:   #5a6a8a;
+  --color-text-on-dark: #f8f5ef;
+  --color-text-on-gold: #0d1b35;
+
+  /* ---------- Surfaces ---------- */
+  --color-surface:        #ffffff;
+  --color-surface-cream:  #f8f5ef;
+  --color-surface-dark:   #0d1b35;
+  --color-surface-navy:   #1a2e5e;
+
+  /* ---------- Borders ---------- */
+  --color-border:         rgba(13, 27, 53, 0.08);
+  --color-border-gold:    rgba(201, 168, 76, 0.2);
+  --color-border-strong:  rgba(13, 27, 53, 0.16);
+
+  /* ---------- State ---------- */
+  --color-success: #1a6b3c;
+  --color-warning: #c9a84c;
+  --color-error:   #b3261e;
+  --color-info:    #2a4a8c;
+
+  /* ---------- Typography families ---------- */
+  --font-heading: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-body:    'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-arabic:  'Amiri', 'Traditional Arabic', 'Scheherazade New', serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* ---------- Type scale ---------- */
+  --text-xs:   0.75rem;     /* 12 */
+  --text-sm:   0.875rem;    /* 14 */
+  --text-base: 1rem;        /* 16 */
+  --text-lg:   1.125rem;    /* 18 */
+  --text-xl:   1.25rem;     /* 20 */
+  --text-2xl:  1.5rem;      /* 24 */
+  --text-3xl:  1.875rem;    /* 30 */
+  --text-4xl:  2.25rem;     /* 36 */
+  --text-5xl:  3rem;        /* 48 */
+  --text-6xl:  3.75rem;     /* 60 */
+  --text-hero: clamp(3rem, 8vw, 6rem);
+
+  /* ---------- Line heights ---------- */
+  --leading-tight:   1.1;
+  --leading-snug:    1.25;
+  --leading-normal:  1.5;
+  --leading-relaxed: 1.7;
+
+  /* ---------- Letter spacing ---------- */
+  --tracking-tight:  -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide:   0.04em;
+  --tracking-wider:  0.08em;
+
+  /* ---------- Font weights ---------- */
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+  --weight-black:    900;
+
+  /* ---------- Spacing (4px base) ---------- */
+  --space-0:  0;
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-5:  1.25rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+  --space-40: 10rem;
+
+  /* ---------- Layout ---------- */
+  --container-sm:   640px;
+  --container-md:   768px;
+  --container-lg:   1024px;
+  --container-xl:   1200px;
+  --container-2xl:  1440px;
+  --container-pad:  clamp(1rem, 4vw, 2.5rem);
+
+  --section-y:      clamp(4rem, 10vw, 8rem);
+
+  /* ---------- Radius ---------- */
+  --radius-xs:   4px;
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   16px;
+  --radius-xl:   24px;
+  --radius-2xl:  32px;
+  --radius-pill: 9999px;
+
+  /* ---------- Shadows (warm, premium) ---------- */
+  --shadow-xs:    0 1px 2px rgba(13, 27, 53, 0.06);
+  --shadow-sm:    0 2px 6px rgba(13, 27, 53, 0.08);
+  --shadow-md:    0 8px 20px rgba(13, 27, 53, 0.10);
+  --shadow-lg:    0 16px 40px rgba(13, 27, 53, 0.14);
+  --shadow-xl:    0 28px 60px rgba(13, 27, 53, 0.18);
+  --shadow-gold:  0 14px 30px rgba(201, 168, 76, 0.28);
+  --shadow-inner: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+
+  /* ---------- Gradients ---------- */
+  --gradient-navy:    linear-gradient(160deg, #1a2e5e 0%, #0d1b35 100%);
+  --gradient-gold:    linear-gradient(135deg, #e8c97a 0%, #c9a84c 60%, #a8872e 100%);
+  --gradient-cream:   linear-gradient(180deg, #ffffff 0%, #f8f5ef 100%);
+  --gradient-hero:    radial-gradient(ellipse at 50% 30%, #2a4a8c 0%, #1a2e5e 40%, #0d1b35 100%);
+  --gradient-overlay: linear-gradient(180deg, rgba(13,27,53,0) 0%, rgba(13,27,53,0.7) 100%);
+
+  /* ---------- Motion ---------- */
+  --ease-out:       cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out:    cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring:    cubic-bezier(0.34, 1.56, 0.64, 1);
+  --duration-fast:  150ms;
+  --duration-base:  250ms;
+  --duration-slow:  450ms;
+  --duration-xslow: 800ms;
+
+  /* ---------- Z-index scale ---------- */
+  --z-base:    0;
+  --z-raised:  10;
+  --z-sticky:  100;
+  --z-nav:     200;
+  --z-overlay: 300;
+  --z-modal:   400;
+  --z-toast:   500;
+  --z-top:     999;
+
+  /* ---------- Effects ---------- */
+  --blur-sm: 6px;
+  --blur-md: 12px;
+  --blur-lg: 24px;
+
+  --backdrop-pill: blur(12px) saturate(1.4);
+  --backdrop-nav:  blur(16px) saturate(1.6);
+}
+
+/* =========================================================
+   Dark surface contextual override
+   Apply via [data-theme="dark"] on <section> or <html>.
+   ========================================================= */
+[data-theme="dark"] {
+  --color-surface:     var(--color-navy-dark);
+  --color-text-body:   var(--color-text-on-dark);
+  --color-text-muted:  rgba(248, 245, 239, 0.65);
+  --color-border:      rgba(248, 245, 239, 0.12);
+}
+
+/* =========================================================
+   Accessibility — reduce motion
+   ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast:  0ms;
+    --duration-base:  0ms;
+    --duration-slow:  0ms;
+    --duration-xslow: 0ms;
+  }
+}

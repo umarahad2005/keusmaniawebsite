@@ -1,0 +1,62 @@
+{
+  "project": "karwan-e-usmania",
+  "root": "./keu-website",
+  "status": {
+    "design": "done",
+    "structure": "done",
+    "3d_scene": "done",
+    "animation": "done",
+    "content": "done",
+    "ui_components": "done",
+    "whatsapp": "done",
+    "performance": "done",
+    "qa": "done"
+  },
+  "brand": {
+    "colors": {
+      "navy": "#1a2e5e",
+      "gold": "#c9a84c",
+      "green": "#1a6b3c",
+      "cream": "#f8f5ef",
+      "dark": "#0d1b35",
+      "gold_light": "#e8c97a",
+      "navy_light": "#2a4a8c",
+      "green_light": "#27a85f"
+    },
+    "fonts": {
+      "heading": "Playfair Display",
+      "body": "Inter",
+      "arabic": "Amiri"
+    },
+    "logo": "assets/logo.png"
+  },
+  "tech": {
+    "bundler": "vite",
+    "3d": "three@0.160.0",
+    "animation": "gsap@3",
+    "scroll": "lenis",
+    "icons": "phosphor-icons"
+  },
+  "contact": {
+    "whatsapp": "+92-XXX-XXXXXXX",
+    "phone": "+92-XXX-XXXXXXX",
+    "email": "info@keusmania.com",
+    "address": "Lahore, Pakistan",
+    "maps_embed": "GOOGLE_MAPS_EMBED_URL"
+  },
+  "pages": ["index", "packages", "about", "gallery", "contact"],
+  "packages": {
+    "types": ["economy", "premium", "vip"],
+    "categories": ["hajj", "umrah", "ramadan_umrah", "family"]
+  },
+  "outputs": {
+    "design_tokens": "src/styles/tokens.css",
+    "design_global": "src/styles/global.css",
+    "design_components": "src/styles/components.css",
+    "design_pattern": "src/assets/patterns/geometric.svg",
+    "components_list": ["nav","footer","fab-whatsapp","package-card","testimonial-card","service-card","stat-card","gallery-item","contact-form","filter-chips"],
+    "three_scene_config": { "particles": 4000, "stars": 2000, "ring": true, "glow": true, "mouseParallax": true, "lowEndFallback": true, "exposed": ["particles","particleGeo","ring","glowSphere","stars","camera","scene"] },
+    "gsap_timelines": ["hero","scrollScatter","sectionHeading","cards","services","counters","testimonials","cta","parallax","footer"],
+    "content_map": { "packages": "src/data/packages.json", "site": "src/data/site.json" }
+  }
+}
