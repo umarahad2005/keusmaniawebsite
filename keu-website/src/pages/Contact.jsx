@@ -1,19 +1,35 @@
 import PageHeader            from '../components/PageHeader.jsx'
 import ContactInfo           from '../components/ContactInfo.jsx'
 import ContactForm           from '../components/ContactForm.jsx'
+import JsonLd                from '../components/JsonLd.jsx'
+
 import { useGsapAnimations } from '../hooks/useGsapAnimations.js'
 import { useDocumentHead }   from '../lib/useDocumentHead.js'
+import { useSite }           from '../lib/SiteContext.jsx'
+import { breadcrumbSchema, organizationSchema } from '../lib/schemas.js'
 
 export default function Contact() {
+  const { site } = useSite()
+
   useDocumentHead({
-    title: 'Contact & Bookings | Karwan-e-Usmania',
-    description: 'Contact Karwan-e-Usmania for Hajj & Umrah bookings. Lahore office, WhatsApp, phone & email — quick response, honest advice.',
+    title: 'Contact & Bookings | Karwan-e-Usmania, Lahore',
+    description: 'Contact Karwan-e-Usmania for Hajj & Umrah bookings. Mansoora Homes, Multan Road, Lahore. WhatsApp +92-331-4211935. Open Mon–Sat 9am–7pm.',
+    keywords: 'Karwan-e-Usmania contact, Hajj booking Lahore, Umrah WhatsApp Pakistan, Mansoora Homes Multan Road',
     canonical: 'https://keusmania.vercel.app/contact',
+    ogImage: '/images/madinah/madinah-city.jpg',
   })
   useGsapAnimations(['contact'])
 
   return (
     <>
+      <JsonLd data={[
+        organizationSchema(site),
+        breadcrumbSchema([
+          { name: 'Home', url: '/' },
+          { name: 'Contact', url: '/contact' },
+        ]),
+      ]} />
+
       <PageHeader
         eyebrow="Contact"
         title="We are here to help — السلام علیکم"

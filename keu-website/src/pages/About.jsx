@@ -3,20 +3,35 @@ import PageHeader            from '../components/PageHeader.jsx'
 import SectionHeading        from '../components/SectionHeading.jsx'
 import WhyChooseUs           from '../components/WhyChooseUs.jsx'
 import TeamGrid              from '../components/TeamGrid.jsx'
+import JsonLd                from '../components/JsonLd.jsx'
+
 import { useGsapAnimations } from '../hooks/useGsapAnimations.js'
 import { useDocumentHead }   from '../lib/useDocumentHead.js'
+import { aboutPageSchema, breadcrumbSchema, organizationSchema } from '../lib/schemas.js'
 
 export default function About() {
   const { site } = useSite()
+
   useDocumentHead({
-    title: 'About Us | Karwan-e-Usmania',
-    description: 'Karwan-e-Usmania has served pilgrims from Lahore since 2005. Saudi-approved partners on the ground in Makkah & Madinah.',
+    title: 'About Us — 18 Years Serving Pilgrims | Karwan-e-Usmania',
+    description: 'Karwan-e-Usmania has served pilgrims from Lahore since 2005. Saudi-approved partners on the ground in Makkah & Madinah. Meet the Karwan team and read our story.',
+    keywords: 'Karwan-e-Usmania about, Hajj operator Lahore, licensed Umrah operator Pakistan, Pirzada Burhan Usmani',
     canonical: 'https://keusmania.vercel.app/about',
+    ogImage: '/images/madinah/prophets-mosque.jpg',
   })
   useGsapAnimations(['about'])
 
   return (
     <>
+      <JsonLd data={[
+        organizationSchema(site),
+        breadcrumbSchema([
+          { name: 'Home', url: '/' },
+          { name: 'About', url: '/about' },
+        ]),
+        aboutPageSchema(site),
+      ]} />
+
       <PageHeader
         eyebrow="About Us"
         title="A Karwan rooted in service."
