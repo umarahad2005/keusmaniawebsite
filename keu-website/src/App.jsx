@@ -66,6 +66,7 @@ export default function App() {
             <Route path="gallery"      element={<AdminGallery />} />
             <Route path="sanctuaries"  element={<AdminGeneric type="sanctuaries" title="Sanctuaries" />} />
             <Route path="why"          element={<AdminGeneric type="whyChooseUs" title="Why Choose Us" />} />
+            <Route path="faqs"         element={<AdminGeneric type="faqs" title="FAQs" />} />
           </Route>
 
           <Route path="*" element={<PublicShell><Home /></PublicShell>} />

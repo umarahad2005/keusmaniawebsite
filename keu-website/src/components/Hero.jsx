@@ -19,10 +19,12 @@ export default function Hero() {
       <div className="hero__content">
         <p className="hero__bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
         <span className="hero__pill">Lahore · Since 2005</span>
-        <h1 className="hero__title">
-          Your Sacred Journey
-          <span className="hero__title-accent">Begins Here</span>
+        <h1 className="hero__title hero__title--arabic">
+          خدمات ضیوف الرحمن
         </h1>
+        <p className="hero__title-accent hero__title-accent--sub">
+          Services for the Guests of the Most Merciful
+        </p>
         <p className="hero__subtitle">
           Premium Hajj &amp; Umrah services from Lahore, Pakistan.
           Trusted by thousands of pilgrims since 2005.
@@ -35,7 +37,6 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="hero__scroll-cue" aria-hidden="true">Scroll to explore</div>
     </section>
   )
 }

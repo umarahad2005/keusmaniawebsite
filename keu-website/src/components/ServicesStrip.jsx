@@ -1,11 +1,17 @@
 import { useSite } from '../lib/SiteContext.jsx'
 import { Icon } from '../icons.jsx'
+import SectionHeading from './SectionHeading.jsx'
 
 export default function ServicesStrip() {
   const { site } = useSite()
   return (
     <section id="services" className="section">
       <div className="container">
+        <SectionHeading
+          bismillah="خدمات ضیوف الرحمن"
+          title="Our Services"
+          subtext="Everything you need for a spiritually fulfilling and comfortable pilgrimage."
+        />
         <div className="services-strip">
           {site.services.map(s => (
             <div key={s.label} className="service-card">
