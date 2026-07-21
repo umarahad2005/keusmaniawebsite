@@ -13,6 +13,11 @@ export async function connectDB() {
     cached.promise = mongoose.connect(uri, {
       serverSelectionTimeoutMS: 8000,
       maxPoolSize: 5,
+    }).catch(err => {
+      // Never leave a rejected promise in the cache: a warm serverless instance
+      // would re-await this same failure forever and never retry the connection.
+      cached.promise = null
+      throw err
     })
   }
   cached.conn = await cached.promise

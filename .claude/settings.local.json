@@ -7,7 +7,13 @@
       "WebFetch(domain:www.google.com)",
       "WebFetch(domain:keusmania.vercel.app)",
       "WebFetch(domain:raw.githubusercontent.com)",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "Bash(npm run *)",
+      "PowerShell(Resolve-DnsName *)",
+      "PowerShell(Get-DnsClientServerAddress *)",
+      "PowerShell(Remove-Item *)",
+      "PowerShell(Set-Location *)",
+      "PowerShell(\\(Resolve-DnsName -Type TXT cluster0.qsq0kkz.mongodb.net -Server 8.8.8.8\\).Strings)"
     ]
   }
 }
