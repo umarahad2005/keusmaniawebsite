@@ -2,9 +2,9 @@ import bcrypt from 'bcryptjs'
 import { connectDB, Admin } from '../_lib/db.js'
 import { ensureAdmin } from '../_lib/ensureAdmin.js'
 import { signToken, setAuthCookie } from '../_lib/auth.js'
-import { readJSON, methodNotAllowed } from '../_lib/http.js'
+import { readJSON, methodNotAllowed, withErrors } from '../_lib/http.js'
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method !== 'POST') return methodNotAllowed(res, ['POST'])
   const { email, password } = await readJSON(req)
   if (!email || !password) return res.status(400).json({ error: 'Email and password required' })
@@ -26,3 +26,5 @@ export default async function handler(req, res) {
   setAuthCookie(res, token)
   res.status(200).json({ ok: true, admin: { email: admin.email, name: admin.name } })
 }
+
+export default withErrors(handler)
