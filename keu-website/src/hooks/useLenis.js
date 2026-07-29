@@ -1,8 +1,16 @@
 import { useEffect } from 'react'
 import Lenis from 'lenis'
 
-export function useLenis() {
+/**
+ * Smooth scrolling for the public site.
+ *
+ * Call this ONCE, high in the tree, and gate it with `enabled` — mounting it per
+ * route tore the instance down and rebuilt it on every navigation, which fought
+ * the scroll-to-top reset and re-registered the anchor listener each time.
+ */
+export function useLenis(enabled = true) {
   useEffect(() => {
+    if (!enabled) return
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
     const lenis = new Lenis({
@@ -43,5 +51,5 @@ export function useLenis() {
       document.removeEventListener('click', onClick)
       delete window.__lenis
     }
-  }, [])
+  }, [enabled])
 }

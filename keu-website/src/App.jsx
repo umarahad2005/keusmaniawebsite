@@ -1,5 +1,4 @@
 import { Routes, Route, useLocation } from 'react-router-dom'
-import { useEffect } from 'react'
 
 import Nav         from './components/Nav.jsx'
 import Footer      from './components/Footer.jsx'
@@ -24,9 +23,9 @@ import AdminGeneric     from './pages/admin/EditGeneric.jsx'
 import { SiteProvider } from './lib/SiteContext.jsx'
 import { AuthProvider } from './lib/AuthContext.jsx'
 import { useLenis }     from './hooks/useLenis.js'
+import { useScrollRestoration } from './hooks/useScrollRestoration.js'
 
 function PublicShell({ children }) {
-  useLenis()
   return (
     <>
       <Nav />
@@ -39,9 +38,13 @@ function PublicShell({ children }) {
 
 export default function App() {
   const { pathname } = useLocation()
-  useEffect(() => { window.scrollTo({ top: 0, behavior: 'auto' }) }, [pathname])
-
   const isAdmin = pathname.startsWith('/admin')
+
+  /* Order matters: useLenis creates window.__lenis, and useScrollRestoration
+     reads it. Effects in a component run in declaration order, so the instance
+     is always live by the time the scroll reset fires. */
+  useLenis(!isAdmin)
+  useScrollRestoration()
 
   return (
     <AuthProvider>
