@@ -132,6 +132,30 @@ ADMIN_EMAIL=itdepartpak@gmail.com
 ADMIN_PASSWORD=<your-chosen-password>
 ```
 
+### Changing the admin login
+
+**Env is the source of truth.** Edit `ADMIN_EMAIL` / `ADMIN_PASSWORD` in
+Vercel → **Settings → Environment Variables**, then redeploy. The new pair works
+immediately; the old one stops working the moment the deploy goes live.
+
+Details worth knowing:
+
+- **The old password stops working straight away.** While these vars are set, the
+  `Admin` collection is never consulted to check a password — otherwise a stale
+  bcrypt hash in Mongo would keep accepting the previous one.
+- **Changing either var signs out every open session.** Each token carries a
+  fingerprint of the current credentials; rotating them invalidates cookies that
+  were issued under the old pair, so you'll be asked to log in again.
+- **Changing `ADMIN_EMAIL` is safe.** The row under the previous address is
+  removed on the next login, so it can't keep accepting the old credentials.
+- **Leading/trailing whitespace is trimmed** from both values — Vercel stores
+  what you paste verbatim, and a trailing newline would otherwise mean the
+  password silently never matches.
+- **Remove both vars** and the app falls back to the `Admin` collection in Mongo,
+  the previous behaviour. `npm run seed:admin` still writes that row.
+
+Redeploy is required either way: env changes only apply to new deployments.
+
 ## 8. Production deploy (Vercel)
 
 ```powershell

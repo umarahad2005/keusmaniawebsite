@@ -1,6 +1,7 @@
 /* JWT cookie auth helpers. */
 import jwt from 'jsonwebtoken'
 import { parse, serialize } from 'cookie'
+import { credentialVersion } from './adminCreds.js'
 
 const COOKIE = 'keu_admin'
 const SECRET = process.env.JWT_SECRET
@@ -8,13 +9,22 @@ const TTL    = 60 * 60 * 24 * 7 // 7 days
 
 export function signToken(payload) {
   if (!SECRET) throw new Error('JWT_SECRET is not set')
-  return jwt.sign(payload, SECRET, { expiresIn: TTL })
+  return jwt.sign({ ...payload, cv: credentialVersion() }, SECRET, { expiresIn: TTL })
 }
 
 export function verifyToken(token) {
   if (!SECRET || !token) return null
-  try { return jwt.verify(token, SECRET) }
+  let payload
+  try { payload = jwt.verify(token, SECRET) }
   catch { return null }
+
+  /* Reject sessions issued under a previous ADMIN_EMAIL/ADMIN_PASSWORD, so
+     rotating the credentials in Vercel actually signs the old ones out.
+     Tokens minted before this field existed have no `cv` and are also rejected —
+     that costs one re-login on deploy and is the safe direction to fail. */
+  if (payload.cv !== credentialVersion()) return null
+
+  return payload
 }
 
 export function setAuthCookie(res, token) {
