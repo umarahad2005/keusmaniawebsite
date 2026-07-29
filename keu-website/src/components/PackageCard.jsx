@@ -14,7 +14,7 @@ export default function PackageCard({ pkg }) {
       <p className="package-card__nights">{pkg.summary}</p>
       <div className="package-card__divider" />
       <ul className="package-card__inclusions">
-        {pkg.inclusions.map((line, i) => (
+        {(pkg.inclusions || []).filter(Boolean).map((line, i) => (
           <li key={i} className="package-card__inclusion">{line}</li>
         ))}
       </ul>

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useSite } from '../../lib/SiteContext.jsx'
 import { api } from '../../lib/api.js'
 import CloudinaryUpload from '../../components/admin/CloudinaryUpload.jsx'
+import Img from '../../components/Img.jsx'
 
 export default function EditGallery() {
   const { site, reload } = useSite()
@@ -37,7 +38,7 @@ export default function EditGallery() {
       <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 'var(--space-4)' }}>
         {list.map((g, i) => (
           <article key={i} className="card" style={{ padding: 'var(--space-3)' }}>
-            <img src={g.src} alt={g.alt} style={{ width: '100%', aspectRatio: '4/3', objectFit: 'cover', borderRadius: 'var(--radius-md)' }} />
+            <Img src={g.src} alt={g.alt} w={400} h={300} style={{ width: '100%', aspectRatio: '4/3', objectFit: 'cover', borderRadius: 'var(--radius-md)' }} />
             <label className="field mt-2">
               <span className="field__label">Alt / caption</span>
               <input className="field__input" value={g.alt} onChange={update(i, 'alt')} />

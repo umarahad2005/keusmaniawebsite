@@ -24,7 +24,7 @@ export default function Home() {
     description: 'Karwan-e-Usmania offers premium Hajj and Umrah packages from Lahore, Pakistan. 18+ years experience, 25,000+ pilgrims served, 100% Saudi visa approval. Book on WhatsApp.',
     keywords: 'Hajj packages Pakistan, Umrah packages Lahore, Karwan-e-Usmania, Hajj 2025 2026 2027, Umrah package price Pakistan, premium umrah Lahore, Ramadan Umrah Pakistan, family umrah package',
     canonical: 'https://keusmania.vercel.app/',
-    ogImage: '/images/makkah/kaaba.jpg',
+    ogImage: 'keu/makkah/kaaba',
   })
   useGsapAnimations(['home'])
 

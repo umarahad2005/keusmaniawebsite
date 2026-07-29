@@ -2,9 +2,9 @@
    PUT /api/content       → admin-only, body: { type, data } */
 import { connectDB, Content } from '../_lib/db.js'
 import { requireAdmin } from '../_lib/auth.js'
-import { readJSON, methodNotAllowed } from '../_lib/http.js'
+import { readJSON, methodNotAllowed, withErrors } from '../_lib/http.js'
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method === 'GET') {
     await connectDB()
     const docs = await Content.find({}).lean()
@@ -28,3 +28,5 @@ export default async function handler(req, res) {
 
   return methodNotAllowed(res, ['GET', 'PUT'])
 }
+
+export default withErrors(handler)

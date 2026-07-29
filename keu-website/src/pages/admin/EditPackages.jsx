@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useSite } from '../../lib/SiteContext.jsx'
 import { api } from '../../lib/api.js'
+import PackageCard from '../../components/PackageCard.jsx'
 
 const blank = () => ({
   id: '',
@@ -97,37 +98,64 @@ function PackageEditor({ pkg, onSave, onCancel }) {
   const addIncl = () => setP({ ...p, inclusions: [...p.inclusions, ''] })
   const removeIncl = (i) => setP({ ...p, inclusions: p.inclusions.filter((_, idx) => idx !== i) })
 
+  /* Placeholders keep the preview card readable while fields are still empty,
+     so a new package never renders as a blank box. */
+  const previewPkg = {
+    ...p,
+    name:       p.name       || 'Package name',
+    subtitle:   p.subtitle   || 'Package subtitle',
+    priceLabel: p.priceLabel || 'PKR —',
+    summary:    p.summary    || 'A short summary of what this package covers appears here.',
+    inclusions: p.inclusions.filter(Boolean).length ? p.inclusions : ['Add your inclusions'],
+  }
+
   return (
     <div className="modal-overlay" data-open="true">
-      <div className="modal" style={{ maxWidth: 720, maxHeight: '92vh', overflow: 'auto' }}>
+      <div className="modal pkg-editor">
         <button className="modal__close" type="button" onClick={onCancel}>×</button>
         <h2>{pkg.id ? 'Edit package' : 'New package'}</h2>
 
-        <div className="grid mt-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 'var(--space-3)' }}>
-          <Field label="ID (slug)" value={p.id} onChange={set('id')} hint="e.g. premium-umrah" />
-          <Field label="Name"      value={p.name}      onChange={set('name')} />
-          <Field label="Subtitle"  value={p.subtitle}  onChange={set('subtitle')} />
-          <Field label="Summary"   value={p.summary}   onChange={set('summary')} />
-          <Field label="Price label" value={p.priceLabel} onChange={set('priceLabel')} hint="e.g. PKR 285,000" />
-          <Field label="Price (number)" type="number" value={p.price ?? ''} onChange={set('price')} />
-          <Field label="Nights"   type="number" value={p.nights ?? ''} onChange={set('nights')} />
-          <Field label="Badge"    value={p.badge ?? ''} onChange={set('badge')} hint="empty for none" />
-          <Select label="Category" value={p.category} onChange={set('category')} options={['umrah','hajj','ramadan_umrah','family']} />
-          <Select label="Tier"     value={p.tier}     onChange={set('tier')}     options={['economy','premium','vip']} />
-        </div>
-
-        <h3 className="mt-8">Inclusions</h3>
-        <div className="stack" style={{ '--stack-gap': '0.5rem' }}>
-          {p.inclusions.map((line, i) => (
-            <div key={i} className="cluster">
-              <input className="field__input" value={line} onChange={setIncl(i)} style={{ flex: 1 }} />
-              <button className="btn btn--ghost btn--sm" onClick={() => removeIncl(i)}>×</button>
+        <div className="pkg-editor__body">
+          <div className="pkg-editor__form">
+            <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 'var(--space-3)' }}>
+              <Field label="ID (slug)" value={p.id} onChange={set('id')} hint="e.g. premium-umrah" />
+              <Field label="Name"      value={p.name}      onChange={set('name')} />
+              <Field label="Subtitle"  value={p.subtitle}  onChange={set('subtitle')} />
+              <Field label="Price label" value={p.priceLabel} onChange={set('priceLabel')} hint="e.g. PKR 285,000" />
+              <Field label="Price (number)" type="number" value={p.price ?? ''} onChange={set('price')} />
+              <Field label="Nights"   type="number" value={p.nights ?? ''} onChange={set('nights')} />
+              <Field label="Badge"    value={p.badge ?? ''} onChange={set('badge')} hint="empty for none" />
+              <Select label="Category" value={p.category} onChange={set('category')} options={['umrah','hajj','ramadan_umrah','family']} />
+              <Select label="Tier"     value={p.tier}     onChange={set('tier')}     options={['economy','premium','vip']} />
             </div>
-          ))}
-          <button className="btn btn--ghost btn--sm" onClick={addIncl}>+ Add line</button>
-        </div>
 
-        <Field label="WhatsApp pre-filled message" value={p.waMessage} onChange={set('waMessage')} textarea />
+            <Field label="Summary" value={p.summary} onChange={set('summary')} textarea
+                   hint="Shown as the paragraph on the card — keep it to 2–3 lines." />
+
+            <h3 className="mt-8">Inclusions</h3>
+            <div className="stack" style={{ '--stack-gap': '0.5rem' }}>
+              {p.inclusions.map((line, i) => (
+                <div key={i} className="cluster">
+                  <input className="field__input" value={line} onChange={setIncl(i)} style={{ flex: 1 }} />
+                  <button className="btn btn--ghost btn--sm" onClick={() => removeIncl(i)}>×</button>
+                </div>
+              ))}
+              <button className="btn btn--ghost btn--sm" onClick={addIncl}>+ Add line</button>
+            </div>
+
+            <Field label="WhatsApp pre-filled message" value={p.waMessage} onChange={set('waMessage')} textarea />
+          </div>
+
+          {/* Live preview — the same PackageCard the public site renders, so what
+              you see here is exactly what visitors get. */}
+          <aside className="pkg-editor__preview">
+            <span className="field__label">Live preview</span>
+            <div className="pkg-editor__preview-stage">
+              <PackageCard pkg={previewPkg} />
+            </div>
+            <p className="field__hint">Updates as you type. Card width matches the live site.</p>
+          </aside>
+        </div>
 
         <div className="cluster mt-8" style={{ justifyContent: 'flex-end' }}>
           <button className="btn btn--ghost" onClick={onCancel}>Cancel</button>

@@ -350,6 +350,20 @@
 
 .package-card__cta { margin-top: auto; }
 
+/* Packages grid — cards keep a fixed width instead of stretching.
+   .grid-3 uses minmax(260px, 1fr), which makes a lone card span the whole
+   row; capping the track at 360px and centring the rows keeps one card
+   looking identical to one of three. */
+.packages-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 360px));
+  justify-content: center;
+  gap: var(--space-8);
+}
+
+/* Every card in a row ends at the same height, however uneven the copy. */
+.packages-grid > .package-card { height: 100%; }
+
 /* Stat card */
 .stat-card {
   text-align: center;
@@ -1495,6 +1509,79 @@
 .modal__close:hover {
   background: var(--color-cream);
   color: var(--color-navy-dark);
+}
+
+/* =========================================================
+   ADMIN — PACKAGE EDITOR
+   Split view: fields on the left, a live PackageCard on the right.
+   ========================================================= */
+
+.pkg-editor {
+  width: min(1080px, 100%);
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.pkg-editor__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: var(--space-8);
+  margin-top: var(--space-4);
+  flex: 1 1 auto;
+  min-height: 0;          /* lets the form pane scroll instead of the modal growing */
+  overflow: hidden;
+}
+
+.pkg-editor__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  overflow-y: auto;
+  padding-right: var(--space-3);
+}
+
+.pkg-editor__preview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  position: sticky;
+  top: 0;
+  align-self: start;
+}
+
+/* Cream backdrop so the card reads against the white modal the way it reads
+   against the page. Width is locked to the live grid's 360px track. */
+.pkg-editor__preview-stage {
+  background: var(--color-cream);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  overflow-y: auto;
+  max-height: 62vh;
+}
+
+.pkg-editor__preview-stage .package-card {
+  width: 100%;
+  max-width: 360px;
+  margin-inline: auto;
+}
+
+/* Below the split threshold the preview drops under the form. */
+@media (max-width: 900px) {
+  .pkg-editor__body {
+    grid-template-columns: minmax(0, 1fr);
+    overflow-y: auto;
+  }
+
+  .pkg-editor__form { overflow: visible; padding-right: 0; }
+
+  .pkg-editor__preview {
+    position: static;
+    order: -1;            /* preview first on narrow screens — it's the point of the panel */
+  }
+
+  .pkg-editor__preview-stage { max-height: none; }
 }
 
 /* =========================================================

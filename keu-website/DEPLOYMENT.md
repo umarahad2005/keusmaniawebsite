@@ -103,6 +103,27 @@ SMTP_PASS=<your-sendgrid-api-key>
    VITE_CLOUDINARY_UPLOAD_PRESET=keu_unsigned
    ```
 
+> **Paste these with no leading/trailing spaces.** `dotenv` trims values locally but
+> Vercel stores them verbatim, so a stray space only breaks production — it lands in
+> the upload URL and Cloudinary rejects the request. `VITE_*` vars are baked in at
+> build time, so editing them in Vercel does nothing until you redeploy.
+
+### Site images
+
+All images under the old `public/images/` now live in Cloudinary under the `keu/`
+prefix — `keu/makkah/kaaba`, `keu/team/burhan`, and so on. Content references the
+bare public_id; `src/lib/images.js` turns it into a delivery URL with `f_auto,q_auto`
+(AVIF/WebP negotiation + per-image quality) and `src/components/Img.jsx` adds a
+responsive `srcSet`. Admin-uploaded images arrive as full `secure_url`s and flow
+through the same helper.
+
+To re-upload the originals (idempotent — same public_ids, no duplicates):
+
+```powershell
+node scripts/migrate-images-to-cloudinary.js --dry   # preview the mapping
+node scripts/migrate-images-to-cloudinary.js
+```
+
 ## 7. JWT + admin password
 
 ```

@@ -2,9 +2,9 @@
    DELETE /api/inquiries/:id */
 import { connectDB, Inquiry } from '../_lib/db.js'
 import { requireAdmin } from '../_lib/auth.js'
-import { readJSON, methodNotAllowed } from '../_lib/http.js'
+import { readJSON, methodNotAllowed, withErrors } from '../_lib/http.js'
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (!requireAdmin(req, res)) return
   const { id } = req.query
 
@@ -28,3 +28,5 @@ export default async function handler(req, res) {
 
   return methodNotAllowed(res, ['PATCH', 'DELETE'])
 }
+
+export default withErrors(handler)

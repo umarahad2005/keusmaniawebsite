@@ -16,7 +16,7 @@ export default function Contact() {
     description: 'Contact Karwan-e-Usmania for Hajj & Umrah bookings. Mansoora Homes, Multan Road, Lahore. WhatsApp +92-331-4211935. Open Mon–Sat 9am–7pm.',
     keywords: 'Karwan-e-Usmania contact, Hajj booking Lahore, Umrah WhatsApp Pakistan, Mansoora Homes Multan Road',
     canonical: 'https://keusmania.vercel.app/contact',
-    ogImage: '/images/madinah/madinah-city.jpg',
+    ogImage: 'keu/madinah/madinah-city',
   })
   useGsapAnimations(['contact'])
 
@@ -34,7 +34,7 @@ export default function Contact() {
         eyebrow="Contact"
         title="We are here to help — السلام علیکم"
         subtitle="Reach out on WhatsApp for the fastest response, or visit our Lahore office."
-        image="/images/madinah/madinah-city.jpg"
+        image="keu/madinah/madinah-city"
         imageAlt="Madinah city view"
       />
 

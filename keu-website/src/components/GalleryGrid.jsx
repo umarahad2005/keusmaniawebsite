@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useSite } from '../lib/SiteContext.jsx'
+import Img from './Img.jsx'
 
 export default function GalleryGrid() {
   const { site } = useSite()
@@ -31,7 +32,14 @@ export default function GalleryGrid() {
               tabIndex={0}
               onKeyDown={(e) => { if (e.key === 'Enter') setOpen(img) }}
             >
-              <img src={img.src} alt={img.alt} loading="lazy" decoding="async" />
+              <Img
+                src={img.src}
+                alt={img.alt}
+                widths={[400, 600, 900, 1200]}
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                loading="lazy"
+                decoding="async"
+              />
               <figcaption className="gallery-item__caption">{img.alt}</figcaption>
             </figure>
           )
@@ -52,9 +60,11 @@ export default function GalleryGrid() {
               style={{ background: 'rgba(255,255,255,0.08)', color: 'white', width: 44, height: 44 }}
               onClick={() => setOpen(null)}
             >×</button>
-            <img
+            <Img
               src={open.src}
               alt={open.alt}
+              widths={[768, 1200, 1600]}
+              sizes="min(960px, 95vw)"
               style={{ width: '100%', height: 'auto', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-xl)' }}
             />
             <p style={{ textAlign: 'center', color: 'white', marginTop: 'var(--space-4)', fontSize: 'var(--text-sm)' }}>

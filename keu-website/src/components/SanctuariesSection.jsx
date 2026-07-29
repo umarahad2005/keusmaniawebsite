@@ -1,5 +1,6 @@
 import { useSite } from '../lib/SiteContext.jsx'
 import SectionHeading from './SectionHeading.jsx'
+import Img from './Img.jsx'
 
 export default function SanctuariesSection() {
   const { site } = useSite()
@@ -15,7 +16,7 @@ export default function SanctuariesSection() {
           {site.sanctuaries.map(s => (
             <article key={s.title} className="sanctuary-card">
               <div className="sanctuary-card__media">
-                <img src={s.image} alt={s.alt} loading="lazy" decoding="async" />
+                <Img src={s.image} alt={s.alt} widths={[600, 900, 1200]} sizes="(max-width: 900px) 100vw, 50vw" loading="lazy" decoding="async" />
               </div>
               <div className="sanctuary-card__body">
                 <h3 className="sanctuary-card__title">{s.title}</h3>

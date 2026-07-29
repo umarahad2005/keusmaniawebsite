@@ -13,7 +13,12 @@
       "PowerShell(Get-DnsClientServerAddress *)",
       "PowerShell(Remove-Item *)",
       "PowerShell(Set-Location *)",
-      "PowerShell(\\(Resolve-DnsName -Type TXT cluster0.qsq0kkz.mongodb.net -Server 8.8.8.8\\).Strings)"
+      "PowerShell(\\(Resolve-DnsName -Type TXT cluster0.qsq0kkz.mongodb.net -Server 8.8.8.8\\).Strings)",
+      "Bash(awk *)",
+      "Bash(python -)",
+      "Bash(node *)",
+      "Bash(npm install *)",
+      "Bash(git rm *)"
     ]
   }
 }

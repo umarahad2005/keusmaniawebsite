@@ -1,5 +1,7 @@
 /* JSON-LD schema builders. Pure functions — pass data, get schema.org objects. */
 
+import { cldUrl } from './images.js'
+
 const SITE_URL = 'https://keusmania.vercel.app'
 
 export function organizationSchema(site) {
@@ -13,7 +15,7 @@ export function organizationSchema(site) {
     description: 'Premium Hajj and Umrah services from Lahore, Pakistan',
     url: SITE_URL,
     logo: `${SITE_URL}/logo.png`,
-    image: `${SITE_URL}/og-image.jpg`,
+    image: cldUrl('keu/makkah/kaaba', { w: 1200, h: 630 }),
     telephone: c.phone,
     email: c.email,
     foundingDate: '2005',
@@ -85,7 +87,7 @@ export function packageSchema(pkg) {
     description: `${pkg.subtitle}. ${pkg.summary}. Includes: ${pkg.inclusions.slice(0, 4).join(', ')}.`,
     touristType: pkg.category === 'hajj' ? 'Hajj pilgrimage' : 'Umrah pilgrimage',
     provider: { '@id': `${SITE_URL}/#organization` },
-    image: `${SITE_URL}/images/makkah/kaaba.jpg`,
+    image: cldUrl('keu/makkah/kaaba', { w: 1200 }),
     offers: pkg.price ? {
       '@type': 'Offer',
       price: pkg.price,

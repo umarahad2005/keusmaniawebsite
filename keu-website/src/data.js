@@ -75,14 +75,14 @@ export const SITE = {
       title: 'Makkah al-Mukarramah',
       subtitle: 'Where the journey of every Muslim heart begins',
       body: 'Tawaf around the Kaaba, Sa\'i between Safa and Marwa, and the deepening of faith inside Masjid al-Haram. We place you steps from the Haram so every prayer is a short walk away.',
-      image: '/images/makkah/masjid-al-haram.jpg',
+      image: 'keu/makkah/masjid-al-haram',
       alt: 'Masjid al-Haram with the Kaaba at its centre',
     },
     {
       title: 'Madinah al-Munawwarah',
       subtitle: 'The radiant city of the Prophet ﷺ',
       body: 'Salaam at Riyadh-ul-Jannah, prayer in Masjid an-Nabawi, and ziyarah of the historic battlefields. A few days here change a lifetime — we make sure those days are spent in peace and reflection.',
-      image: '/images/madinah/prophets-mosque.jpg',
+      image: 'keu/madinah/prophets-mosque',
       alt: 'Masjid an-Nabawi — the green dome at sunset',
     },
   ],
@@ -115,10 +115,10 @@ export const SITE = {
   ],
 
   team: [
-    { name: 'Burhan Usmani', role: 'Founder & CEO',         photo: '/images/team/burhan.jpg' },
-    { name: 'Muaz Ahmed',    role: 'Operations Director',   photo: '/images/team/muaz.jpg'   },
-    { name: 'Umar Ahad',     role: 'Travel & Logistics',    photo: '/images/team/umar.jpg'   },
-    { name: 'Usman Ali',     role: 'Customer Experience Lead', photo: '/images/team/usman.jpg' },
+    { name: 'Burhan Usmani', role: 'Founder & CEO',         photo: 'keu/team/burhan' },
+    { name: 'Muaz Ahmed',    role: 'Operations Director',   photo: 'keu/team/muaz'   },
+    { name: 'Umar Ahad',     role: 'Travel & Logistics',    photo: 'keu/team/umar'   },
+    { name: 'Usman Ali',     role: 'Customer Experience Lead', photo: 'keu/team/usman' },
   ],
 
   faqs: [
@@ -209,24 +209,24 @@ export const SITE = {
       'Our team in Lahore and our partners in Makkah and Madinah work as one Karwan, walking with you through every stage of your spiritual journey.',
       'We do not see our pilgrims as customers — we see them as Mehmaan-e-Khuda, the guests of Allah. That is the standard we hold ourselves to.',
     ],
-    storyImage: '/images/makkah/masjid-al-haram.jpg',
+    storyImage: 'keu/makkah/masjid-al-haram',
     storyImageAlt: 'Masjid al-Haram during Tawaf',
   },
 
   gallery: [
-    { src: '/images/makkah/masjid-al-haram.jpg',         alt: 'Masjid al-Haram during Tawaf',                  size: 'wide' },
-    { src: '/images/madinah/prophets-mosque.jpg',        alt: 'Masjid an-Nabawi — the green dome at sunset',   size: 'tall' },
-    { src: '/images/makkah/kaaba.jpg',                   alt: 'The Kaaba surrounded by pilgrims',              size: ''     },
-    { src: '/images/madinah/madinah-city.jpg',           alt: 'Madinah city view at golden hour',              size: ''     },
-    { src: '/images/makkah/haram-exterior.jpg',          alt: 'Masjid al-Haram exterior at night',             size: 'tall' },
-    { src: '/images/madinah/masjid-nabawi-exterior.jpg', alt: "Prophet's Mosque courtyard with umbrellas",     size: 'wide' },
-    { src: '/images/makkah/makkah-city.jpg',             alt: 'Makkah skyline with Clock Tower',               size: ''     },
-    { src: '/images/makkah/haram-reference.webp',        alt: 'Tawaf around the Kaaba — aerial view',          size: ''     },
+    { src: 'keu/makkah/masjid-al-haram',         alt: 'Masjid al-Haram during Tawaf',                  size: 'wide' },
+    { src: 'keu/madinah/prophets-mosque',        alt: 'Masjid an-Nabawi — the green dome at sunset',   size: 'tall' },
+    { src: 'keu/makkah/kaaba',                   alt: 'The Kaaba surrounded by pilgrims',              size: ''     },
+    { src: 'keu/madinah/madinah-city',           alt: 'Madinah city view at golden hour',              size: ''     },
+    { src: 'keu/makkah/haram-exterior',          alt: 'Masjid al-Haram exterior at night',             size: 'tall' },
+    { src: 'keu/madinah/masjid-nabawi-exterior', alt: "Prophet's Mosque courtyard with umbrellas",     size: 'wide' },
+    { src: 'keu/makkah/makkah-city',             alt: 'Makkah skyline with Clock Tower',               size: ''     },
+    { src: 'keu/makkah/haram-reference',        alt: 'Tawaf around the Kaaba — aerial view',          size: ''     },
   ],
 
   heroImages: {
-    primary:  '/images/makkah/kaaba.jpg',
-    fallback: '/images/makkah/masjid-al-haram.jpg',
+    primary:  'keu/makkah/kaaba',
+    fallback: 'keu/makkah/masjid-al-haram',
   },
 }
 

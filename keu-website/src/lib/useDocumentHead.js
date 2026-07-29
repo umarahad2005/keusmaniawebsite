@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { cldUrl } from './images.js'
 
 const SITE_URL = 'https://keusmania.vercel.app'
 
@@ -56,7 +57,11 @@ export function useDocumentHead({
       ensureMeta('name', 'keywords').setAttribute('content', keywords)
     }
     if (ogImage) {
-      const absolute = ogImage.startsWith('http') ? ogImage : SITE_URL + ogImage
+      /* ogImage may be a Cloudinary public_id, a full URL, or a /public path.
+         cldUrl resolves the first two; the third still needs the origin prefix.
+         Social crawlers want a fixed 1.91:1 card, hence the explicit crop. */
+      const resolved = cldUrl(ogImage, { w: 1200, h: 630 })
+      const absolute = resolved.startsWith('http') ? resolved : SITE_URL + resolved
       setMeta('meta[property="og:image"]', 'content', absolute)
       ensureMeta('name', 'twitter:image').setAttribute('content', absolute)
     }

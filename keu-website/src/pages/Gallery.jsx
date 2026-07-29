@@ -15,7 +15,7 @@ export default function Gallery() {
     description: 'Photo gallery from our Hajj and Umrah groups — Masjid al-Haram, Masjid an-Nabawi, the Kaaba, and pilgrims from Lahore making the sacred journey.',
     keywords: 'Makkah photos, Madinah photos, Hajj gallery, Umrah memories, Karwan-e-Usmania pilgrims',
     canonical: 'https://keusmania.vercel.app/gallery',
-    ogImage: '/images/makkah/masjid-al-haram.jpg',
+    ogImage: 'keu/makkah/masjid-al-haram',
   })
   useGsapAnimations(['gallery'])
 
@@ -33,7 +33,7 @@ export default function Gallery() {
         eyebrow="Gallery"
         title="Glimpses from the Haramain."
         subtitle="Photos & moments shared by our pilgrims."
-        image="/images/makkah/masjid-al-haram.jpg"
+        image="keu/makkah/masjid-al-haram"
         imageAlt="Masjid al-Haram during Tawaf"
       />
 

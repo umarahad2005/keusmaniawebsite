@@ -36,9 +36,13 @@ export default function PackagesGrid({ showFilters = true, ids = null }) {
         </div>
       )}
 
-      <div className={`grid grid-3 ${showFilters ? 'mt-12' : ''}`}>
+      <div className={`packages-grid ${showFilters ? 'mt-12' : ''}`}>
         {list.map(p => <PackageCard key={p.id} pkg={p} />)}
       </div>
+
+      {list.length === 0 && (
+        <p className="muted text-center mt-12">No packages in this category yet.</p>
+      )}
     </>
   )
 }

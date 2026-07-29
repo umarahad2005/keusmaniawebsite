@@ -19,7 +19,7 @@ export default function Packages() {
     description: 'Browse Economy (PKR 185,000), Premium (PKR 285,000), VIP (PKR 450,000), Ramadan (PKR 550,000), Family and Hajj 2025–2027 packages. Transparent pricing, 4★ & 5★ hotels near Haram, all-inclusive — book on WhatsApp.',
     keywords: 'Umrah package price Pakistan, Hajj package 2025 2026 2027, VIP Umrah Lahore, Ramadan Umrah, family umrah package, Hajj government quota Pakistan',
     canonical: 'https://keusmania.vercel.app/packages',
-    ogImage: '/images/makkah/kaaba.jpg',
+    ogImage: 'keu/makkah/kaaba',
   })
   useGsapAnimations(['packages'])
 
@@ -46,7 +46,7 @@ export default function Packages() {
         eyebrow="Our Packages"
         title="Hajj & Umrah, the way it should be."
         subtitle="Filter by category — every package is fully transparent and inclusive."
-        image="/images/makkah/kaaba.jpg"
+        image="keu/makkah/kaaba"
         imageAlt="Kaaba surrounded by pilgrims"
       />
 

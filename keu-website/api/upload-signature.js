@@ -2,15 +2,17 @@
    Returns a Cloudinary signed payload the client uses for direct uploads. */
 import { v2 as cloudinary } from 'cloudinary'
 import { requireAdmin } from './_lib/auth.js'
-import { methodNotAllowed } from './_lib/http.js'
+import { methodNotAllowed, withErrors } from './_lib/http.js'
 
-export default function handler(req, res) {
+function handler(req, res) {
   if (req.method !== 'GET') return methodNotAllowed(res, ['GET'])
   if (!requireAdmin(req, res)) return
 
-  const cloud = process.env.CLOUDINARY_CLOUD_NAME
-  const key   = process.env.CLOUDINARY_API_KEY
-  const secret= process.env.CLOUDINARY_API_SECRET
+  /* trim(): dashboard-pasted values often carry a stray space or newline, which
+     would otherwise land in the upload URL and make Cloudinary reject the request. */
+  const cloud = process.env.CLOUDINARY_CLOUD_NAME?.trim()
+  const key   = process.env.CLOUDINARY_API_KEY?.trim()
+  const secret= process.env.CLOUDINARY_API_SECRET?.trim()
   if (!cloud || !key || !secret) {
     return res.status(500).json({ error: 'Cloudinary env vars not set' })
   }
@@ -29,3 +31,5 @@ export default function handler(req, res) {
     folder,
   })
 }
+
+export default withErrors(handler)

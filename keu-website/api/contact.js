@@ -1,9 +1,9 @@
 /* POST /api/contact — public; saves an inquiry, fires a notification email. */
 import { connectDB, Inquiry } from './_lib/db.js'
 import { sendInquiryEmail }   from './_lib/email.js'
-import { readJSON, methodNotAllowed } from './_lib/http.js'
+import { readJSON, methodNotAllowed, withErrors } from './_lib/http.js'
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method !== 'POST') return methodNotAllowed(res, ['POST'])
 
   const body = await readJSON(req)
@@ -63,3 +63,5 @@ export default async function handler(req, res) {
 
   res.status(200).json({ ok: true, id: inquiry._id })
 }
+
+export default withErrors(handler)

@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useThreeScene } from '../hooks/useThreeScene.js'
 import { useWaLink } from '../lib/whatsapp.js'
+import Img from './Img.jsx'
 
 export default function Hero() {
   const canvasRef = useRef(null)
@@ -11,7 +12,7 @@ export default function Hero() {
   return (
     <section id="hero" className="hero">
       <div className="hero__photo" aria-hidden="true">
-        <img src="/images/makkah/kaaba.jpg" alt="" decoding="async" fetchpriority="high" />
+        <Img src="keu/makkah/kaaba" alt="" decoding="async" fetchpriority="high" />
       </div>
       <canvas id="hero-canvas" ref={canvasRef} aria-hidden="true" />
       <div className="hero__overlay" />

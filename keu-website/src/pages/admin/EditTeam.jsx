@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useSite } from '../../lib/SiteContext.jsx'
 import { api } from '../../lib/api.js'
 import CloudinaryUpload from '../../components/admin/CloudinaryUpload.jsx'
+import Img from '../../components/Img.jsx'
 
 const blank = () => ({ name: '', role: '', photo: '' })
 
@@ -41,7 +42,7 @@ export default function EditTeam() {
           <article key={i} className="card">
             <div className="team-card__photo" style={{ marginBottom: 'var(--space-3)' }}>
               {m.photo
-                ? <img src={m.photo} alt={m.name} />
+                ? <Img src={m.photo} alt={m.name} w={200} h={200} />
                 : <div style={{ display: 'grid', placeItems: 'center', height: '100%', color: 'var(--color-text-muted)' }}>No photo</div>}
             </div>
             <CloudinaryUpload folder="keu/team" label={m.photo ? 'Replace photo' : 'Upload photo'} onUpload={setPhoto(i)} />

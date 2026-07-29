@@ -1,12 +1,13 @@
 import { Link } from 'react-router-dom'
 import { useWaLink } from '../lib/whatsapp.js'
+import Img from './Img.jsx'
 
 export default function CTABanner() {
   const wa = useWaLink()
   return (
     <section id="cta" className="section cta-section" data-theme="dark">
       <div className="cta-section__bg" aria-hidden="true">
-        <img src="/images/madinah/prophets-mosque.jpg" alt="" loading="lazy" decoding="async" className="parallax-img" />
+        <Img src="keu/madinah/prophets-mosque" alt="" widths={[768, 1200, 1600, 2048]} loading="lazy" decoding="async" className="parallax-img" />
         <div className="cta-section__overlay" />
       </div>
       <div className="container">

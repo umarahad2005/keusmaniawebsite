@@ -4,6 +4,7 @@ import SectionHeading        from '../components/SectionHeading.jsx'
 import WhyChooseUs           from '../components/WhyChooseUs.jsx'
 import TeamGrid              from '../components/TeamGrid.jsx'
 import JsonLd                from '../components/JsonLd.jsx'
+import Img                   from '../components/Img.jsx'
 
 import { useGsapAnimations } from '../hooks/useGsapAnimations.js'
 import { useDocumentHead }   from '../lib/useDocumentHead.js'
@@ -17,7 +18,7 @@ export default function About() {
     description: 'Karwan-e-Usmania has served pilgrims from Lahore since 2005. Saudi-approved partners on the ground in Makkah & Madinah. Meet the Karwan team and read our story.',
     keywords: 'Karwan-e-Usmania about, Hajj operator Lahore, licensed Umrah operator Pakistan, Pirzada Burhan Usmani',
     canonical: 'https://keusmania.vercel.app/about',
-    ogImage: '/images/madinah/prophets-mosque.jpg',
+    ogImage: 'keu/madinah/prophets-mosque',
   })
   useGsapAnimations(['about'])
 
@@ -36,7 +37,7 @@ export default function About() {
         eyebrow="About Us"
         title="A Karwan rooted in service."
         subtitle="Eighteen years of walking with pilgrims — from Lahore to the Haramain and back home."
-        image="/images/madinah/prophets-mosque.jpg"
+        image="keu/madinah/prophets-mosque"
         imageAlt="Masjid an-Nabawi at sunset"
       />
 
@@ -48,7 +49,7 @@ export default function About() {
               {site.about.story.map((p, i) => <p key={i} className="lead mt-4">{p}</p>)}
             </div>
             <div className="about-story__media">
-              <img src={site.about.storyImage} alt={site.about.storyImageAlt} loading="lazy" decoding="async" />
+              <Img src={site.about.storyImage} alt={site.about.storyImageAlt} widths={[600, 900, 1200]} sizes="(max-width: 900px) 100vw, 50vw" loading="lazy" decoding="async" />
             </div>
           </div>
         </div>
