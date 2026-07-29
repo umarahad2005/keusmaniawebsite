@@ -95,6 +95,19 @@ export default function EditPackages() {
 
 function PackageEditor({ pkg, onSave, onCancel }) {
   const [p, setP] = useState(pkg)
+
+  /* Lock the page behind the dialog and wire up Escape — without this the admin
+     list scrolls under the modal whenever the form pane runs out of scroll. */
+  useEffect(() => {
+    document.body.classList.add('no-scroll')
+    const onKey = (e) => { if (e.key === 'Escape') onCancel() }
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.body.classList.remove('no-scroll')
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [onCancel])
+
   const set = (k) => (e) => setP({ ...p, [k]: e.target.type === 'number' ? Number(e.target.value) : e.target.value })
   const setIncl = (i) => (e) => setP({ ...p, inclusions: p.inclusions.map((x, idx) => idx === i ? e.target.value : x) })
   const addIncl = () => setP({ ...p, inclusions: [...p.inclusions, ''] })
@@ -115,7 +128,7 @@ function PackageEditor({ pkg, onSave, onCancel }) {
     <div className="modal-overlay" data-open="true">
       <div className="modal pkg-editor">
         <button className="modal__close" type="button" onClick={onCancel}>×</button>
-        <h2>{pkg.id ? 'Edit package' : 'New package'}</h2>
+        <h2 className="pkg-editor__title">{pkg.id ? 'Edit package' : 'New package'}</h2>
 
         <div className="pkg-editor__body">
           <div className="pkg-editor__form">
@@ -173,7 +186,7 @@ function PackageEditor({ pkg, onSave, onCancel }) {
           </aside>
         </div>
 
-        <div className="cluster mt-8" style={{ justifyContent: 'flex-end' }}>
+        <div className="pkg-editor__footer">
           <button className="btn btn--ghost" onClick={onCancel}>Cancel</button>
           <button className="btn btn--primary" onClick={() => onSave(p)} disabled={!p.id || !p.name}>Save</button>
         </div>

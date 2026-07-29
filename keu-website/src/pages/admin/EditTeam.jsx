@@ -26,6 +26,18 @@ export default function EditTeam() {
   const update = (i, key) => (e) => setList(prev => prev.map((m, idx) => idx === i ? { ...m, [key]: e.target.value } : m))
   const setPhoto = (i) => (url) => setList(prev => prev.map((m, idx) => idx === i ? { ...m, photo: url } : m))
 
+  /* Display order is just array order — TeamGrid renders site.team as-is — so
+     moving a member is a splice-out / splice-in rather than a stored rank. */
+  const moveTo = (from, to) => {
+    if (to < 0 || to >= list.length || to === from) return
+    setList(prev => {
+      const next = [...prev]
+      const [moved] = next.splice(from, 1)
+      next.splice(to, 0, moved)
+      return next
+    })
+  }
+
   return (
     <div className="admin-page">
       <header className="admin-page__header">
@@ -36,10 +48,40 @@ export default function EditTeam() {
         </div>
       </header>
       {msg && <p className="muted">{msg}</p>}
+      <p className="muted">
+        Position 1 appears first on the About page. Change a member’s position and
+        the others shuffle around them — then hit Save changes.
+      </p>
 
       <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 'var(--space-4)' }}>
         {list.map((m, i) => (
           <article key={i} className="card">
+            <div className="admin-order">
+              <label className="admin-order__pick">
+                <span className="field__label">Position</span>
+                <select
+                  className="field__select"
+                  value={i}
+                  onChange={(e) => moveTo(i, Number(e.target.value))}
+                  aria-label={`Position of ${m.name || 'this member'}`}
+                >
+                  {list.map((_, idx) => <option key={idx} value={idx}>{idx + 1}</option>)}
+                </select>
+              </label>
+              <div className="cluster" style={{ gap: 'var(--space-1)' }}>
+                <button
+                  className="btn btn--ghost btn--sm" type="button"
+                  onClick={() => moveTo(i, i - 1)} disabled={i === 0}
+                  aria-label="Move earlier" title="Move earlier"
+                >↑</button>
+                <button
+                  className="btn btn--ghost btn--sm" type="button"
+                  onClick={() => moveTo(i, i + 1)} disabled={i === list.length - 1}
+                  aria-label="Move later" title="Move later"
+                >↓</button>
+              </div>
+            </div>
+
             <div className="team-card__photo" style={{ marginBottom: 'var(--space-3)' }}>
               {m.photo
                 ? <Img src={m.photo} alt={m.name} w={200} h={200} />

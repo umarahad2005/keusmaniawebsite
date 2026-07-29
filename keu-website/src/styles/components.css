@@ -1552,20 +1552,30 @@
    Split view: fields on the left, a live PackageCard on the right.
    ========================================================= */
 
+/* Three fixed rows — header, scrolling body, footer. The body is the only row
+   allowed to grow, so the action buttons can never be pushed off or overlapped
+   however long the inclusions list gets. */
 .pkg-editor {
   width: min(1080px, 100%);
-  max-height: 92vh;
-  display: flex;
-  flex-direction: column;
+  max-height: min(92vh, 900px);
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  overflow: hidden;       /* keeps content inside the rounded corners */
+}
+
+/* The global h2 is --text-4xl in the display serif, which dwarfed this dialog. */
+.pkg-editor__title {
+  font-size: var(--text-2xl);
+  padding-right: var(--space-12);   /* clears the × button */
 }
 
 .pkg-editor__body {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 360px;
-  gap: var(--space-8);
-  margin-top: var(--space-4);
-  flex: 1 1 auto;
-  min-height: 0;          /* lets the form pane scroll instead of the modal growing */
+  gap: var(--space-6);
+  min-height: 0;          /* lets the panes scroll instead of the modal growing */
   overflow: hidden;
 }
 
@@ -1573,17 +1583,25 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
+  min-height: 0;
   overflow-y: auto;
   padding-right: var(--space-3);
 }
 
+/* Nothing in the form may push the pane wider than its column — a stray wide
+   child would otherwise force horizontal overflow across the whole dialog. */
+.pkg-editor__form > * { min-width: 0; }
+
+.pkg-editor__form .field__textarea {
+  max-width: 100%;
+  resize: vertical;
+}
+
 .pkg-editor__preview {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
   gap: var(--space-2);
-  position: sticky;
-  top: 0;
-  align-self: start;
+  min-height: 0;
 }
 
 /* Cream backdrop so the card reads against the white modal the way it reads
@@ -1593,8 +1611,47 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   padding: var(--space-4);
+  min-height: 0;
   overflow-y: auto;
-  max-height: 62vh;
+}
+
+/* Reorder control on admin cards (team, and anything else ordered by array
+   position). Sits above the card body as a compact toolbar. */
+.admin-order {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.admin-order__pick {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.admin-order__pick .field__label { margin: 0; }
+
+/* Just wide enough for a two-digit index — the default select fills its row. */
+.admin-order__pick .field__select {
+  width: auto;
+  min-width: 4.5rem;
+  padding-block: var(--space-1);
+}
+
+/* Opaque and above the body, so scrolled form content can never bleed under it. */
+.pkg-editor__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+  background: var(--color-white);
+  position: relative;
+  z-index: 1;
 }
 
 .pkg-editor__preview-stage .package-card {
@@ -1603,8 +1660,11 @@
   margin-inline: auto;
 }
 
-/* Below the split threshold the preview drops under the form. */
+/* Below the split threshold the preview drops above the form and the whole body
+   becomes one scroll area, rather than two panes competing for height. */
 @media (max-width: 900px) {
+  .pkg-editor { padding: var(--space-5); }
+
   .pkg-editor__body {
     grid-template-columns: minmax(0, 1fr);
     overflow-y: auto;
@@ -1613,11 +1673,11 @@
   .pkg-editor__form { overflow: visible; padding-right: 0; }
 
   .pkg-editor__preview {
-    position: static;
+    display: block;
     order: -1;            /* preview first on narrow screens — it's the point of the panel */
   }
 
-  .pkg-editor__preview-stage { max-height: none; }
+  .pkg-editor__preview-stage { overflow: visible; }
 }
 
 /* =========================================================
