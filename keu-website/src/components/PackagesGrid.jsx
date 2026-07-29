@@ -10,13 +10,26 @@ const FILTERS = [
   { id: 'family',        label: 'Family' },
 ]
 
-export default function PackagesGrid({ showFilters = true, ids = null }) {
+/**
+ * `featured` picks the packages flagged in the admin, falling back to the first
+ * `limit` packages when nothing is flagged — so the home page always shows cards
+ * even after every package has been renamed or replaced. `ids` still works for
+ * pinning an explicit set.
+ */
+export default function PackagesGrid({ showFilters = true, ids = null, featured = false, limit = null }) {
   const [filter, setFilter] = useState('all')
   const { packages } = useSite()
 
-  const list = ids
-    ? packages.filter(p => ids.includes(p.id))
-    : (filter === 'all' ? packages : packages.filter(p => p.category === filter))
+  let list = packages
+  if (ids) {
+    list = packages.filter(p => ids.includes(p.id))
+  } else if (featured) {
+    const flagged = packages.filter(p => p.featured)
+    list = flagged.length ? flagged : packages
+  } else if (filter !== 'all') {
+    list = packages.filter(p => p.category === filter)
+  }
+  if (limit) list = list.slice(0, limit)
 
   return (
     <>

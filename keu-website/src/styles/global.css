@@ -5,8 +5,9 @@
 
 @import './tokens.css';
 
-/* ---------- Fonts ---------- */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700;800&family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+/* Fonts (Playfair Display, Inter, Amiri) load via <link> in index.html.
+   A CSS @import here would block on this stylesheet parsing first, which
+   delayed the Arabic face and caused a visible swap on the hero bismillah. */
 
 /* =========================================================
    Modern reset
@@ -42,6 +43,26 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+}
+
+/* Site-wide khatam texture.
+   Fixed rather than scrolling so the tessellation never visibly seams between
+   sections, and pinned behind everything — sections with their own background
+   (--dark, --cream, hero, footer) simply paint over it. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url('/patterns/geometric.svg');
+  background-size: 280px;
+  background-repeat: repeat;
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@media print {
+  body::before { display: none; }
 }
 
 img,
@@ -160,11 +181,26 @@ p {
   color: var(--color-gold-dark);
 }
 
-.arabic {
+/* Any element marked as Arabic or Urdu picks up Amiri automatically, so new
+   Arabic copy can never land in the Latin body font by omission. Applied via
+   :where() so it carries zero specificity and any component rule still wins. */
+:where([lang='ar'], [lang='ur'], .arabic, .urdu) {
   font-family: var(--font-arabic);
   direction: rtl;
   letter-spacing: 0;
   line-height: var(--leading-snug);
+  font-feature-settings: 'liga' 1, 'calt' 1;
+}
+
+/* Arabic sits on a larger em-box than Latin at the same font-size; nudging it up
+   keeps a mixed-script line (e.g. "WhatsApp بک کریں") optically balanced. */
+:where([lang='ar'], [lang='ur'], .arabic, .urdu) { font-size: 1.08em; }
+
+/* An Arabic run inside a Latin sentence must not flip the whole line. */
+.arabic--inline {
+  display: inline-block;
+  direction: rtl;
+  unicode-bidi: isolate;
 }
 
 .bismillah {

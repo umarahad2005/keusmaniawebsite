@@ -43,7 +43,7 @@ export default function Home() {
             title="Packages Crafted for Every Family"
             subtext="Economy comfort to VIP indulgence — every package is built around the Haram experience."
           />
-          <PackagesGrid showFilters={false} ids={['premium-umrah', 'vip-umrah', 'ramadan-umrah']} />
+          <PackagesGrid showFilters={false} featured limit={3} />
           <div className="text-center mt-12">
             <Link to="/packages" className="btn btn--secondary">See all packages</Link>
           </div>

@@ -16,6 +16,7 @@ const blank = () => ({
   subtitle: '',
   summary: '',
   badge: '',
+  featured: false,
   inclusions: [''],
   waMessage: '',
 })
@@ -76,6 +77,7 @@ export default function EditPackages() {
               <div className="muted" style={{ fontSize: 'var(--text-sm)' }}>
                 {p.category} · {p.tier} · {p.priceLabel}
                 {p.badge && ` · ${p.badge}`}
+                {p.featured && ' · ★ featured on home'}
               </div>
             </div>
             <div className="cluster">
@@ -131,6 +133,20 @@ function PackageEditor({ pkg, onSave, onCancel }) {
 
             <Field label="Summary" value={p.summary} onChange={set('summary')} textarea
                    hint="Shown as the paragraph on the card — keep it to 2–3 lines." />
+
+            <label className="cluster" style={{ gap: 'var(--space-3)', cursor: 'pointer' }}>
+              <input
+                type="checkbox"
+                checked={!!p.featured}
+                onChange={(e) => setP({ ...p, featured: e.target.checked })}
+              />
+              <span>
+                <strong>Feature on the home page</strong>
+                <span className="field__hint" style={{ display: 'block' }}>
+                  Home shows up to 3 featured packages. If none are ticked it falls back to the first 3.
+                </span>
+              </span>
+            </label>
 
             <h3 className="mt-8">Inclusions</h3>
             <div className="stack" style={{ '--stack-gap': '0.5rem' }}>

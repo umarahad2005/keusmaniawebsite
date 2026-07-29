@@ -57,7 +57,7 @@ export default function Nav() {
         <div className="cluster">
           <a className="btn btn--whatsapp btn--sm nav__cta" href={wa('general')} target="_blank" rel="noopener">
             <Icon name="whatsapp" style={{ width: 16, height: 16 }} />
-            <span>WhatsApp بک کریں</span>
+            <span>WhatsApp <span lang="ur" className="arabic--inline">بک کریں</span></span>
           </a>
           <button
             className="nav__burger"

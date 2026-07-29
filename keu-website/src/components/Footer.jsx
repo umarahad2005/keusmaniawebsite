@@ -4,7 +4,7 @@ import { Icon } from '../icons.jsx'
 import { useWaLink } from '../lib/whatsapp.js'
 
 export default function Footer() {
-  const { site } = useSite()
+  const { site, packages } = useSite()
   const c = site.company
   const wa = useWaLink()
   const year = new Date().getFullYear()
@@ -19,7 +19,7 @@ export default function Footer() {
               <img src="/logo.png" alt="Karwan-e-Usmania" width="56" height="56" />
               <span>Karwan-e-Usmania</span>
             </div>
-            <p className="footer__bismillah">اللّٰهُمَّ اجْعَلْ هَذَا الْبَيْتَ حَجًّا مَبْرُوراً</p>
+            <p className="footer__bismillah" lang="ar">اللّٰهُمَّ اجْعَلْ هَذَا الْبَيْتَ حَجًّا مَبْرُوراً</p>
             <p>Your trusted partner for Hajj &amp; Umrah from Lahore, Pakistan since 2005. Mehmaan-e-Khuda is our trust.</p>
             <div className="footer__socials" role="list" aria-label="Social media">
               {c.socials.map(s => (
@@ -43,12 +43,15 @@ export default function Footer() {
 
           <div className="footer__col">
             <h4 className="footer__title">Packages</h4>
+            {/* Derived from live package data — hardcoded ids here went stale
+                the moment a package was renamed or removed in the admin. */}
             <ul className="footer__list">
-              <li><Link to="/packages#economy-umrah">Economy Umrah</Link></li>
-              <li><Link to="/packages#premium-umrah">Premium Umrah</Link></li>
-              <li><Link to="/packages#vip-umrah">VIP Umrah</Link></li>
-              <li><Link to="/packages#ramadan-umrah">Ramadan Umrah</Link></li>
-              <li><Link to="/packages#hajj-2025">Hajj 2025–2027</Link></li>
+              {packages.slice(0, 5).map(p => (
+                <li key={p.id}><Link to={`/packages#${p.id}`}>{p.name}</Link></li>
+              ))}
+              {packages.length > 5 && (
+                <li><Link to="/packages">See all packages</Link></li>
+              )}
             </ul>
           </div>
 

@@ -14,7 +14,7 @@ export default function QafilaSection() {
         <div className="qafila-card">
           <div className="qafila-card__head">
             <img className="qafila-card__logo" src={q.logo} alt={q.name} loading="lazy" decoding="async" />
-            <span className="qafila-card__urdu">{q.urduTagline}</span>
+            <span className="qafila-card__urdu" lang="ur">{q.urduTagline}</span>
             <h2 className="qafila-card__title">{q.name}</h2>
             <span className="badge badge--gold">{q.tagline}</span>
           </div>
@@ -32,7 +32,7 @@ export default function QafilaSection() {
             {q.pillars.map(p => (
               <article key={p.title} className="qafila-pillar">
                 <div className="qafila-pillar__icon" aria-hidden="true"><Icon name={p.icon} /></div>
-                <span className="qafila-pillar__urdu">{p.urdu}</span>
+                <span className="qafila-pillar__urdu" lang="ur">{p.urdu}</span>
                 <h3 className="qafila-pillar__title">{p.title}</h3>
                 <p className="muted">{p.body}</p>
               </article>

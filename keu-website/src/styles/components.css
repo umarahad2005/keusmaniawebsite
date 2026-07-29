@@ -350,19 +350,55 @@
 
 .package-card__cta { margin-top: auto; }
 
-/* Packages grid — cards keep a fixed width instead of stretching.
-   .grid-3 uses minmax(260px, 1fr), which makes a lone card span the whole
-   row; capping the track at 360px and centring the rows keeps one card
-   looking identical to one of three. */
+/* Packages grid — explicit column counts per breakpoint.
+   The generic .grid-3 used minmax(260px, 1fr) with auto-fit, so a single
+   package stretched across the entire row. Fixed column counts plus a capped
+   card width keep one card looking identical to one of four. */
 .packages-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 360px));
+  grid-template-columns: 1fr;                 /* phones — one per row */
   justify-content: center;
+  justify-items: center;
   gap: var(--space-8);
 }
 
-/* Every card in a row ends at the same height, however uneven the copy. */
-.packages-grid > .package-card { height: 100%; }
+/* Cards never exceed a comfortable reading width, however few there are. */
+.packages-grid > .package-card {
+  width: 100%;
+  max-width: 380px;
+  height: 100%;                               /* equal heights across a row */
+}
+
+/* Small tablets — two across */
+@media (min-width: 640px) {
+  .packages-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Laptops — three across */
+@media (min-width: 1024px) {
+  .packages-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* Wide desktops — four across */
+@media (min-width: 1440px) {
+  .packages-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+/* Fewer cards than columns would leave them stranded against the left edge,
+   so collapse the track count to match and let justify-content centre them. */
+.packages-grid:has(> .package-card:last-child:nth-child(1)) { grid-template-columns: minmax(0, 380px); }
+
+@media (min-width: 640px) {
+  .packages-grid:has(> .package-card:last-child:nth-child(2)) {
+    grid-template-columns: repeat(2, minmax(0, 380px));
+  }
+}
+
+@media (min-width: 1024px) {
+  .packages-grid:has(> .package-card:last-child:nth-child(3)) {
+    grid-template-columns: repeat(3, minmax(0, 380px));
+  }
+}
 
 /* Stat card */
 .stat-card {

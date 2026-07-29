@@ -18,9 +18,9 @@ export default function Hero() {
       <div className="hero__overlay" />
 
       <div className="hero__content">
-        <p className="hero__bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
+        <p className="hero__bismillah" lang="ar">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
         <span className="hero__pill">Lahore · Since 2005</span>
-        <h1 className="hero__title hero__title--arabic">
+        <h1 className="hero__title hero__title--arabic" lang="ur">
           خدمات ضیوف الرحمن
         </h1>
         <p className="hero__title-accent hero__title-accent--sub">
