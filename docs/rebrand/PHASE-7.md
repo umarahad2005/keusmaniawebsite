@@ -33,9 +33,13 @@ The live database still holds the **old WhatsApp number (+92 330 4211900)**. The
 
 **Rollback**: in Vercel, promote the previous production deployment (one click). Content: write the backup's `data` back to the `site` row.
 
+## Team applied (2026-10-11)
+
+From the owner's printed cards (folder `card/`): the live team now has the six card members with designation, Arabic name and title, mobile/WhatsApp and email (existing photos kept), Abdul Rahman Khan added (photo still to come), and the two members without a card (Logistics, Graphics) unchanged. Applied with `--only=team` after a backup (`backups/site-before-launch-2026-10-11T16-30-48-500Z.json`). The other 13 content fixes (including the WhatsApp number) are still pending.
+
 ## Still waiting on the owner
 
 - Hosting decision (Vercel Pro or own server).
-- The updated team list with designations and card details (mobile, WhatsApp, email, short bio, social links, photo).
+- Abdul Rahman Khan's photo (admin → Team), optional short bios, and whether Umer Ahad and Abubakar Moeen stay on the team.
 - A background track (instrument-free nasheed or Haram ambience is recommended) — uploaded in `/admin/sound`.
 - Optional: licence numbers, postcode, Qafila seal retrace, leader photo (all hidden until supplied).
