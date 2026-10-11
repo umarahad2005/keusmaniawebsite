@@ -1,6 +1,41 @@
-# Phase 7 — Launch (prepared 2026-10-11)
+# Phase 7 — Launch (LIVE 2026-10-11)
 
-All code is on the git branch **`rebrand/keui`** (not pushed, not deployed). This page is the launch runbook.
+**The new site is live at https://usmania.vercel.app** (branch `rebrand/keui` fast-forwarded into `main`; Vercel deploys `main` to production). The original runbook is kept below.
+
+## Launch log (2026-10-11)
+
+1. Pushed `rebrand/keui` → Vercel preview built (previews are behind Vercel login, so public checks ran on production).
+2. Applied the 13 content fixes (`apply-content-corrections.mjs --apply`, backup `backups/site-before-launch-2026-10-11T16-40-54-048Z.json`): name, tagline, 2008, **WhatsApp 923334883578**, address, postcode cleared, landline, hours, social links, testimonial labels, FAQs. Team applied earlier (`--only=team`).
+3. Merged to `main` → production. Verified live: every `wa.me` link → 923334883578; hours, 5,000+, 8 team members, corrected FAQs; no console errors.
+4. Post-launch fixes deployed: motion set-up deferred until idle (the live site measured ~2.2 s of start-up blocking), analytics made opt-in (fixes a console error), header-photo preload, chapter heading level, hero dark ground.
+
+## Phase 6 results on the live site (Google PageSpeed Insights, pagespeed.web.dev)
+
+| Page | Device | Perf | A11y | Best pr. | SEO | LCP | TBT | CLS |
+|---|---|---|---|---|---|---|---|---|
+| Home | mobile | **94** | 100 | 100 | 100 | 2.9 s | 20 ms | 0 |
+| Home | desktop | **99** | 100 | 100 | 100 | 0.6 s | 10 ms | 0 |
+| Packages | mobile | **82** | 100 | 100 | 100 | 4.1 s | 50 ms | 0.017 |
+| Packages | desktop | **99** | 100 | 100 | 100 | 0.8 s | 40 ms | 0.021 |
+
+Gate (mobile Perf ≥ 90, LCP ≤ 2.5 s, TBT ≤ 200 ms, CLS ≤ 0.05): **Home passes except LCP (2.9 s); Packages passes TBT/CLS but not Perf/LCP.** PSI's LCP breakdown for Packages: the photo now loads in 0.45 s, but 1.9 s is "element render delay" — the page is drawn by JavaScript. The remaining fix is pre-rendering pages at build time (HTML arrives ready); recommended as a follow-up rather than a launch blocker. Desktop passes everywhere.
+
+**Google Rich Results test**: Packages — 3 valid items (Breadcrumbs, Local business, Organization); Home — 2 valid (Local business, Organization). Non-critical warnings only. (Google no longer shows FAQ rich results for ordinary businesses, so FAQ markup is not listed as eligible.)
+
+**Share card**: `og:image` = `/og/home.jpg` (1200×630, 90 KB) served publicly with title and description.
+
+## Still to do by the owner (needs the admin login or a phone)
+
+- Vercel project → switch on **Web Analytics** and **Speed Insights**, then add the environment variable `VITE_ANALYTICS=vercel` and redeploy (until then tracking stays off by design).
+- Upload video reviews in **/admin/video-reviews** (tick consent + "Show on website"); they then replace the written testimonials and play on the page.
+- Optional: upload a background track in **/admin/sound**; Abdul Rahman Khan's photo in **/admin/team**.
+- Paste the site link in WhatsApp to see the share card; tap the WhatsApp buttons on a phone (incl. inside WhatsApp's own browser); send one test enquiry through the contact form.
+- Two-week check: Vercel Speed Insights (real visitors) and WhatsApp-click counts.
+
+**Rollback**: Vercel → Deployments → promote the previous production deployment. Content: restore `data` from the backup file.
+
+---
+
 
 ## Done in code
 
