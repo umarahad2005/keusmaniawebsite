@@ -11,6 +11,7 @@
 import { useEffect } from 'react'
 import { gsap, ScrollTrigger } from '../../lib/motion.js'
 import { motionEnv } from '../../lib/motionEnv.js'
+import { afterIdle } from '../../lib/idle.js'
 
 const SURFACES = ['paper', 'ivory', 'green', 'dark']
 
@@ -54,10 +55,11 @@ export default function BgStage({ routeKey }) {
       })
     }
 
-    const raf = requestAnimationFrame(build)
+    // Until the stage is built each section shows its own solid colour.
+    const cancel = afterIdle(build)
     window.addEventListener('keu:content', build)
     return () => {
-      cancelAnimationFrame(raf)
+      cancel()
       window.removeEventListener('keu:content', build)
       ctx?.revert()
     }

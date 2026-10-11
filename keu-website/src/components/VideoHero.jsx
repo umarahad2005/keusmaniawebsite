@@ -13,12 +13,13 @@
    Keeps #hero and .hero__title (speakable structured data). */
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { gsap, ScrollTrigger, EASE, DUR, STAGGER } from '../lib/motion.js'
+import { gsap, EASE, DUR } from '../lib/motion.js'
 import { motionEnv } from '../lib/motionEnv.js'
 import { useWaLink } from '../lib/whatsapp.js'
 import { Icon } from '../icons.jsx'
 import { introActive } from './motion/Preloader.jsx'
 import { markHeroRevealed } from '../lib/analytics.js'
+import { afterIdle } from '../lib/idle.js'
 import hero1080 from '../assets/media/hero-1080.mp4'
 import hero720 from '../assets/media/hero-720.mp4'
 
@@ -63,6 +64,10 @@ export default function VideoHero() {
   // refines it with the generated safe-zone variable before the first paint.
   const [layout, setLayout] = useState(() => readLayout(null))
   const [canVideo, setCanVideo] = useState(false)
+  // The settle and the entrance are CSS animations (no JavaScript work during
+  // the first render); they start when the hero is revealed.
+  const [anim] = useState(() => typeof window !== 'undefined' && !motionEnv().reduce)
+  const [revealed, setRevealed] = useState(false)
 
   // Layout follows the viewport and the generated safe-zone variables.
   useLayoutEffect(() => {
@@ -121,43 +126,45 @@ export default function VideoHero() {
     return () => { io.disconnect(); document.removeEventListener('visibilitychange', onVis) }
   }, [canVideo])
 
-  // Settle, entrance and the scrubbed exit.
+  // Reveal (CSS settle + entrance), then the scrubbed exit once the page is idle.
   useEffect(() => {
     const env = motionEnv()
-    const items = copy.current?.querySelectorAll('[data-hero-t1]')
     let ctx
+    let cancelIdle = () => {}
     const start = () => {
       markHeroRevealed()   // no-op if the Preloader already marked it
-      ctx = gsap.context(() => {
-        if (env.reduce) return
-        if (!(layout === 'phone' && env.lowEnd)) {
-          gsap.fromTo(media.current, { scale: 1.06 }, { scale: 1, duration: DUR.settle, ease: EASE.settle })
-        }
-        if (items?.length) {
-          gsap.from(items, { autoAlpha: 0, y: 12, duration: DUR.d500, ease: EASE.quiet, stagger: STAGGER.normal, delay: 0.12 })
-        }
-        if (layout !== 'film') return
-        const st = { trigger: hero.current, start: 'top top', end: 'bottom top', scrub: 0.6 }
-        if (env.lowEnd || env.saveData || env.slowNet) {
-          gsap.to(darken.current, { opacity: 0.85, ease: 'none', scrollTrigger: st })
-          return
-        }
-        gsap.timeline({ scrollTrigger: st })
-          .to(media.current, { yPercent: 15, ease: 'none' }, 0)
-          .to(darken.current, { opacity: 0.85, ease: 'none' }, 0)
-          .to(copy.current, { yPercent: -30, autoAlpha: 0, ease: 'none', duration: 0.7 }, 0)
-      }, hero)
+      setRevealed(true)
+      if (env.reduce || layout !== 'film') return
+      cancelIdle = afterIdle(() => {
+        ctx = gsap.context(() => {
+          const st = { trigger: hero.current, start: 'top top', end: 'bottom top', scrub: 0.6 }
+          if (env.lowEnd || env.saveData || env.slowNet) {
+            gsap.to(darken.current, { opacity: 0.85, ease: 'none', scrollTrigger: st })
+            return
+          }
+          gsap.timeline({ scrollTrigger: st })
+            .to(media.current, { yPercent: 15, ease: 'none' }, 0)
+            .to(darken.current, { opacity: 0.85, ease: 'none' }, 0)
+            .to(copy.current, { yPercent: -30, autoAlpha: 0, ease: 'none', duration: 0.7 }, 0)
+        }, hero)
+      })
     }
     if (introActive() && !window.__keuIntroDone) {
       window.addEventListener('keu:intro-reveal', start, { once: true })
-      return () => { window.removeEventListener('keu:intro-reveal', start); ctx?.revert() }
+      return () => { window.removeEventListener('keu:intro-reveal', start); cancelIdle(); ctx?.revert() }
     }
     start()
-    return () => ctx?.revert()
+    return () => { cancelIdle(); ctx?.revert() }
   }, [layout])
 
   return (
-    <section id="hero" ref={hero} className={`hero vhero vhero--${layout}`} data-surface="dark" aria-labelledby="hero-title">
+    <section
+      id="hero"
+      ref={hero}
+      className={`hero vhero vhero--${layout}${anim ? ' vhero--anim' : ''}${anim && layout === 'phone' && motionEnv().lowEnd ? ' vhero--still' : ''}${revealed ? ' is-revealed' : ''}`}
+      data-surface="dark"
+      aria-labelledby="hero-title"
+    >
       <div className="vhero__frame">
         <div className="vhero__media" ref={media}>
           <picture>
@@ -194,13 +201,13 @@ export default function VideoHero() {
       <div className="vhero__rule" aria-hidden="true" />
 
       <div className="vhero__copy" ref={copy}>
-        <p className="vhero__hud" data-hero-t1>Masjid al-Haram · Makkah</p>
-        <p className="vhero__eyebrow" data-hero-t1>Karwan e Usmania International · Since 2008</p>
+        <p className="vhero__hud" data-hero-t1 style={{ "--i": 0 }}>Masjid al-Haram · Makkah</p>
+        <p className="vhero__eyebrow" data-hero-t1 style={{ "--i": 1 }}>Karwan e Usmania International · Since 2008</p>
         <h1 id="hero-title" className="hero__title vhero__title">
           <span>Your Journey</span> <span>to the Holy Land,</span> <span>Our Priority</span>
         </h1>
-        <p className="vhero__arabic" lang="ar" dir="rtl" data-hero-t1>خدمات ضيوف الرحمن</p>
-        <div className="vhero__ctas" data-hero-ctas data-hero-t1>
+        <p className="vhero__arabic" lang="ar" dir="rtl" data-hero-t1 style={{ "--i": 2 }}>خدمات ضيوف الرحمن</p>
+        <div className="vhero__ctas" data-hero-ctas data-hero-t1 style={{ "--i": 3 }}>
           <a className="k-btn k-btn--wa k-btn--lg" href={wa('umrah')} target="_blank" rel="noopener">
             <Icon name="whatsapp" className="k-ico" /> Chat on WhatsApp
           </a>

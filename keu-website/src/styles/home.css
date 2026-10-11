@@ -317,3 +317,28 @@
   .chapter--stack .chapter__arch { order: 2; grid-row: span 2; }
   .chapter--stack .chapter__block--b { order: 3; }
 }
+
+/* Until the chapter's motion is set up (after the page is idle), hold the
+   same starting states in CSS: Madinah's text hidden, its layer clipped. */
+.chapter--pin:not(.is-armed) .chapter__block--b { visibility: hidden; }
+.chapter--pin:not(.is-armed) .chapter__layer--b,
+.chapter--flow:not(.is-armed) .chapter__layer--b { clip-path: inset(100% 0 0 0); }
+
+/* Hero settle and entrance as CSS animations (Phase 6 performance): no
+   JavaScript work during the first render. They start when the hero is
+   revealed (after the intro, or at once). 'backwards' fill, so the scrubbed
+   exit (GSAP, inline styles) takes over once they finish. */
+.vhero--anim:not(.is-revealed) [data-hero-t1] { opacity: 0; }
+.vhero--anim.is-revealed:not(.vhero--still) .vhero__media {
+  animation: vhero-settle 2s cubic-bezier(.19, 1, .22, 1) backwards;
+}
+.vhero--anim.is-revealed [data-hero-t1] {
+  animation: vhero-t1 .5s cubic-bezier(.165, .84, .44, 1) backwards;
+  animation-delay: calc(120ms + var(--i, 0) * 80ms);
+}
+@keyframes vhero-settle { from { transform: scale(1.06); } to { transform: scale(1); } }
+@keyframes vhero-t1 { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .vhero--anim [data-hero-t1] { opacity: 1 !important; animation: none !important; }
+  .vhero--anim .vhero__media { animation: none !important; }
+}

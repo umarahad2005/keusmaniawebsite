@@ -7,6 +7,7 @@ import { useSite } from '../lib/SiteContext.jsx'
 import { useWaLink } from '../lib/whatsapp.js'
 import { gsap } from '../lib/motion.js'
 import { motionEnv } from '../lib/motionEnv.js'
+import { afterIdle } from '../lib/idle.js'
 import { Icon } from '../icons.jsx'
 import SectionHeading from './SectionHeading.jsx'
 
@@ -23,13 +24,14 @@ export default function ServicesStrip() {
   useEffect(() => {
     const el = svg.current
     if (!el || motionEnv().reduce) return
-    const ctx = gsap.context(() => {
+    let ctx
+    const cancel = afterIdle(() => { ctx = gsap.context(() => {
       const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: 'top 85%', once: true } })
       tl.fromTo(el.querySelector('.services__swoosh'), { drawSVG: '0%' }, { drawSVG: '100%', duration: 1.2, ease: 'power2.inOut' })
         .fromTo(el.querySelector('.services__plane'), { autoAlpha: 0, x: -18, y: 18, rotation: -8, transformOrigin: '50% 50%' },
           { autoAlpha: 1, x: 0, y: 0, rotation: 0, duration: 0.35, ease: 'power3.out' }, '-=0.15')
-    })
-    return () => ctx.revert()
+    }) })
+    return () => { cancel(); ctx?.revert() }
   }, [])
 
   return (

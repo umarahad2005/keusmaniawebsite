@@ -16,6 +16,7 @@ import { useSite } from '../lib/SiteContext.jsx'
 import { useWaLink } from '../lib/whatsapp.js'
 import { gsap, ScrollTrigger } from '../lib/motion.js'
 import { motionEnv } from '../lib/motionEnv.js'
+import { afterIdle } from '../lib/idle.js'
 import makkahStill from '../assets/media/makkah-kaaba-kiswa-1600.webp'
 import madinahLoop from '../assets/media/madinah-720.mp4'
 import madinahPoster from '../assets/media/madinah-poster.webp'
@@ -55,7 +56,9 @@ export default function SanctuaryChapter() {
   useEffect(() => {
     if (mode === 'stack') return
     const env = motionEnv()
-    const ctx = gsap.context(() => {
+    let ctx
+    // Built once the page is idle; CSS holds the same starting states until then.
+    const cancel = afterIdle(() => { section.current?.classList.add('is-armed'); ctx = gsap.context(() => {
       const inner = layerB.current.firstElementChild
       if (mode === 'pin') {
         const tl = gsap.timeline({
@@ -87,8 +90,8 @@ export default function SanctuaryChapter() {
           .fromTo(layerB.current, { clipPath: 'inset(100% 0% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', ease: 'power2.inOut' }, 0)
           .fromTo(inner, { scale: 1.12 }, { scale: 1, ease: 'power2.inOut' }, 0)
       }
-      if (env.lowEnd) ScrollTrigger.refresh()
-    }, section)
+      ScrollTrigger.refresh()
+    }, section) })
 
     function playVideo() {
       const v = video.current
@@ -97,7 +100,7 @@ export default function SanctuaryChapter() {
       v.play().catch(() => {})
     }
 
-    return () => ctx.revert()
+    return () => { cancel(); ctx?.revert(); section.current?.classList.remove('is-armed') }
   }, [mode])
 
   // Keyboard users: focusing a block scrolls the pin to that block's hold point.

@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { gsap, EASE, DUR, STAGGER, TIER } from '../lib/motion.js'
 import { motionEnv } from '../lib/motionEnv.js'
 import { splitLines } from '../lib/splitText.js'
+import { afterIdle } from '../lib/idle.js'
 
 /* =========================================================
    Reveal-tier registry (DESIGN-LANGUAGE §3.2).
@@ -156,11 +157,16 @@ function createRegistry(root, env) {
     }
   }
 
-  function scan() {
-    root.querySelectorAll(SELECTOR).forEach(el => {
-      if (armed.has(el)) return
+  /* skipVisible (first page load): elements already on screen stay as they
+     are, so nothing visible flickers when the registry arms after idle. Reads
+     all positions first, then writes, so layout is computed once. */
+  function scan({ skipVisible = false } = {}) {
+    const fresh = Array.from(root.querySelectorAll(SELECTOR)).filter(el => !armed.has(el) && tierOf(el))
+    const vh = window.innerHeight
+    const onScreen = skipVisible ? fresh.map(el => el.getBoundingClientRect().top < vh) : []
+    fresh.forEach((el, i) => {
+      if (onScreen[i]) { armed.set(el, 'done'); return }
       const tier = tierOf(el)
-      if (!tier) return
       armed.set(el, tier)
       hide(el, tier)
       io.observe(el)
@@ -182,6 +188,8 @@ function createRegistry(root, env) {
   return { scan, destroy }
 }
 
+let firstLoad = true
+
 export function useGsapAnimations(deps = []) {
   useEffect(() => {
     const env = motionEnv()
@@ -189,7 +197,11 @@ export function useGsapAnimations(deps = []) {
 
     const root = document.getElementById('main-content') || document.body
     const registry = createRegistry(root, env)
-    registry.scan()
+    // First page load: arm after idle so the first render is not delayed.
+    // Later route changes: arm at once, behind the closed curtain.
+    let cancelIdle = () => {}
+    if (firstLoad) { firstLoad = false; cancelIdle = afterIdle(() => registry.scan({ skipVisible: true })) }
+    else registry.scan()
 
     // Live content (packages, team…) adds nodes: arm only the new ones.
     // (useLenis re-measures the ScrollTriggers once for the same event.)
@@ -201,6 +213,7 @@ export function useGsapAnimations(deps = []) {
     window.addEventListener('keu:content', onContent)
 
     return () => {
+      cancelIdle()
       cancelAnimationFrame(raf)
       window.removeEventListener('keu:content', onContent)
       registry.destroy()

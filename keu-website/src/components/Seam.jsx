@@ -6,6 +6,7 @@ import { useEffect, useRef } from 'react'
 import { useSite } from '../lib/SiteContext.jsx'
 import { gsap } from '../lib/motion.js'
 import { motionEnv } from '../lib/motionEnv.js'
+import { afterIdle } from '../lib/idle.js'
 
 export default function Seam() {
   const { site } = useSite()
@@ -15,13 +16,14 @@ export default function Seam() {
   useEffect(() => {
     const el = ribbon.current
     if (!el || motionEnv().reduce) return
-    const ctx = gsap.context(() => {
+    let ctx
+    const cancel = afterIdle(() => { ctx = gsap.context(() => {
       gsap.fromTo(el, { drawSVG: '0%' }, {
         drawSVG: '100%', duration: 1.2, ease: 'power2.inOut',
         scrollTrigger: { trigger: el, start: 'top 90%', once: true },
       })
-    })
-    return () => ctx.revert()
+    }) })
+    return () => { cancel(); ctx?.revert() }
   }, [])
 
   return (

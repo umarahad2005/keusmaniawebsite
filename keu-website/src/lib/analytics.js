@@ -7,11 +7,11 @@
      section it was clicked in, so the owner can see which buttons bring
      bookings.
 
-   Hosting is not final (Vercel Pro or the karwan's own server), so the Vercel
-   scripts load only on a Vercel host: any *.vercel.app address, or when the
-   build sets VITE_ANALYTICS=vercel (a custom domain on Vercel).
-   VITE_ANALYTICS=off disables everything. Nothing personal is sent: no message
-   text, no phone numbers. */
+   Opt-in: the Vercel scripts load only when the build sets
+   VITE_ANALYTICS=vercel, i.e. after Web Analytics and Speed Insights are
+   switched on in the Vercel project (until then /_vercel/insights/script.js
+   does not exist and requesting it is a console error). Any other host is
+   unaffected. Nothing personal is sent: no message text, no phone numbers. */
 import { inject, track as vaTrack } from '@vercel/analytics'
 import { injectSpeedInsights } from '@vercel/speed-insights'
 
@@ -19,9 +19,7 @@ const MODE = import.meta.env.VITE_ANALYTICS
 let enabled = false
 
 function onVercel() {
-  if (MODE === 'off') return false
-  if (MODE === 'vercel') return true
-  return typeof location !== 'undefined' && /\.vercel\.app$/.test(location.hostname)
+  return MODE === 'vercel'
 }
 
 export function track(name, props) {

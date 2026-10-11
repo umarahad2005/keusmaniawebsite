@@ -9,6 +9,7 @@ import { useSite } from '../lib/SiteContext.jsx'
 import { useWaLink } from '../lib/whatsapp.js'
 import { gsap } from '../lib/motion.js'
 import { motionEnv } from '../lib/motionEnv.js'
+import { afterIdle } from '../lib/idle.js'
 import { Icon } from '../icons.jsx'
 import SectionHeading from './SectionHeading.jsx'
 
@@ -41,15 +42,16 @@ export default function QafilaSection({ num = '02' }) {
   useEffect(() => {
     const el = frame.current
     if (!el || motionEnv().reduce) return
-    const ctx = gsap.context(() => {
+    let ctx
+    const cancel = afterIdle(() => { ctx = gsap.context(() => {
       const [top, right, bottom, left] = el.children
       gsap.timeline({ scrollTrigger: { trigger: el, start: 'top 75%', once: true }, defaults: { ease: 'power2.inOut', duration: 0.6 } })
         .from(top, { scaleX: 0, transformOrigin: 'left center' }, 0)
         .from(right, { scaleY: 0, transformOrigin: 'center top' }, 0.3)
         .from(bottom, { scaleX: 0, transformOrigin: 'right center' }, 0.6)
         .from(left, { scaleY: 0, transformOrigin: 'center bottom' }, 0.6)
-    })
-    return () => ctx.revert()
+    }) })
+    return () => { cancel(); ctx?.revert() }
   }, [])
 
   if (!q) return null
