@@ -342,3 +342,8 @@
   .vhero--anim [data-hero-t1] { opacity: 1 !important; animation: none !important; }
   .vhero--anim .vhero__media { animation: none !important; }
 }
+
+/* The hero keeps its own dark ground even when the background stage makes
+   sections transparent: its text never depends on the stage, and contrast
+   checkers (which cannot see the film) measure it against dark green. */
+.has-bg-stage .vhero { background: var(--green-950); }
