@@ -66,7 +66,9 @@ export default function TeamDigitalCard({ member: m, headingId, headingRef, leve
             : <span className="dcard__initials" aria-hidden="true">{initials(m.name)}</span>}
         </div>
         <Heading className="dcard__name" id={headingId} ref={headingRef} tabIndex={headingRef ? -1 : undefined}>{m.name}</Heading>
+        {m.nameAr && <p className="dcard__name-ar" lang="ur" dir="rtl"><span className="ar-face"><bdi>{m.nameAr}</bdi></span></p>}
         {m.role && <p className="dcard__role">{m.role}</p>}
+        {m.roleAr && <p className="dcard__role-ar" lang="ar" dir="rtl">{m.roleAr}</p>}
         {m.bio && <p className="dcard__bio">{m.bio}</p>}
 
         <ul className="dcard__actions" role="list">

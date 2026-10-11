@@ -612,6 +612,8 @@
 .dcard__initials { position: absolute; inset: 0; display: grid; place-items: center; font: 500 44px/1 var(--font-display); letter-spacing: .06em; color: var(--green-800); }
 .dcard__name { margin: var(--s-6) 0 4px; font: 500 var(--fs-d5)/1.2 var(--font-display); color: var(--green-800); }
 .dcard__name:focus { outline: none; }
+.dcard__name-ar { margin: 0 0 8px; text-align: center; font-size: 20px; line-height: 1.4; color: var(--green-700); }
+.dcard__role-ar { margin: 4px 0 0; text-align: center; font-size: 16px; line-height: 1.4; color: var(--gold-800); }
 .dcard__role {
   margin: 0;
   font: 500 var(--fs-eyebrow)/1.4 var(--font-sans);

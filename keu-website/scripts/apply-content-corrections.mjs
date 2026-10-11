@@ -11,9 +11,12 @@
      testimonials: "Vick Pandaa - Waqas Saleem " → "Waqas Saleem";
               Zahid Rauf initials AK → ZR, location trimmed
      faqs:    replaced with the 9 corrected answers (same as src/data.js)
+     team:    card details from the owner's printed cards merged in (photos
+              kept, members without a card untouched, new members added)
 
      usage:  node scripts/apply-content-corrections.mjs           (preview only)
              node scripts/apply-content-corrections.mjs --apply   (backup, then write)
+             add --only=team (or company, testimonials, faqs) to limit the run
 
    The backup goes to docs/rebrand/backups/site-before-launch-<timestamp>.json.
    Needs MONGODB_URI in .env. Rollback: write the backup's `data` back.
@@ -29,6 +32,9 @@ import mongoose from 'mongoose'
 dns.setServers(['1.1.1.1', '8.8.8.8'])
 
 const APPLY = process.argv.includes('--apply')
+// --only=team,faqs,company,testimonials limits the run to those groups.
+const ONLY = (process.argv.find(a => a.startsWith('--only=')) || '').slice(7).split(',').filter(Boolean)
+const wanted = group => !ONLY.length || ONLY.includes(group)
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const { SITE } = await import(pathToFileURL(path.join(ROOT, 'src/data.js')).href)
 
@@ -41,6 +47,7 @@ const d = doc.data
 const set = {}
 const show = []
 const change = (key, from, to) => {
+  if (!wanted(key.split('.')[0])) return
   if (JSON.stringify(from) === JSON.stringify(to)) return
   set[`data.${key}`] = to
   show.push([key, from, to])
@@ -81,8 +88,28 @@ if (Array.isArray(c.socials)) {
 // ---- FAQs ----
 change('faqs', d.faqs, SITE.faqs)
 
+// ---- Team (owner's printed cards, 2026-10-11) ----
+// Members with card details in src/data.js are matched to the live list by a
+// distinctive word of their name; their card fields are filled in and the live
+// photo is kept. Unmatched card members are added at the end. Live members
+// without a card (e.g. Logistics, Graphics) stay exactly as they are.
+const CARD_KEYS = ['name', 'role', 'nameAr', 'roleAr', 'phone', 'whatsapp', 'email']
+const words = n => String(n || '').toLowerCase().replace(/ahmad/g, 'ahmed').split(/[^a-z]+/).filter(w => w.length > 3 && !['usmani', 'ahmed', 'muhammad'].includes(w))
+if (Array.isArray(d.team)) {
+  const merged = d.team.map(m => ({ ...m }))
+  for (const card of (SITE.team || []).filter(m => m.phone)) {
+    const keys = words(card.name)
+    const i = merged.findIndex(m => words(m.name).some(w => keys.includes(w)))
+    const fields = Object.fromEntries(CARD_KEYS.map(k => [k, card[k] || '']))
+    if (i >= 0) merged[i] = { ...merged[i], ...fields, photo: merged[i].photo || card.photo || '' }
+    else merged.push({ ...fields, photo: card.photo || '' })
+  }
+  change('team', d.team, merged)
+}
+
 // ---- report ----
-const brief = v => (typeof v === 'string' ? JSON.stringify(v) : JSON.stringify(v)?.slice(0, 160) + (JSON.stringify(v)?.length > 160 ? '…' : ''))
+const full = process.argv.includes('--full')
+const brief = v => full ? JSON.stringify(v, null, 1) : (typeof v === 'string' ? JSON.stringify(v) : JSON.stringify(v)?.slice(0, 160) + (JSON.stringify(v)?.length > 160 ? '…' : ''))
 console.log(show.length ? `${show.length} field(s) to change:\n` : 'Nothing to change; the live content already matches.')
 show.forEach(([k, a, b]) => console.log(`• ${k}\n    now: ${brief(a)}\n    new: ${brief(b)}\n`))
 

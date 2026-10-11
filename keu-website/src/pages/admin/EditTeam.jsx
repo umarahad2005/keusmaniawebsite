@@ -5,10 +5,12 @@ import CloudinaryUpload from '../../components/admin/CloudinaryUpload.jsx'
 import Img from '../../components/Img.jsx'
 import { memberPath } from '../../lib/team.js'
 
-const blank = () => ({ name: '', role: '', photo: '', phone: '', whatsapp: '', email: '', bio: '', slug: '', linkedin: '', facebook: '', instagram: '' })
+const blank = () => ({ name: '', role: '', photo: '', nameAr: '', roleAr: '', phone: '', whatsapp: '', email: '', bio: '', slug: '', linkedin: '', facebook: '', instagram: '' })
 
 /* Digital card fields (all optional). Empty fields are hidden on the card. */
 const CARD_FIELDS = [
+  ['nameAr', 'Name in Urdu/Arabic (as on the printed card)', 'text'],
+  ['roleAr', 'Designation in Arabic (as on the printed card)', 'text'],
   ['phone', 'Mobile (e.g. +92 300 1234567)', 'tel'],
   ['whatsapp', 'WhatsApp, if different from mobile', 'tel'],
   ['email', 'Email', 'email'],

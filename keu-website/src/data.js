@@ -124,11 +124,24 @@ export const SITE = {
   // Background sound (admin: /admin/sound). Off until a track is uploaded.
   ambience: { enabled: false, src: '', publicId: '', title: '', credit: '', volume: 0.35, duration: 0 },
 
+  // Team (owner's printed cards, folder card/, 2026-10-11). Card fields feed
+  // the digital card on About and /team/<name>. Photos already uploaded are
+  // kept; Abdul Rahman Khan's photo is still to come (admin → Team).
   team: [
-    { name: 'Burhan Usmani', role: 'Founder & CEO',         photo: 'keu/team/burhan' },
-    { name: 'Muaz Ahmed',    role: 'Operations Director',   photo: 'keu/team/muaz'   },
-    { name: 'Umar Ahad',     role: 'Travel & Logistics',    photo: 'keu/team/umar'   },
-    { name: 'Usman Ali',     role: 'Customer Experience Lead', photo: 'keu/team/usman' },
+    { name: 'Pirzada Burhan ud Din Ahmed Usmani', role: 'Chairman', nameAr: 'پیرزادہ برہان الدین احمد عثمانی', roleAr: 'رئيس مجلس الإدارة',
+      phone: '+92 333 4883578', whatsapp: '+92 333 4883578', email: 'keusmania@gmail.com', photo: 'https://res.cloudinary.com/dpmnlysdt/image/upload/v1785332497/keu/team/esqu3zqg9z4hvqz38k8f.png' },
+    { name: 'Moeed Usmani', role: 'Director Sales Management', nameAr: 'معيد عثماني', roleAr: 'مدير إدارة المبيعات',
+      phone: '+92 331 4950665', whatsapp: '+92 331 4950665', email: 'keusmania@gmail.com', photo: 'https://res.cloudinary.com/dpmnlysdt/image/upload/v1785332544/keu/team/cm2cjlgxiabwl3hud4tf.jpg' },
+    { name: 'Muaz Usmani', role: 'Director Business Relations', nameAr: 'معاذ عثمانی', roleAr: 'مدير العلاقات التجارية',
+      phone: '+92 330 4211900', whatsapp: '+92 330 4211900', email: 'keusmania@gmail.com', photo: 'https://res.cloudinary.com/dpmnlysdt/image/upload/v1785332679/keu/team/tsuj5dhx1qzbgnzthkzh.png' },
+    { name: 'Usman Aman Uddin Ahmed Usmani', role: 'Director Operations & Finance', nameAr: 'عثمان امان الدین احمد عثمانی', roleAr: 'مدير المالية والعمليات',
+      phone: '+92 331 4211935', whatsapp: '+92 331 4211935', email: 'keusmania@gmail.com', photo: 'https://res.cloudinary.com/dpmnlysdt/image/upload/v1785332823/keu/team/nytx4x504jbkwb4nt3vp.jpg' },
+    { name: 'Muhammad Mawiz Usmani', role: 'Director Commercial Operations', nameAr: 'محمد معوذ عثمانی', roleAr: 'مدير العمليات التجارية',
+      phone: '+92 302 8133456', whatsapp: '+92 302 8133456', email: 'keusmania@gmail.com', photo: 'https://res.cloudinary.com/dpmnlysdt/image/upload/v1785332837/keu/team/bn1vrdoyt7xvgdtaiykw.jpg' },
+    { name: 'Umer Ahad Ud Din Ahmed Usmani', role: 'Logistics Manager', photo: 'https://res.cloudinary.com/dpmnlysdt/image/upload/v1785332852/keu/team/boyvqcdlo0pqcpxzvctm.jpg' },
+    { name: 'Abubakar Moeen Ud Din Ahmed Usmani', role: 'Graphics Manager', photo: 'https://res.cloudinary.com/dpmnlysdt/image/upload/v1785334560/keu/team/b7wmbghp0a3ausqp50qx.jpg' },
+    { name: 'Abdul Rahman Khan', role: 'Administrative Assistant', nameAr: 'عبد الرحمن خان', roleAr: 'مساعد إداري',
+      phone: '+92 347 5165469', whatsapp: '+92 347 5165469', email: 'keusmania@gmail.com', photo: '' },
   ],
 
   // Corrected text (docs/rebrand/content-corrections.md §2, owner-approved 2026-10-10).
