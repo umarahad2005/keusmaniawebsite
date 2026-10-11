@@ -1,0 +1,315 @@
+/* =========================================================
+   Karwan e Usmania International — Admin styles
+   Moved verbatim out of components.css in Phase 2 so the public chrome can be
+   rebuilt without touching the admin. Uses the legacy tokens on purpose.
+   ========================================================= */
+
+/* =========================================================
+   ADMIN DASHBOARD
+   ========================================================= */
+.admin-shell {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 100vh;
+  background: var(--color-cream);
+}
+@media (max-width: 900px) { .admin-shell { grid-template-columns: 64px 1fr; } }
+
+.admin-sidebar {
+  background: var(--gradient-navy);
+  color: var(--color-white);
+  padding: var(--space-6) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+.admin-sidebar__brand {
+  display: flex; align-items: center; gap: var(--space-3);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.admin-sidebar__brand img {
+  border-radius: 50%; background: white; padding: 4px;
+}
+@media (max-width: 900px) {
+  .admin-sidebar__brand div { display: none; }
+}
+
+.admin-sidebar__nav {
+  display: flex; flex-direction: column; gap: var(--space-1);
+  flex: 1;
+}
+.admin-sidebar__link {
+  display: flex; align-items: center; gap: var(--space-3);
+  padding: var(--space-3) var(--space-3);
+  border-radius: var(--radius-md);
+  color: rgba(255,255,255,0.75);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  transition: background var(--duration-base) var(--ease-out), color var(--duration-base);
+}
+.admin-sidebar__link:hover { background: rgba(255,255,255,0.06); color: white; }
+.admin-sidebar__link.is-active {
+  background: rgba(201,168,76,0.15);
+  color: var(--color-gold-light);
+  border-left: 2px solid var(--color-gold);
+}
+.admin-sidebar__icon {
+  width: 20px; height: 20px;
+  color: currentColor;
+  flex-shrink: 0;
+}
+@media (max-width: 900px) {
+  .admin-sidebar__link span:last-child { display: none; }
+  .admin-sidebar__link { justify-content: center; }
+}
+
+.admin-sidebar__footer {
+  padding-top: var(--space-4);
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+@media (max-width: 900px) {
+  .admin-sidebar__user { display: none; }
+}
+
+.admin-main {
+  padding: var(--space-8) var(--space-8);
+  overflow: auto;
+}
+
+.admin-page {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.admin-page__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+  flex-wrap: wrap;
+}
+.admin-page__header h1 {
+  font-family: var(--font-heading);
+  font-size: var(--text-3xl);
+  margin: 0;
+  color: var(--color-navy-dark);
+}
+
+/* Login screen */
+.admin-login {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: var(--gradient-navy);
+  padding: var(--space-4);
+}
+.admin-login__card {
+  background: var(--color-white);
+  border-radius: var(--radius-xl);
+  padding: var(--space-12) var(--space-10);
+  width: min(420px, 100%);
+  box-shadow: var(--shadow-xl);
+  border-top: 4px solid var(--color-gold);
+}
+.admin-login__title {
+  font-family: var(--font-heading);
+  text-align: center;
+  margin: 0;
+  color: var(--color-navy-dark);
+}
+.admin-login__subtitle {
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  margin: var(--space-1) 0 0;
+}
+
+/* Inbox */
+.inbox-grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: var(--space-4);
+  align-items: start;
+}
+@media (max-width: 900px) { .inbox-grid { grid-template-columns: 1fr; } }
+
+.inbox-list {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  max-height: 76vh;
+  overflow-y: auto;
+}
+.inbox-row {
+  width: 100%;
+  text-align: left;
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  background: transparent;
+  cursor: pointer;
+  display: flex; flex-direction: column; gap: 4px;
+  transition: background var(--duration-fast);
+}
+.inbox-row:hover { background: var(--color-cream); }
+.inbox-row.is-active { background: rgba(201,168,76,0.08); }
+.inbox-row.is-unread strong::before {
+  content: ''; display: inline-block;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--color-gold);
+  margin-right: 8px; vertical-align: middle;
+}
+.inbox-row__top {
+  display: flex; justify-content: space-between; gap: var(--space-2);
+  font-size: var(--text-sm);
+}
+.inbox-row__time { color: var(--color-text-muted); font-size: var(--text-xs); }
+.inbox-row__sub  { color: var(--color-text-muted); font-size: var(--text-xs); }
+.inbox-row__preview { color: var(--color-text-body); font-size: var(--text-sm); opacity: 0.8; }
+
+.inbox-detail { min-height: 200px; }
+
+/* Cloudinary upload */
+.cloudinary-upload {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* =========================================================
+   ADMIN — PACKAGE EDITOR
+   Split view: fields on the left, a live PackageCard on the right.
+   ========================================================= */
+
+/* Three fixed rows — header, scrolling body, footer. The body is the only row
+   allowed to grow, so the action buttons can never be pushed off or overlapped
+   however long the inclusions list gets. */
+.pkg-editor {
+  width: min(1080px, 100%);
+  max-height: min(92vh, 900px);
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  overflow: hidden;       /* keeps content inside the rounded corners */
+}
+
+/* The global h2 is --text-4xl in the display serif, which dwarfed this dialog. */
+.pkg-editor__title {
+  font-size: var(--text-2xl);
+  padding-right: var(--space-12);   /* clears the × button */
+}
+
+.pkg-editor__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: var(--space-6);
+  min-height: 0;          /* lets the panes scroll instead of the modal growing */
+  overflow: hidden;
+}
+
+.pkg-editor__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: var(--space-3);
+}
+
+/* Nothing in the form may push the pane wider than its column — a stray wide
+   child would otherwise force horizontal overflow across the whole dialog. */
+.pkg-editor__form > * { min-width: 0; }
+
+.pkg-editor__form .field__textarea {
+  max-width: 100%;
+  resize: vertical;
+}
+
+.pkg-editor__preview {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: var(--space-2);
+  min-height: 0;
+}
+
+/* Cream backdrop so the card reads against the white modal the way it reads
+   against the page. Width is locked to the live grid's 360px track. */
+.pkg-editor__preview-stage {
+  background: var(--color-cream);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  min-height: 0;
+  overflow-y: auto;
+}
+
+/* Reorder control on admin cards (team, and anything else ordered by array
+   position). Sits above the card body as a compact toolbar. */
+.admin-order {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.admin-order__pick {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.admin-order__pick .field__label { margin: 0; }
+
+/* Just wide enough for a two-digit index — the default select fills its row. */
+.admin-order__pick .field__select {
+  width: auto;
+  min-width: 4.5rem;
+  padding-block: var(--space-1);
+}
+
+/* Opaque and above the body, so scrolled form content can never bleed under it. */
+.pkg-editor__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+  background: var(--color-white);
+  position: relative;
+  z-index: 1;
+}
+
+.pkg-editor__preview-stage .package-card {
+  width: 100%;
+  max-width: 360px;
+  margin-inline: auto;
+}
+
+/* Below the split threshold the preview drops above the form and the whole body
+   becomes one scroll area, rather than two panes competing for height. */
+@media (max-width: 900px) {
+  .pkg-editor { padding: var(--space-5); }
+
+  .pkg-editor__body {
+    grid-template-columns: minmax(0, 1fr);
+    overflow-y: auto;
+  }
+
+  .pkg-editor__form { overflow: visible; padding-right: 0; }
+
+  .pkg-editor__preview {
+    display: block;
+    order: -1;            /* preview first on narrow screens — it's the point of the panel */
+  }
+
+  .pkg-editor__preview-stage { overflow: visible; }
+}
+

@@ -1,0 +1,319 @@
+/* =========================================================
+   Home only (DESIGN-LANGUAGE §3.4, §4 VideoHero, SanctuaryChapter,
+   §5.1 storyboard): the film, the seam, the ledger/packages pair
+   and the Makkah → Madinah chapter. Safe-zone variables come from
+   the generated hero-safe.css.
+   ========================================================= */
+
+/* =========================================================
+   VideoHero
+   ========================================================= */
+.vhero {
+  --hero-obj-x: 50%;
+  --col-end: 46%;
+  --col-bottom-max: 66%;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--green-950);
+  color: var(--on-dark);
+}
+.vhero__frame { position: absolute; inset: 0; overflow: hidden; }
+.vhero__media {
+  position: absolute;
+  left: 0; right: 0;
+  top: -8%;
+  height: 116%;
+  will-change: transform;
+}
+.vhero__media picture,
+.vhero__poster,
+.vhero__video {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--hero-obj-x) 50%;
+}
+.vhero__video { opacity: 0; visibility: hidden; }
+.vhero__scrim,
+.vhero__navband,
+.vhero__darken { position: absolute; inset: 0; pointer-events: none; }
+.vhero__darken { background: var(--green-950); opacity: 0; }
+.vhero__rule { display: none; }
+
+/* --- film: copy over the loop (≥1024 where the column fits) --- */
+.vhero--film { height: 100svh; min-height: 640px; }
+.vhero--film .vhero__scrim {
+  background:
+    linear-gradient(90deg,
+      rgba(0, 36, 15, .82) 0,
+      rgba(0, 36, 15, .74) calc(var(--col-end) + 24px),
+      rgba(0, 36, 15, .30) calc(var(--col-end) + 10%),
+      transparent calc(var(--col-end) + 18%)),
+    linear-gradient(180deg, rgba(0, 36, 15, .50) 0, rgba(0, 36, 15, .15) 40%, rgba(0, 36, 15, .78) 100%);
+}
+.vhero--film .vhero__navband {
+  background: linear-gradient(180deg, rgba(0, 36, 15, .72) 0, rgba(0, 36, 15, .72) 88px, rgba(0, 36, 15, 0) 160px);
+}
+.vhero--film .vhero__rule {
+  display: block;
+  position: absolute;
+  top: 0; bottom: 0;
+  left: var(--page-margin);
+  width: 1px;
+  background: var(--gold-hairline);
+  opacity: .7;
+}
+.vhero--film .vhero__copy {
+  position: absolute;
+  top: max(20%, calc(var(--nav-h) + 32px));
+  left: calc(var(--page-margin) + 32px);
+  width: calc(var(--col-end) - var(--page-margin) - 32px);
+  max-height: calc(var(--col-bottom-max) - max(20%, calc(var(--nav-h) + 32px)));
+}
+
+/* --- shared copy stack --- */
+.vhero__copy {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--s-4);
+}
+.vhero__hud,
+.vhero__eyebrow {
+  margin: 0;
+  font: 500 var(--fs-eyebrow)/1.2 var(--font-sans);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--gold-200);
+}
+.vhero__hud { color: var(--on-dark); opacity: .9; }
+.vhero__title {
+  margin: var(--s-2) 0 0;
+  font: 500 var(--fs-hero)/.98 var(--font-display);
+  letter-spacing: -.01em;
+  color: var(--on-dark);
+}
+.vhero__title > span { display: block; }
+.vhero__arabic {
+  margin: 0;
+  text-align: left;
+  font: 500 var(--fs-ar-display)/1.3 var(--font-ar);
+  color: var(--gold-200);
+}
+.vhero__ctas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3) var(--s-4);
+  margin-top: var(--s-4);
+}
+.vhero .k-btn:focus-visible { outline-color: var(--focus-film); }
+
+/* --- plate: 16:9 film plate above the copy (768–1023, portrait, narrow column) --- */
+.vhero--plate { padding-top: var(--nav-h); }
+.vhero--plate .vhero__frame {
+  position: relative;
+  inset: auto;
+  aspect-ratio: 16 / 9;
+  max-height: 62svh;
+  width: 100%;
+}
+.vhero--plate .vhero__scrim {
+  background: linear-gradient(180deg, rgba(0, 36, 15, .35) 0, transparent 30%, transparent 70%, var(--green-950) 100%);
+}
+.vhero--plate .vhero__copy,
+.vhero--phone .vhero__copy {
+  padding: var(--s-8) var(--page-margin) var(--s-16);
+}
+.vhero--plate .vhero__title { font-size: clamp(44px, 6vw, 64px); }
+
+/* --- phone: the 3:4 poster plate, never video (owner decision) --- */
+.vhero--phone { padding-top: var(--nav-h); }
+.vhero--phone .vhero__frame {
+  position: relative;
+  inset: auto;
+  width: 100%;
+  height: min(62svh, 133vw);
+}
+.vhero--phone .vhero__media { top: 0; height: 100%; }
+.vhero--phone .vhero__poster { object-position: 50% 50%; }
+.vhero--phone .vhero__scrim { background: linear-gradient(180deg, transparent 70%, var(--green-950) 100%); }
+.vhero--phone .vhero__copy { padding: var(--s-6) 16px var(--s-12); gap: var(--s-3); }
+.vhero--phone .vhero__title { font-size: 44px; }
+.vhero--phone .vhero__arabic { font-size: 24px; }
+.vhero--phone .vhero__hud { display: none; }
+.vhero--phone .vhero__ctas { flex-direction: column; align-items: stretch; width: 100%; }
+.vhero--phone .vhero__ctas .k-btn { width: 100%; }
+
+/* =========================================================
+   Seam: flipped letterhead sweep from the film into the paper
+   ========================================================= */
+.seam { position: relative; padding-bottom: var(--s-16); }
+.seam__sweep { display: block; width: 100%; height: 140px; }
+.seam__dark { fill: var(--green-950); }
+.seam__ribbon { fill: none; stroke: #e8cd94; stroke-width: 2; }
+.seam__body {
+  max-width: 820px;
+  margin: var(--s-8) auto 0;
+  padding-inline: var(--page-margin);
+  text-align: center;
+}
+.seam__quote {
+  margin: 0 0 var(--s-8);
+  font: italic 500 var(--fs-d5)/1.35 var(--font-display);
+  color: var(--green-800);
+}
+.seam__motto {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-4);
+  margin: 0;
+  padding: var(--s-3) var(--s-6);
+  border-block: 1px solid var(--gold-hairline);
+  font: 500 var(--fs-eyebrow)/1.2 var(--font-sans);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--gold-800);
+}
+.seam__motto > span[aria-hidden] { color: var(--gold-600); letter-spacing: 0; }
+@media (max-width: 767px) {
+  .seam { padding-bottom: var(--s-8); }
+  .seam__sweep { height: 72px; }
+  .seam__quote { display: none; }
+  .seam__body { margin-top: var(--s-4); padding-inline: 16px; }
+}
+
+/* =========================================================
+   Ledger + packages pair (ledger moves below packages on phones,
+   so the first price lands on screen 2 at 375×812)
+   ========================================================= */
+.home-pair { display: flex; flex-direction: column; }
+.home-pair__ledger { padding-block: var(--s-8) 0; }
+.home-pair__trust {
+  margin: var(--s-8) 0 var(--s-2);
+  font: 400 var(--fs-meta)/1.5 var(--font-sans);
+  color: var(--text-muted);
+}
+@media (max-width: 767px) {
+  .home-pair__ledger { order: 2; padding-block: 0 var(--s-16); }
+  .home-pair__packages { padding-top: var(--s-8); }
+}
+
+/* =========================================================
+   Sanctuary chapter: Makkah becomes Madinah
+   ========================================================= */
+.chapter { position: relative; }
+.chapter__sticky { padding-block: var(--section-pad); }
+.chapter__grid {
+  display: grid;
+  grid-template-columns: 5fr 1fr 6fr;
+  align-items: center;
+  gap: var(--gutter);
+}
+.chapter__texts { display: grid; gap: var(--s-16); }
+.chapter__block { max-width: 460px; }
+.chapter__arabic {
+  margin: 0 0 var(--s-2);
+  text-align: left;
+  font: 500 var(--fs-ar-display)/1.3 var(--font-ar);
+  color: var(--gold-800);
+}
+.chapter__title {
+  margin: 0 0 var(--s-4);
+  font: 500 var(--fs-d3)/1 var(--font-display);
+  color: var(--green-800);
+}
+.chapter__mask { display: block; overflow: hidden; padding-bottom: .08em; }
+.chapter__mask > span { display: block; }
+.chapter__body {
+  margin: 0 0 var(--s-4);
+  font: 400 var(--fs-body)/1.6 var(--font-sans);
+  color: var(--text-body);
+}
+.chapter__progress { display: none; }
+.chapter__arch {
+  position: relative;
+  justify-self: end;
+  width: min(100%, 560px);
+  aspect-ratio: 6 / 7;
+  border-radius: 50% 50% 0 0 / 36% 36% 0 0;
+  outline: 1px solid var(--gold-hairline);
+  outline-offset: 6px;
+}
+.chapter__layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  background: var(--green-950);
+}
+.chapter__layer > img,
+.chapter__layer > video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.chapter__toggle {
+  position: absolute;
+  right: 16px; bottom: 16px;
+  display: grid;
+  place-items: center;
+  width: 44px; height: 44px;
+  border: 1px solid var(--gold-300);
+  border-radius: 50%;
+  background: rgba(0, 36, 15, .72);
+  color: var(--on-dark);
+  cursor: pointer;
+}
+.chapter__toggle svg { width: 14px; height: 14px; }
+.chapter__toggle:focus-visible { outline: 2px solid var(--focus-film); outline-offset: 2px; }
+
+/* Pinned (≥1024, motion allowed): both texts share one cell. */
+.chapter--pin .chapter__sticky {
+  height: 100svh;
+  display: flex;
+  align-items: center;
+  padding-block: calc(var(--nav-h) + 16px) var(--s-8);
+}
+.chapter--pin .chapter__grid { width: 100%; }
+.chapter--pin .chapter__texts { grid-template-areas: 'one'; }
+.chapter--pin .chapter__block { grid-area: one; }
+.chapter--pin .chapter__block.is-inactive { pointer-events: none; }
+.chapter--pin .chapter__arch { height: min(653px, calc(100svh - var(--nav-h) - 96px)); width: auto; }
+.chapter--pin .chapter__progress {
+  display: block;
+  justify-self: center;
+  width: 1px;
+  height: 60%;
+  background: rgba(217, 174, 84, .35);
+}
+.chapter--pin .chapter__progress i {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--gold-800);
+  transform-origin: top center;
+  transform: scaleY(0);
+}
+
+/* Flow and stack (<1024 or reduced motion): Makkah text, the arch, Madinah text. */
+.chapter--flow .chapter__grid,
+.chapter--stack .chapter__grid { grid-template-columns: 1fr; gap: var(--s-12); }
+.chapter--flow .chapter__texts,
+.chapter--stack .chapter__texts { display: contents; }
+.chapter--flow .chapter__block--a,
+.chapter--stack .chapter__block--a { order: 1; }
+.chapter--flow .chapter__arch,
+.chapter--stack .chapter__arch { order: 2; justify-self: center; width: min(100%, 400px); }
+.chapter--flow .chapter__block--b,
+.chapter--stack .chapter__block--b { order: 3; }
+.chapter--stack .chapter__layer--b { display: none; }
+@media (min-width: 1024px) {
+  /* Reduced motion on desktop: both texts beside one still arch. */
+  .chapter--stack .chapter__grid { grid-template-columns: 1fr 1fr; align-items: start; }
+  .chapter--stack .chapter__block--a { order: 1; }
+  .chapter--stack .chapter__arch { order: 2; grid-row: span 2; }
+  .chapter--stack .chapter__block--b { order: 3; }
+}

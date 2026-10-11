@@ -1,5 +1,5 @@
 /* =========================================================
-   Karwan-e-Usmania — Icon library (React)
+   Karwan e Usmania International — Icon library (React)
    24×24 viewBox · 1.6 stroke · currentColor.
    Usage: <Icon name="visa" /> or <Icon name="plane" className="..." />
    ========================================================= */
@@ -95,7 +95,7 @@ export const ICONS = {
     <path d="M5 4h3.5l1.5 4-2 1.5a11 11 0 0 0 5.5 5.5l1.5-2 4 1.5V18a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2Z"/>
   `),
   whatsapp: SVG(`
-    <path d="M20 12a8 8 0 1 1-3.4-6.5L20 4l-1.5 3.5A8 8 0 0 1 20 12Z"/>
+    <path d="M3.6 20.4l1.44-3.52A8.5 8.5 0 1 1 8.41 19.7Z"/>
     <path d="M9 9.5c0-.5.4-.9.9-.9h.6l1 2-.7.8a4 4 0 0 0 2.8 2.8l.8-.7 2 1v.6c0 .5-.4.9-.9.9A6 6 0 0 1 9 9.5Z" fill="currentColor" stroke="none"/>
   `),
   mail: SVG(`

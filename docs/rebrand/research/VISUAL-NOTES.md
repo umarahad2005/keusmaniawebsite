@@ -1,0 +1,35 @@
+# Visual notes from live browsing (orchestrator, 2026-10-08, Chrome 1280px viewport)
+
+Screenshots saved in `shots/` next to this file. These are observed facts, not inferences.
+
+## rialto.com.au
+- `rialto-01-preloader.jpg`: PRELOADER = full-viewport ELECTRIC BLUE (#0047ff-ish) field with three thin black vertical bars at staggered heights (the bars of the "R|ALTO" wordmark) — a logo-derived loader, no counter.
+- `rialto-02-hero-video.jpg`: HERO = fullscreen aerial NIGHT city video (Melbourne skyline, the Rialto tower outlined in blue light), no overlay gradient beyond a soft darkening; headline "CELEBRATING 40 YEARS" in a HUGE condensed heavy grotesk (Sharp Grotesk Bold), white, uppercase, centred, sitting in the LOWER third of the viewport, roughly 180px cap height at 1280px wide. Nav = translucent near-black bar, centred wordmark, 3 links left / 3 right, one solid electric-blue pill button "PORTAL LOGIN" at far right. When the video has not loaded, the hero is a plain #141414 slab with the headline — the text is never dependent on the video.
+- `rialto-03-whats-on-cards.jpg`: section heading "WHAT'S ON AT RIALTO" in the same condensed display face, ELECTRIC BLUE on black; below it a 3-card row where the centre card is TALLER and offset upward (staggered heights), card label in white uppercase sitting top-left inside the image, images desaturated/dark. Thin 1px grey hairline rules divide the layout into columns (an editorial grid).
+- `rialto-04-aerial-video-chapter.jpg`: a FULL-BLEED aerial video chapter (daytime, slow drift) with a ~40% black overlay, framed by a 20px inset from the viewport edge (video sits inside a slightly inset frame, not edge-to-edge).
+- `rialto-05-dining-carousel.jpg`: Swiper carousel of 16:9 video/photo cards with 1px hairline inset borders, uppercase labels top-left, small outlined blue arrow buttons and a thin blue progress line under the carousel, outlined ghost button "SEE ALL" in blue hairline.
+- `rialto-06-connected-reveal.jpg`: scroll reveal caught mid-way: words of "A CONNECTED COMMUNITY" fade/slide in from BELOW independently (word-level stagger), subtitle in a light grotesk (Gotham Light) at ~28px, two image panels separated by a vertical hairline.
+- `rialto-07-shared-vision.jpg`: "A SHARED VISION" in blue condensed display; sections are separated by full-width 1px hairlines; buttons are outlined blue hairline pills with letterspaced uppercase 12px text.
+- Overall: near-black (#0b0b0b) ground throughout; ONE accent (electric blue) used for display headings, hairlines and buttons; white for body; images dark-graded; the rhythm is heading → media grid → hairline → heading.
+
+## edolus.com (PlayCanvas WebGL)
+- `edolus-01-black-logo-draw.jpg`: pure black; a single thin vertical stroke of the wordmark appears first (the logo DRAWS ITSELF stroke by stroke); a tiny "0%" counter ~20px below centre.
+- `edolus-02-logo-counter.jpg`: full wordmark "EDOLUS" (geometric, wide letterspaced, the O replaced by a power-symbol-like open ring) in white, ~70px cap height, counter "87%" in ~10px mono beneath. Black holds for several seconds.
+- `edolus-03-reveal-glimpse.jpg`: at 100% the black opens; a brief glimpse of the live scene (dark cards with gold light streaks: "KNOWLEDGE TOPOLOGY", "MULTI-AGENT ORCHESTRATION") while the wordmark stays fixed in the centre, then
+- `edolus-04-hero-cta.jpg`: wordmark GLIDES to top-centre (header position). Scene = Earth from orbit (blue limb, clouds) filling the frame; scattered single letters "E P E" float at low opacity (a scramble/assembly text effect); one-line tagline in letterspaced 11px uppercase light grotesk; a BRACKETED CTA button `[ INITIATE SYSTEM ]` whose label decrypts/scrambles (`+NITI_|E SYS_EM`); "EXPERIENCE WITH HEADPHONES" with a headphones glyph. Everything centred.
+- `edolus-05-after-cta.jpg`: on click the CTA scrambles out, wordmark stays top-centre, an "AUDIO" toggle appears top-right with a small equaliser glyph; a faint ghost headline fades in bottom-left.
+- `edolus-06-orbital-intelligence.jpg`: scroll chapter: headline "ORBITAL INTELLIGENCE" bottom-left in a heavy wide grotesk (~64px, two lines, tight leading), 10px mono-ish uppercase body under it, "SCROLL TO BEGIN ↓" centred in mono uppercase, a 3D satellite rotates in with the Earth drifting; visible CHROMATIC ABERRATION / RGB-split and film grain on the whole frame; subtle HUD crosshair marks (+) near the edges. Camera motion is slow and continuous; text is anchored to the viewport while the scene moves.
+- Overall: black → deep blue; white type only; two faces (wide geometric display, mono-ish UI caps); the premium feel comes from TIMING (3s black hold, slow eases, nothing snaps) and from text treated as HUD, not from colour.
+
+## awwwards.com/websites/travel (list view)
+- `awwwards-travel-01.jpg`, `awwwards-travel-02.jpg`: the travel category is dominated by (a) photo-led heroes with a serif display word over the image ("GRECIAN TRAVEL REDEFINED" in a high-contrast serif by Lime Creative), (b) aerial/landscape full-bleed heroes with a small uppercase sans headline ("SCHOOL TRIPS AT HOME & ABROAD"), (c) framed/inset media with lots of whitespace, (d) warm paper grounds with a serif logotype (Travel World Escape, Lithuania travel). Dark+electric-accent sites (like Rialto) are rarer in travel; the premium travel look on awwwards is PAPER + SERIF + CINEMATIC PHOTO, which agrees with the owner's Nusuk/Aman bar.
+
+## 21st.dev
+- `21st-hero-scroll-video-pin-reveal.jpg`: "Hero Scroll Video Pin Reveal" by Ajith k v: word-by-word SplitText reveal (each word fades/blurs in), then a row of clip-path pill "badges" in muted greens/sand, then the video expands to full-screen while pinned. Requires GSAP + SplitText.
+- `21st-animated-video-on-scroll.jpg`: "Animated Video on Scroll" by YoucefBnm (Systaliko UI): a dark-blue hero "Scroll & Roll" where the video reveals and text slides on scroll (uses the `motion` package).
+
+## What this means for KEUI (orchestrator's read, for the design panel to confirm or refute)
+1. The owner's two loves are TIMING and SCALE, not colour: a logo-derived preloader with a held black beat, a curtain/band reveal, a video that fills the frame, a headline that is huge and calm, text that arrives word by word, and media framed by hairlines. All of that is reproducible with GSAP + CSS in our stack; none of it needs PlayCanvas.
+2. Rialto's single-accent discipline maps directly to our gold-on-green: ONE accent for display + hairlines + buttons, never fills. Electric blue → KU gold (hairline) with emerald as the ground where Rialto uses black.
+3. Edolus's HUD mono captions → our letterspaced small-caps eyebrows ("INTERNATIONAL · TRAVEL & TOURS" is already set that way on the letterhead). Scramble-text is acceptable for a counter / eyebrow, NOT for Arabic or sacred phrases (never garble Qur'anic or Arabic text).
+4. awwwards travel confirms the craft bar: paper + serif + cinematic photo/video. So the site should alternate a DARK cinematic chapter (hero, Haram night video) with PAPER chapters (letterhead composure), not be fully black like Rialto.

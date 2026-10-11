@@ -1,53 +1,88 @@
+/* Contact details as the letterhead footer, enlarged (DESIGN-LANGUAGE §5.2
+   Contact): the full lockup, then green-divided columns for the address,
+   phones, email and hours. Below it, one WhatsApp row per topic. */
 import { useSite } from '../lib/SiteContext.jsx'
 import { Icon } from '../icons.jsx'
 import { useWaLink } from '../lib/whatsapp.js'
+import { hoursRows } from '../lib/hours.js'
+import { formatPk, telHref, DEFAULT_LANDLINE } from '../lib/phone.js'
+import Lockup from './brand/Lockup.jsx'
 
-export default function ContactInfo() {
+const TOPICS = [
+  { key: 'umrah', label: 'Umrah', sub: 'Packages, dates and prices' },
+  { key: 'qafila', label: 'Qafila e Shoq', sub: 'The spiritual journey programme' },
+  { key: 'general', label: 'Something else', sub: 'Visas, documents or any question' },
+]
+
+export function ContactLetterhead() {
   const { site } = useSite()
   const c = site.company
   const wa = useWaLink()
-  const telHref = `tel:${c.phone.replace(/[^+\d]/g,'')}`
-  const waDisplay = `+${c.whatsapp.slice(0,2)} ${c.whatsapp.slice(2,5)} ${c.whatsapp.slice(5)}`
+  const landline = c.landline || DEFAULT_LANDLINE
+  const mobile = c.whatsapp || c.phone
+  const a = c.address || {}
 
   return (
-    <div className="stack">
-      <div className="card contact-card">
-        <div className="contact-card__icon"><Icon name="pin" /></div>
-        <div>
-          <h3 className="contact-card__title">Visit Our Office</h3>
-          <p className="muted">{c.address.street}<br />{c.address.city}, {c.address.country} {c.address.postalCode}</p>
-        </div>
-      </div>
-      <div className="card contact-card">
-        <div className="contact-card__icon"><Icon name="whatsapp" /></div>
-        <div>
-          <h3 className="contact-card__title">WhatsApp</h3>
-          <p className="muted"><a href={wa('general')} target="_blank" rel="noopener">{waDisplay}</a> — fastest response</p>
-        </div>
-      </div>
-      <div className="card contact-card">
-        <div className="contact-card__icon"><Icon name="phone" /></div>
-        <div>
-          <h3 className="contact-card__title">Phone</h3>
-          <p className="muted"><a href={telHref}>{c.phone}</a></p>
-        </div>
-      </div>
-      <div className="card contact-card">
-        <div className="contact-card__icon"><Icon name="mail" /></div>
-        <div>
-          <h3 className="contact-card__title">Email</h3>
-          <p className="muted"><a href={`mailto:${c.email}`}>{c.email}</a></p>
-        </div>
-      </div>
-      <div className="card contact-card">
-        <div className="contact-card__icon"><Icon name="clock" /></div>
-        <div>
-          <h3 className="contact-card__title">Office Hours</h3>
-          <ul className="muted" style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-            {c.hours.map(h => <li key={h.days}><strong>{h.days}:</strong> {h.time}</li>)}
-          </ul>
-        </div>
-      </div>
+    <div className="cletter">
+      <Lockup tone="paper" markSize={88} className="cletter__lockup" />
+      <ul className="cletter__cols" role="list">
+        <li className="cletter__col">
+          <h2 className="cletter__label"><Icon name="pin" className="k-ico" /> Office</h2>
+          <address className="cletter__text">
+            {a.street}<br />{[a.city, a.country].filter(Boolean).join(', ')}{a.postalCode ? ` ${a.postalCode}` : ''}
+          </address>
+        </li>
+        <li className="cletter__col">
+          <h2 className="cletter__label"><Icon name="phone" className="k-ico" /> Phone</h2>
+          <p className="cletter__text">
+            <a href={telHref(landline)}>{formatPk(landline)}</a><br />
+            <a href={wa('general')} target="_blank" rel="noopener">{formatPk(mobile)}</a> <span className="cletter__tag">WhatsApp</span>
+          </p>
+        </li>
+        <li className="cletter__col">
+          <h2 className="cletter__label"><Icon name="mail" className="k-ico" /> Email</h2>
+          <p className="cletter__text"><a href={`mailto:${c.email}`}>{c.email}</a></p>
+        </li>
+        <li className="cletter__col">
+          <h2 className="cletter__label"><Icon name="clock" className="k-ico" /> Hours</h2>
+          <dl className="cletter__hours">
+            {hoursRows(c.hours).map(h => <div key={h.days}><dt>{h.days}</dt><dd>{h.time}</dd></div>)}
+          </dl>
+          <p className="cletter__note">Pakistan time</p>
+        </li>
+      </ul>
     </div>
+  )
+}
+
+export function WhatsAppRows() {
+  const wa = useWaLink()
+  return (
+    <div className="warows">
+      <h2 className="warows__title">Message us on WhatsApp</h2>
+      <ul className="warows__list" role="list">
+        {TOPICS.map(t => (
+          <li key={t.key}>
+            <a className="warows__row" href={wa(t.key)} target="_blank" rel="noopener">
+              <span className="warows__icon" aria-hidden="true"><Icon name="whatsapp" className="k-ico" /></span>
+              <span className="warows__text">
+                <span className="warows__label">{t.label}</span>
+                <span className="warows__sub">{t.sub}</span>
+              </span>
+              <span className="warows__arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+export default function ContactInfo() {
+  return (
+    <>
+      <ContactLetterhead />
+      <WhatsAppRows />
+    </>
   )
 }

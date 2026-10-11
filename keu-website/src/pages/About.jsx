@@ -1,31 +1,39 @@
 import { useSite } from '../lib/SiteContext.jsx'
 import PageHeader            from '../components/PageHeader.jsx'
 import SectionHeading        from '../components/SectionHeading.jsx'
+import StatsSection          from '../components/StatsSection.jsx'
 import WhyChooseUs           from '../components/WhyChooseUs.jsx'
 import TeamGrid              from '../components/TeamGrid.jsx'
+import CTABanner             from '../components/CTABanner.jsx'
 import JsonLd                from '../components/JsonLd.jsx'
 import Img                   from '../components/Img.jsx'
 
 import { useGsapAnimations } from '../hooks/useGsapAnimations.js'
 import { useDocumentHead }   from '../lib/useDocumentHead.js'
+import { SITE_URL }          from '../lib/brand.js'
 import { aboutPageSchema, breadcrumbSchema, organizationSchema } from '../lib/schemas.js'
 
+/* About (DESIGN-LANGUAGE §5.2): story beside an arch, story[3] pulled out
+   between hairlines, the ledger, why us as one row, the team, the closing letter. */
 export default function About() {
-  const { site } = useSite()
+  const { site, packages } = useSite()
+  const story = site.about?.story || []
+  const pull = story[3]
+  const body = story.filter((_, i) => i !== 3)
 
   useDocumentHead({
-    title: 'About Us — 18 Years Serving Pilgrims | Karwan-e-Usmania',
-    description: 'Karwan-e-Usmania has served pilgrims from Lahore since 2005. Saudi-approved partners on the ground in Makkah & Madinah. Meet the Karwan team and read our story.',
-    keywords: 'Karwan-e-Usmania about, Hajj operator Lahore, licensed Umrah operator Pakistan, Pirzada Burhan Usmani',
-    canonical: 'https://keusmania.vercel.app/about',
-    ogImage: 'keu/madinah/prophets-mosque',
+    title: 'About Us — Serving Pilgrims Since 2008 | Karwan e Usmania International',
+    description: 'Karwan e Usmania International · Travel & Tours has served pilgrims from Lahore since 2008, with trusted partners on the ground in Makkah and Madinah. Meet the team and read our story.',
+    keywords: 'Karwan e Usmania International about, Umrah operator Lahore, Umrah travel agency Johar Town, Pirzada Burhan Usmani',
+    canonical: `${SITE_URL}/about`,
+    ogImage: '/og/about.jpg',
   })
   useGsapAnimations(['about'])
 
   return (
     <>
       <JsonLd data={[
-        organizationSchema(site),
+        organizationSchema(site, packages),
         breadcrumbSchema([
           { name: 'Home', url: '/' },
           { name: 'About', url: '/about' },
@@ -34,44 +42,50 @@ export default function About() {
       ]} />
 
       <PageHeader
-        eyebrow="About Us"
+        eyebrow="About us"
+        crumb="About"
         title="A Karwan rooted in service."
-        subtitle="Eighteen years of walking with pilgrims — from Lahore to the Haramain and back home."
+        lead="Eighteen years of walking with pilgrims, from Lahore to the Haramain and back home."
         image="keu/madinah/prophets-mosque"
         imageAlt="Masjid an-Nabawi at sunset"
       />
 
-      <section className="section">
-        <div className="container">
-          <SectionHeading bismillah="بِسْمِ اللَّهِ" title="Our Story" align="left" />
-          <div className="about-story">
-            <div className="about-story__copy">
-              {site.about.story.map((p, i) => <p key={i} className="lead mt-4">{p}</p>)}
-            </div>
-            <div className="about-story__media">
-              <Img src={site.about.storyImage} alt={site.about.storyImageAlt} widths={[600, 900, 1200]} sizes="(max-width: 900px) 100vw, 50vw" loading="lazy" decoding="async" />
-            </div>
+      <section id="story" className="k-section story" data-surface="paper" aria-labelledby="story-title">
+        <div className="k-container story__grid">
+          <div className="story__copy">
+            <SectionHeading num="01" eyebrow="Our story" id="story-title" title="Our Story" />
+            {body.map((p, i) => <p key={i} className="story__p" data-reveal="block">{p}</p>)}
           </div>
+          {site.about?.storyImage && (
+            <div className="story__arch" data-reveal="t3">
+              <Img src={site.about.storyImage} alt={site.about.storyImageAlt || ''} widths={[480, 720, 960]} sizes="(max-width: 1023px) 100vw, 40vw" loading="lazy" decoding="async" />
+            </div>
+          )}
+        </div>
+        {pull && (
+          <div className="k-container">
+            <blockquote className="story__pull" data-reveal="block">{pull}</blockquote>
+          </div>
+        )}
+      </section>
+
+      <StatsSection surface="ivory" />
+
+      <section id="why" className="k-section why" data-surface="paper" aria-labelledby="why-title">
+        <div className="k-container">
+          <SectionHeading num="02" eyebrow="Why pilgrims choose us" id="why-title" title="Why Pilgrims Choose Us" />
+          <WhyChooseUs wrapped={false} row />
         </div>
       </section>
 
-      <section className="section section--cream section--pattern">
-        <div className="container">
-          <SectionHeading title="Why Choose Us" />
-          <WhyChooseUs wrapped={false} />
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="container">
-          <SectionHeading
-            bismillah="اَلْكَرْوَانُ"
-            title="Meet the Karwan"
-            subtext="The team that walks with you on every step of the journey."
-          />
+      <section id="team" className="k-section" data-surface="ivory" aria-labelledby="team-title">
+        <div className="k-container">
+          <SectionHeading num="03" eyebrow="Meet the Karwan" id="team-title" title="Meet the Karwan" lead="The team that walks with you on every step of the journey." />
           <TeamGrid />
         </div>
       </section>
+
+      <CTABanner num="04" />
     </>
   )
 }

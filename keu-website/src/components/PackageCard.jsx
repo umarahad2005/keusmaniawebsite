@@ -1,31 +1,89 @@
+/* Package card (DESIGN-LANGUAGE §4 PackageCard). Identical in the admin's
+   360 px preview: every size variant switches on a container query, never on
+   the viewport.
+
+   Order: TIER · CATEGORY eyebrow with the badge inline, name, subtitle (with
+   "N nights ·" only when the subtitle does not already say nights), priceLabel
+   exactly as entered plus "per person", a hairline, inclusions (6, or 4 in a
+   narrow card, then "+N more"), the summary behind "Full package details", and
+   the WhatsApp button pinned to the bottom.
+   The numeric `price` field is never shown, sorted or trusted (live data has 1
+   and 78498 in it); "on request" is detected from the label. Anchors keep the
+   raw id: the sitemap, structured data and footer links depend on it. */
 import { useWaLink } from '../lib/whatsapp.js'
+import { Icon } from '../icons.jsx'
+
+const TIER = { economy: 'Economy', premium: 'Premium', vip: 'VIP' }
+const CATEGORY = { umrah: 'Umrah', ramadan_umrah: 'Ramadan', family: 'Family', hajj: 'Hajj' }
 
 export default function PackageCard({ pkg }) {
   const wa = useWaLink()
+  const label = String(pkg.priceLabel || '').trim()
+  const isOnRequest = !/\d/.test(label)
+  const perPerson = pkg.perPerson !== false && !isOnRequest
+  const subtitle = String(pkg.subtitle || '').trim()
+  const nights = Number(pkg.nights) > 0 && !/\bnights?\b/i.test(subtitle) ? `${pkg.nights} nights` : ''
+  const meta = [nights, subtitle].filter(Boolean).join(' · ')
+  const inclusions = (pkg.inclusions || []).map(s => String(s || '').trim()).filter(Boolean)
+  const more = Math.max(0, inclusions.length - 6)
+  const moreNarrow = Math.max(0, inclusions.length - 4)
+  const summary = String(pkg.summary || '').trim()
+  const eyebrow = [TIER[pkg.tier] || '', CATEGORY[pkg.category] || ''].filter(Boolean).join(' · ')
+  const badge = String(pkg.badge || '').trim()
+  const variant = pkg.tier === 'vip' ? ' package-card--vip' : isOnRequest ? ' package-card--request' : ''
+
   return (
-    <article className="package-card" id={pkg.id} data-category={pkg.category} data-tier={pkg.tier}>
-      {pkg.badge && <span className="badge badge--gold package-card__badge">{pkg.badge}</span>}
-      <h3 className="package-card__title">{pkg.name}</h3>
-      <p className="package-card__subtitle">{pkg.subtitle}</p>
-      <div className="package-card__price">
-        <span className="package-card__price-amount">{pkg.priceLabel}</span>
-        {pkg.price && <span className="package-card__price-currency">/ person</span>}
+    <article className={`package-card${variant}`} id={pkg.id} data-category={pkg.category} data-tier={pkg.tier}>
+      <div className="package-card__inner">
+        <p className="package-card__eyebrow">
+          {eyebrow && <span>{eyebrow}</span>}
+          {badge && <span className="package-card__badge">{badge}</span>}
+        </p>
+        <h3 className="package-card__title">{pkg.name}</h3>
+        {meta && <p className="package-card__meta">{meta}</p>}
+
+        <div className="package-card__price">
+          {isOnRequest
+            ? <span className="package-card__amount package-card__amount--request">Price on request</span>
+            : <span className="package-card__amount">{label}</span>}
+          {perPerson && <span className="package-card__per">per person</span>}
+        </div>
+
+        <hr className="package-card__rule" />
+
+        {inclusions.length > 0 && (
+          <ul className="package-card__inclusions" role="list">
+            {inclusions.map((line, i) => (
+              <li key={i} className={`package-card__inclusion${i >= 6 ? ' is-extra' : ''}${i >= 4 ? ' is-extra-narrow' : ''}`}>
+                <Icon name="check" className="k-ico package-card__check" />
+                <span>{line}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {summary && (
+          <>
+            <p className="package-card__summary" aria-hidden="true">{summary}</p>
+            <details className="package-card__details">
+              <summary>
+                {more > 0 && <span className="package-card__more package-card__more--wide">+{more} more · </span>}
+                {moreNarrow > 0 && <span className="package-card__more package-card__more--narrow">+{moreNarrow} more · </span>}
+                Full package details
+              </summary>
+              {inclusions.length > 4 && (
+                <ul className="package-card__all" role="list">{inclusions.map((l, i) => <li key={i}>{l}</li>)}</ul>
+              )}
+              <p className="package-card__full">{summary}</p>
+            </details>
+          </>
+        )}
+
+        <a className="k-btn k-btn--wa package-card__cta" href={wa(pkg.id)} target="_blank" rel="noopener">
+          <Icon name="whatsapp" className="k-ico" />
+          {isOnRequest ? 'Enquire on WhatsApp' : 'Book on WhatsApp'}
+        </a>
       </div>
-      <p className="package-card__nights">{pkg.summary}</p>
-      <div className="package-card__divider" />
-      <ul className="package-card__inclusions">
-        {(pkg.inclusions || []).filter(Boolean).map((line, i) => (
-          <li key={i} className="package-card__inclusion">{line}</li>
-        ))}
-      </ul>
-      <a
-        className="btn btn--primary btn--full package-card__cta"
-        href={wa(pkg.id)}
-        target="_blank"
-        rel="noopener"
-      >
-        Book on WhatsApp
-      </a>
     </article>
   )
 }

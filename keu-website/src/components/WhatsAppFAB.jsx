@@ -1,43 +1,91 @@
-import { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+/* Floating WhatsApp button, 768 px and up (DESIGN-LANGUAGE §4 WhatsApp FAB).
+   A 56 px disc that appears once the hero buttons (or the page header) have
+   scrolled away. It opens a short list of WhatsApp topics; nothing is hover-only.
+   Sits above the route curtain (z 110), so it stays usable mid-transition.
+   Hidden on /contact and while the mobile menu is open. No pulse, no greeting. */
+import { useEffect, useRef, useState } from 'react'
+import { gsap } from '../lib/motion.js'
+import { motionEnv } from '../lib/motionEnv.js'
 import { useWaLink } from '../lib/whatsapp.js'
+import { Icon } from '../icons.jsx'
+import { useDisplayLocation, useHeroGone, useMenu } from './chrome/ChromeContext.jsx'
 
-const GREETING_DELAY = 6000
-const GREETING_KEY   = 'keu_wa_greeted'
+const TOPICS = [
+  { key: 'umrah',   label: 'Umrah packages' },
+  { key: 'qafila',  label: 'Qafila e Shoq' },
+  { key: 'general', label: 'General question' },
+]
 
 export default function WhatsAppFAB() {
-  const { pathname } = useLocation()
-  const [showGreeting, setShowGreeting] = useState(false)
+  const display = useDisplayLocation()
+  const { menuOpen } = useMenu()
+  const gone = useHeroGone(display?.key)
   const wa = useWaLink()
+  const [open, setOpen] = useState(false)
+  const button = useRef(null)
+  const list = useRef(null)
+  const wrap = useRef(null)
 
+  const hidden = display?.pathname === '/contact' || menuOpen
+  const visible = gone && !hidden
+
+  // Close the list when the button hides or the route changes.
+  useEffect(() => { if (!visible) setOpen(false) }, [visible])
+  useEffect(() => { setOpen(false) }, [display?.key])
+
+  // Focus the first topic on open; Esc closes and returns focus.
   useEffect(() => {
-    if (pathname === '/contact' || pathname.startsWith('/admin')) return
-    if (sessionStorage.getItem(GREETING_KEY)) return
-    const t = setTimeout(() => {
-      setShowGreeting(true)
-      sessionStorage.setItem(GREETING_KEY, '1')
-      setTimeout(() => setShowGreeting(false), 8000)
-    }, GREETING_DELAY)
-    return () => clearTimeout(t)
-  }, [pathname])
+    if (!open) return
+    list.current?.querySelector('a')?.focus()
+    const onKey = (e) => { if (e.key === 'Escape') { setOpen(false); button.current?.focus() } }
+    const onDown = (e) => { if (!wrap.current?.contains(e.target)) setOpen(false) }
+    document.addEventListener('keydown', onKey)
+    document.addEventListener('pointerdown', onDown)
+    return () => { document.removeEventListener('keydown', onKey); document.removeEventListener('pointerdown', onDown) }
+  }, [open])
 
-  if (pathname === '/contact' || pathname.startsWith('/admin')) return null
+  // Gentle magnetic pull on precise pointers only (±12 px, no elastic return).
+  useEffect(() => {
+    const el = button.current
+    const env = motionEnv()
+    if (!el || env.reduce || env.lowEnd || !env.finePointer) return
+    const xTo = gsap.quickTo(el, 'x', { duration: 0.45, ease: 'power3.out' })
+    const yTo = gsap.quickTo(el, 'y', { duration: 0.45, ease: 'power3.out' })
+    const move = (e) => {
+      const r = el.getBoundingClientRect()
+      const dx = e.clientX - (r.left + r.width / 2)
+      const dy = e.clientY - (r.top + r.height / 2)
+      xTo(Math.max(-12, Math.min(12, dx * 0.3)))
+      yTo(Math.max(-12, Math.min(12, dy * 0.3)))
+    }
+    const leave = () => { xTo(0); yTo(0) }
+    el.addEventListener('pointermove', move)
+    el.addEventListener('pointerleave', leave)
+    return () => { el.removeEventListener('pointermove', move); el.removeEventListener('pointerleave', leave) }
+  }, [])
 
   return (
-    <>
-      <a className="fab-whatsapp" href={wa('general')} target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
-          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347M12.05 21.785a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884" />
-        </svg>
-        <span>Book Now</span>
-      </a>
-
-      {showGreeting && (
-        <div className="wa-greeting" role="status" onClick={() => setShowGreeting(false)}>
-          <strong>Assalamu Alaikum 👋</strong>
-          Tap here to chat with us on WhatsApp — most queries answered within an hour.
-        </div>
+    <div className={`wa-fab${visible ? ' is-visible' : ''}`} ref={wrap} aria-hidden={!visible} inert={!visible ? '' : undefined}>
+      {open && (
+        <ul className="wa-fab__list" id="wa-fab-list" ref={list} role="list">
+          {TOPICS.map(t => (
+            <li key={t.key}>
+              <a href={wa(t.key)} target="_blank" rel="noopener" onClick={() => setOpen(false)}>{t.label}</a>
+            </li>
+          ))}
+        </ul>
       )}
-    </>
+      <button
+        ref={button}
+        className="wa-fab__button"
+        type="button"
+        aria-expanded={open}
+        aria-controls="wa-fab-list"
+        aria-label="Chat on WhatsApp"
+        onClick={() => setOpen(o => !o)}
+      >
+        <Icon name="whatsapp" className="k-ico" />
+      </button>
+    </div>
   )
 }

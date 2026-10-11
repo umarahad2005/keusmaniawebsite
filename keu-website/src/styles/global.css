@@ -5,9 +5,8 @@
 
 @import './tokens.css';
 
-/* Fonts (Playfair Display, Inter, Amiri) load via <link> in index.html.
-   A CSS @import here would block on this stylesheet parsing first, which
-   delayed the Arabic face and caused a visible swap on the hero bismillah. */
+/* Fonts are self-hosted: @font-face rules live in fonts.css (imported first in
+   main.jsx) and the three first-paint files are preloaded in index.html. */
 
 /* =========================================================
    Modern reset
@@ -181,16 +180,30 @@ p {
   color: var(--color-gold-dark);
 }
 
-/* Any element marked as Arabic or Urdu picks up Amiri automatically, so new
-   Arabic copy can never land in the Latin body font by omission. Applied via
-   :where() so it carries zero specificity and any component rule still wins. */
-:where([lang='ar'], [lang='ur'], .arabic, .urdu) {
-  font-family: var(--font-arabic);
+/* Arabic and Urdu (DESIGN-LANGUAGE §2.2).
+   Any element marked ar or ur picks up the KEU Arabic face automatically, so
+   Arabic copy can never land in the Latin body font by omission, and Urdu runs
+   such as the nav's "بک کریں" never pull in the 118 KB Nastaliq at first paint.
+   Nastaliq is opt-in with .nastaliq (Qafila e Shoq on /packages only).
+   Applied via :where() so it carries zero specificity and component rules win.
+   Never letter-space, split or animate Arabic or Urdu apart from its line. */
+:where(:lang(ar), :lang(ur), .arabic, .urdu, .ar-face) {
+  font-family: var(--font-ar);
   direction: rtl;
   letter-spacing: 0;
-  line-height: var(--leading-snug);
+  line-height: 1.3;
   font-feature-settings: 'liga' 1, 'calt' 1;
 }
+
+:where(.nastaliq) {
+  font-family: var(--font-ur);
+  direction: rtl;
+  letter-spacing: 0;
+  line-height: 2.1;
+}
+
+/* The display faces ship one weight each; never fake a bold. */
+:root { font-synthesis-weight: none; }
 
 /* Arabic sits on a larger em-box than Latin at the same font-size; nudging it up
    keeps a mixed-script line (e.g. "WhatsApp بک کریں") optically balanced. */

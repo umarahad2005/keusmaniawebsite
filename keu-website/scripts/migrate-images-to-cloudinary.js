@@ -1,5 +1,5 @@
 /* =========================================================
-   Karwan-e-Usmania — one-off migration of public/images/
+   Karwan e Usmania International — one-off migration of public/images/
    into Cloudinary.
 
    Each file keeps its path as its public_id, so

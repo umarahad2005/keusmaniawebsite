@@ -3,8 +3,20 @@ import { useSite } from '../../lib/SiteContext.jsx'
 import { api } from '../../lib/api.js'
 import CloudinaryUpload from '../../components/admin/CloudinaryUpload.jsx'
 import Img from '../../components/Img.jsx'
+import { memberPath } from '../../lib/team.js'
 
-const blank = () => ({ name: '', role: '', photo: '' })
+const blank = () => ({ name: '', role: '', photo: '', phone: '', whatsapp: '', email: '', bio: '', slug: '', linkedin: '', facebook: '', instagram: '' })
+
+/* Digital card fields (all optional). Empty fields are hidden on the card. */
+const CARD_FIELDS = [
+  ['phone', 'Mobile (e.g. +92 300 1234567)', 'tel'],
+  ['whatsapp', 'WhatsApp, if different from mobile', 'tel'],
+  ['email', 'Email', 'email'],
+  ['linkedin', 'LinkedIn link', 'url'],
+  ['facebook', 'Facebook link', 'url'],
+  ['instagram', 'Instagram link', 'url'],
+  ['slug', 'Card address (optional, e.g. burhan-usmani)', 'text'],
+]
 
 export default function EditTeam() {
   const { site, reload } = useSite()
@@ -50,7 +62,9 @@ export default function EditTeam() {
       {msg && <p className="muted">{msg}</p>}
       <p className="muted">
         Position 1 appears first on the About page. Change a member’s position and
-        the others shuffle around them — then hit Save changes.
+        the others shuffle around them — then hit Save changes. Visitors who click a
+        member see their digital card: fill in the card details under each member
+        (anything left empty is simply not shown).
       </p>
 
       <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 'var(--space-4)' }}>
@@ -96,6 +110,20 @@ export default function EditTeam() {
               <span className="field__label">Role</span>
               <input className="field__input" value={m.role} onChange={update(i, 'role')} />
             </label>
+            <details className="mt-2">
+              <summary className="field__label" style={{ cursor: 'pointer' }}>Digital card details</summary>
+              {CARD_FIELDS.map(([key, label, type]) => (
+                <label className="field" key={key}>
+                  <span className="field__label">{label}</span>
+                  <input className="field__input" type={type} value={m[key] || ''} onChange={update(i, key)} />
+                </label>
+              ))}
+              <label className="field">
+                <span className="field__label">Short bio (one or two sentences)</span>
+                <textarea className="field__textarea" rows={3} value={m.bio || ''} onChange={update(i, 'bio')} />
+              </label>
+              {m.name && <p className="muted" style={{ fontSize: 'var(--text-xs)' }}>Card page: <a href={memberPath(m)} target="_blank" rel="noopener">{memberPath(m)}</a> (after saving)</p>}
+            </details>
             <button
               className="btn btn--ghost btn--sm mt-2"
               style={{ borderColor: 'var(--color-error)', color: 'var(--color-error)' }}

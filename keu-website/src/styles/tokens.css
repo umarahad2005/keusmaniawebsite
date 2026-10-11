@@ -1,54 +1,171 @@
 /* =========================================================
-   Karwan-e-Usmania — Design Tokens
-   Single source of truth for color, type, space, motion.
+   Karwan e Usmania International — Design Tokens
+   Source of truth: docs/rebrand/DESIGN-LANGUAGE.md §2 and the Design System
+   artifact. Colours are sampled from newlogo.png and letter_head.pdf.
+
+   Two layers live here during the rebuild:
+   1. KEUI tokens (below): every new or restyled component uses only these.
+   2. Legacy tokens (the second :root): kept with their old values so the admin
+      and the components not yet restyled look unchanged. Phases 2–4 move the
+      public components to layer 1; the admin keeps layer 2.
+   ========================================================= */
+
+:root {
+  /* ---------- KEUI colour ---------- */
+  --green-500: #20784d;
+  --green-600: #0b6239;
+  --green-700: #005830;
+  --green-800: #004828;        /* primary: wordmark, headings, primary button, focus on light */
+  --green-900: #003820;
+  --green-950: #00240f;        /* dark ground: preloader, curtains, scrim, Qafila chapter */
+  --band: #164a31;             /* letterhead footer band */
+  --band-deep: #083820;
+
+  --gold-200: #f5d795;         /* gold text on dark and over the film */
+  --gold-300: #e9c266;         /* hairlines, ghost borders, focus on dark */
+  --gold-500: #e0a028;         /* lines and icons on dark only (2.2:1 on paper) */
+  --gold-600: #c08010;         /* display suffixes ≥28 px on paper/card only */
+  --gold-800: #885800;         /* the only small gold text on paper (5.9:1) */
+  --gold-hairline: #d9ae54;    /* decorative 1 px rules */
+  --ribbon: linear-gradient(90deg, #e3c38a, #e8cd94, #fae0a1);  /* letterhead ribbon, the only metallic outside the logo */
+
+  --paper: #fcfbf8;
+  --ivory: #f6f2ea;
+  --card: #ffffff;
+  --ink: #0b0b0b;
+  --text-body: #2c3a33;        /* 11.5:1 on paper */
+  --text-muted: #5f6f67;       /* 5.1:1 on paper; also input borders */
+  --on-dark: #f4f1ea;          /* 14.8:1 on green-950 */
+  --on-dark-muted: #b9c7bf;    /* never over video */
+  --wa: #25d366;
+  --wa-hover: #1ebe5b;
+  --wa-label: #00240f;         /* 8.4:1 on --wa; white fails at 2.0:1 */
+  --error: #b3261e;            /* 6.3:1 on paper */
+
+  --focus: var(--green-800);
+  --focus-dark: var(--gold-300);
+  --focus-film: #f4f1ea;
+
+  /* ---------- KEUI type ---------- */
+  --font-display: 'Cormorant Garamond', 'KEU Cormorant fallback', Georgia, serif;
+  --font-sans: 'Manrope', 'KEU Manrope fallback', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-ar: 'KEU Arabic', 'KEU Arabic fallback', 'Segoe UI', Tahoma, sans-serif;
+  --font-ur: 'KEU Urdu', 'KEU Arabic', 'KEU Arabic fallback', serif;
+
+  --fs-hero: clamp(44px, min(5.2vw, 7.2svh), 104px);
+  --fs-d1: clamp(40px, 4.6vw, 64px);
+  --fs-d2: clamp(34px, 3.8vw, 52px);
+  --fs-d3: clamp(40px, 4vw, 56px);
+  --fs-d4: clamp(32px, 2.6vw, 36px);
+  --fs-d5: 28px;
+  --fs-lead: clamp(18px, 1.4vw, 19px);
+  --fs-body: 17px;
+  --fs-small: 15px;
+  --fs-meta: 14px;
+  --fs-caption: 13px;          /* the type floor */
+  --fs-button: 16px;
+  --fs-eyebrow: 12px;
+  --tracking-eyebrow: .24em;
+  --fs-ar-display: clamp(24px, 2vw, 28px);
+  --fs-ur-display: clamp(28px, 2.4vw, 32px);
+
+  /* ---------- KEUI space, shape, layout ---------- */
+  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;  --s-6: 24px;  --s-8: 32px;
+  --s-12: 48px; --s-16: 64px; --s-24: 96px; --s-32: 128px; --s-40: 160px;
+  --section-pad: clamp(80px, 9vw, 136px);
+  --page-margin: clamp(16px, 5.5vw, 80px);
+  --page-max: 1280px;
+  --gutter: 24px;
+  --nav-h: 80px;
+  --nav-h-compact: 64px;
+  --radius-control: 2px;
+  --radius-card: 4px;
+  --shadow-card: 0 4px 24px rgba(0, 36, 15, .08);
+  --shadow-fab: 0 8px 24px rgba(0, 36, 15, .18);
+
+  /* ---------- KEUI motion (mirrored in src/lib/motion.js) ---------- */
+  --ease-quiet: cubic-bezier(.165, .84, .44, 1);   /* power3.out, Rialto */
+  --ease-reveal: cubic-bezier(.23, 1, .32, 1);     /* power4.out */
+  --ease-cinema: cubic-bezier(.16, 1, .3, 1);      /* expo.out */
+  --ease-settle: cubic-bezier(.19, 1, .22, 1);
+  --ease-band: cubic-bezier(.65, 0, .35, 1);       /* power2.inOut, Edolus */
+  --ease-curtain: cubic-bezier(.87, 0, .13, 1);    /* expo.inOut */
+  --ease-glide: cubic-bezier(.76, 0, .24, 1);      /* power3.inOut */
+  --dur-120: 120ms; --dur-250: 250ms; --dur-350: 350ms; --dur-500: 500ms;
+  --dur-600: 600ms; --dur-750: 750ms; --dur-900: 900ms; --dur-1200: 1200ms;
+
+  /* ---------- KEUI stacking ---------- */
+  --z-bg-stage: -1;
+  --z-thumbbar: 80;
+  --z-curtain: 90;
+  --z-nav-k: 100;
+  --z-fab: 110;
+  --z-menu: 115;
+  --z-lightbox: 118;
+  --z-preloader: 120;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-120: 0ms; --dur-250: 0ms; --dur-350: 0ms; --dur-500: 0ms;
+    --dur-600: 0ms; --dur-750: 0ms; --dur-900: 0ms; --dur-1200: 0ms;
+  }
+}
+
+/* =========================================================
+   Legacy tokens (admin + remaining legacy components).
+   Phase 5: the old navy is remapped onto the KEUI greens (none of the old navy is left),
+   so the admin follows the brand without a rewrite. Names are kept.
    ========================================================= */
 
 :root {
   /* ---------- Brand color palette ---------- */
-  --color-navy:        #1a2e5e;
-  --color-navy-light:  #2a4a8c;
-  --color-navy-dark:   #0d1b35;
+  --color-navy:        #004828;   /* = --green-800 */
+  --color-navy-light:  #0b6239;   /* = --green-600 */
+  --color-navy-dark:   #00240f;   /* = --green-950 */
 
-  --color-gold:        #c9a84c;
-  --color-gold-light:  #e8c97a;
-  --color-gold-dark:   #a8872e;
+  --color-gold:        #d9ae54;   /* = --gold-hairline */
+  --color-gold-light:  #e9c266;   /* = --gold-300 */
+  --color-gold-dark:   #885800;   /* = --gold-800 */
 
   --color-green:       #1a6b3c;
   --color-green-light: #27a85f;
   --color-whatsapp:    #25d366;
 
-  --color-cream:       #f8f5ef;
+  --color-cream:       #f6f2ea;   /* = --ivory */
   --color-white:       #ffffff;
   --color-black:       #000000;
 
   /* ---------- Text ---------- */
-  --color-text-dark:    #0d1b35;
-  --color-text-body:    #1f2a44;
-  --color-text-muted:   #5a6a8a;
-  --color-text-on-dark: #f8f5ef;
-  --color-text-on-gold: #0d1b35;
+  --color-text-dark:    #0b0b0b;
+  --color-text-body:    #2c3a33;
+  --color-text-muted:   #5f6f67;
+  --color-text-on-dark: #f4f1ea;
+  --color-text-on-gold: #00240f;
 
   /* ---------- Surfaces ---------- */
   --color-surface:        #ffffff;
-  --color-surface-cream:  #f8f5ef;
-  --color-surface-dark:   #0d1b35;
-  --color-surface-navy:   #1a2e5e;
+  --color-surface-cream:  #f6f2ea;
+  --color-surface-dark:   #00240f;
+  --color-surface-navy:   #004828;
 
   /* ---------- Borders ---------- */
-  --color-border:         rgba(13, 27, 53, 0.08);
-  --color-border-gold:    rgba(201, 168, 76, 0.2);
-  --color-border-strong:  rgba(13, 27, 53, 0.16);
+  --color-border:         rgba(0, 36, 15, 0.08);
+  --color-border-gold:    rgba(217, 174, 84, 0.2);
+  --color-border-strong:  rgba(0, 36, 15, 0.16);
 
   /* ---------- State ---------- */
   --color-success: #1a6b3c;
   --color-warning: #c9a84c;
   --color-error:   #b3261e;
-  --color-info:    #2a4a8c;
+  --color-info:    #0b6239;
 
   /* ---------- Typography families ---------- */
-  --font-heading: 'Playfair Display', Georgia, 'Times New Roman', serif;
-  --font-body:    'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --font-arabic:  'Amiri', 'Traditional Arabic', 'Scheherazade New', serif;
+  /* Mapped to the self-hosted KEUI faces: the Playfair/Inter/Amiri Google Fonts
+     link is gone (Phase 1), so legacy components render in the new type now. */
+  --font-heading: var(--font-display);
+  --font-body:    var(--font-sans);
+  --font-arabic:  var(--font-ar);
   --font-mono:    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
   /* ---------- Type scale ---------- */
@@ -120,20 +237,20 @@
   --radius-pill: 9999px;
 
   /* ---------- Shadows (warm, premium) ---------- */
-  --shadow-xs:    0 1px 2px rgba(13, 27, 53, 0.06);
-  --shadow-sm:    0 2px 6px rgba(13, 27, 53, 0.08);
-  --shadow-md:    0 8px 20px rgba(13, 27, 53, 0.10);
-  --shadow-lg:    0 16px 40px rgba(13, 27, 53, 0.14);
-  --shadow-xl:    0 28px 60px rgba(13, 27, 53, 0.18);
-  --shadow-gold:  0 14px 30px rgba(201, 168, 76, 0.28);
+  --shadow-xs:    0 1px 2px rgba(0, 36, 15, 0.06);
+  --shadow-sm:    0 2px 6px rgba(0, 36, 15, 0.08);
+  --shadow-md:    0 8px 20px rgba(0, 36, 15, 0.10);
+  --shadow-lg:    0 16px 40px rgba(0, 36, 15, 0.14);
+  --shadow-xl:    0 28px 60px rgba(0, 36, 15, 0.18);
+  --shadow-gold:  0 14px 30px rgba(217, 174, 84, 0.28);
   --shadow-inner: inset 0 1px 0 rgba(255, 255, 255, 0.4);
 
   /* ---------- Gradients ---------- */
-  --gradient-navy:    linear-gradient(160deg, #1a2e5e 0%, #0d1b35 100%);
-  --gradient-gold:    linear-gradient(135deg, #e8c97a 0%, #c9a84c 60%, #a8872e 100%);
-  --gradient-cream:   linear-gradient(180deg, #ffffff 0%, #f8f5ef 100%);
-  --gradient-hero:    radial-gradient(ellipse at 50% 30%, #2a4a8c 0%, #1a2e5e 40%, #0d1b35 100%);
-  --gradient-overlay: linear-gradient(180deg, rgba(13,27,53,0) 0%, rgba(13,27,53,0.7) 100%);
+  --gradient-navy:    linear-gradient(160deg, #004828 0%, #00240f 100%);
+  --gradient-gold:    linear-gradient(135deg, #e9c266 0%, #d9ae54 60%, #885800 100%);
+  --gradient-cream:   linear-gradient(180deg, #ffffff 0%, #f6f2ea 100%);
+  --gradient-hero:    radial-gradient(ellipse at 50% 30%, #0b6239 0%, #004828 40%, #00240f 100%);
+  --gradient-overlay: linear-gradient(180deg, rgba(0,36,15,0) 0%, rgba(0,36,15,0.7) 100%);
 
   /* ---------- Motion ---------- */
   --ease-out:       cubic-bezier(0.16, 1, 0.3, 1);

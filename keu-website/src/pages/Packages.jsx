@@ -1,40 +1,48 @@
 import { useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
 import PageHeader            from '../components/PageHeader.jsx'
 import PackagesGrid          from '../components/PackagesGrid.jsx'
 import QafilaSection         from '../components/QafilaSection.jsx'
 import FAQSection            from '../components/FAQSection.jsx'
+import CTABanner             from '../components/CTABanner.jsx'
 import JsonLd                from '../components/JsonLd.jsx'
 
 import { useGsapAnimations } from '../hooks/useGsapAnimations.js'
 import { useDocumentHead }   from '../lib/useDocumentHead.js'
+import { SITE_URL }          from '../lib/brand.js'
 import { useSite }           from '../lib/SiteContext.jsx'
 import { breadcrumbSchema, packageListSchema, organizationSchema } from '../lib/schemas.js'
 
+/* Packages (DESIGN-LANGUAGE §5.2): split header, sticky filter chips over a
+   ruled grid, the trust line, then the Qafila e Shoq chapter, FAQ and the
+   closing letter. Hash links (/packages#<id>) are scrolled by
+   useScrollRestoration once the curtain opens. */
 export default function Packages() {
   const { site, packages } = useSite()
 
   useDocumentHead({
-    title: 'Hajj & Umrah Packages from Lahore | Karwan-e-Usmania',
-    description: 'Browse Economy (PKR 185,000), Premium (PKR 285,000), VIP (PKR 450,000), Ramadan (PKR 550,000), Family and Hajj 2025–2027 packages. Transparent pricing, 4★ & 5★ hotels near Haram, all-inclusive — book on WhatsApp.',
-    keywords: 'Umrah package price Pakistan, Hajj package 2025 2026 2027, VIP Umrah Lahore, Ramadan Umrah, family umrah package, Hajj government quota Pakistan',
-    canonical: 'https://keusmania.vercel.app/packages',
-    ogImage: 'keu/makkah/kaaba',
+    title: 'Umrah Packages from Lahore | Karwan e Usmania International',
+    description: 'Umrah packages from Lahore with every cost explained in writing before you commit. Hotels near the Haram, visa handled by our team, and the Qafila e Shoq spiritual journey. Book on WhatsApp.',
+    keywords: 'Umrah package price Pakistan, Umrah packages Lahore, VIP Umrah Lahore, family Umrah package, Qafila e Shoq, Karwan e Usmania International',
+    canonical: `${SITE_URL}/packages`,
+    ogImage: '/og/packages.jpg',
   })
   useGsapAnimations(['packages'])
 
-  const { hash } = useLocation()
+  // The sticky chips sit under the nav: anchor jumps and focus must clear both
+  // (DESIGN-LANGUAGE §2.3). Nastaliq (115 KB) is fetched by QafilaSection only
+  // as it nears the viewport, so it never competes with the header image.
   useEffect(() => {
-    if (!hash) return
-    const id = hash.slice(1)
-    const target = document.getElementById(id)
-    if (target) setTimeout(() => target.scrollIntoView({ block: 'center', behavior: 'smooth' }), 200)
-  }, [hash])
+    const html = document.documentElement
+    html.classList.add('route-packages')
+    return () => html.classList.remove('route-packages')
+  }, [])
+
+  const licence = site.company?.licence
 
   return (
     <>
       <JsonLd data={[
-        organizationSchema(site),
+        organizationSchema(site, packages),
         breadcrumbSchema([
           { name: 'Home', url: '/' },
           { name: 'Packages', url: '/packages' },
@@ -43,21 +51,26 @@ export default function Packages() {
       ]} />
 
       <PageHeader
-        eyebrow="Our Packages"
-        title="Hajj & Umrah, the way it should be."
-        subtitle="Filter by category — every package is fully transparent and inclusive."
+        eyebrow="Our packages"
+        crumb="Packages"
+        title="Umrah, the way it should be."
+        lead="Choose a package below. Every cost is explained in writing before you commit."
         image="keu/makkah/kaaba"
-        imageAlt="Kaaba surrounded by pilgrims"
+        imageAlt="The Kaaba surrounded by pilgrims"
       />
 
-      <section className="section">
-        <div className="container">
-          <PackagesGrid showFilters={true} />
+      <section id="packages" className="k-section packages-page" data-surface="paper" aria-labelledby="packages-title">
+        <div className="k-container">
+          <h2 className="sr-only" id="packages-title">All packages</h2>
+          <PackagesGrid showFilters sticky />
+          <p className="packages-page__trust">Prices per person · every cost explained in writing before you commit</p>
+          {licence && <p className="ledger__licence">{licence}</p>}
         </div>
       </section>
 
       <QafilaSection />
-      <FAQSection />
+      <FAQSection num="03" />
+      <CTABanner num="04" />
     </>
   )
 }

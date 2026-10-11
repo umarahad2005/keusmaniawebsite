@@ -44,8 +44,7 @@ export default defineConfig({
       output: {
         manualChunks: {
           react:  ['react', 'react-dom', 'react-router-dom'],
-          three:  ['three'],
-          gsap:   ['gsap'],
+          gsap:   ['gsap', 'gsap/ScrollTrigger', 'gsap/SplitText', 'gsap/Flip', 'gsap/DrawSVGPlugin', 'gsap/CustomEase'],
           lenis:  ['lenis'],
         },
       },

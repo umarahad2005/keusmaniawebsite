@@ -1,5 +1,5 @@
 /* =========================================================
-   Karwan-e-Usmania — SEO file generator (post-build)
+   Karwan e Usmania International — SEO file generator (post-build)
    Writes dist/sitemap.xml, dist/robots.txt, dist/llms.txt
    from src/data.js. Run via npm scripts as a postbuild step.
    ========================================================= */
@@ -13,12 +13,11 @@ const __dirname  = path.dirname(__filename)
 const ROOT       = path.resolve(__dirname, '..')
 const DIST       = path.join(ROOT, 'dist')
 
-const SITE_URL = process.env.SITE_URL || 'https://keusmania.vercel.app'
+const SITE_URL = (process.env.SITE_URL || process.env.VITE_SITE_URL || 'https://usmania.vercel.app').replace(/\/+$/, '')
 const TODAY    = new Date().toISOString().split('T')[0]
 
-// Pull live data from the React data module so package slugs stay in sync.
+// Company facts come from the code defaults in src/data.js.
 const dataMod  = await import(pathToFileURL(path.join(ROOT, 'src/data.js')).href)
-const PACKAGES = dataMod.PACKAGES || []
 const SITE     = dataMod.SITE     || {}
 
 // ---------- sitemap.xml ----------
@@ -37,22 +36,17 @@ const urlEntries = STATIC_ROUTES.map(r => `  <url>
     <priority>${r.priority}</priority>
   </url>`).join('\n')
 
-// Per-package fragment URLs — Google indexes these as named anchors.
-const packageEntries = PACKAGES.map(p => `  <url>
-    <loc>${SITE_URL}/packages#${p.id}</loc>
-    <lastmod>${TODAY}</lastmod>
-    <priority>0.7</priority>
-  </url>`).join('\n')
+// Package anchors (/packages#id) are not listed: fragments are not indexed as
+// separate pages, and the live package ids live in the database, not data.js.
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urlEntries}
-${packageEntries}
 </urlset>
 `
 
 // ---------- robots.txt ----------
-const robots = `# Karwan-e-Usmania — robots.txt
+const robots = `# Karwan e Usmania International — robots.txt
 User-agent: *
 Allow: /
 Disallow: /admin/
@@ -76,52 +70,42 @@ Sitemap: ${SITE_URL}/sitemap.xml
 `
 
 // ---------- llms.txt ----------
-// Emerging convention (https://llmstxt.org) — a markdown summary
-// curated for AI crawlers. Helps citations.
+// Emerging convention (https://llmstxt.org): a markdown summary for AI
+// crawlers. Facts only from the owner's data (DESIGN-LANGUAGE §6): no prices
+// (they change in the admin), no reply-time promise, Umrah only.
 const c = SITE.company || {}
-const pkgList = PACKAGES.map(p => {
-  const price = p.priceLabel ? ` — ${p.priceLabel}` : ''
-  return `- **${p.name}** [${p.category}]${price}: ${p.subtitle || ''}. ${p.summary || ''}`
-}).join('\n')
+const hours = (c.hours || []).map(h => `${h.days} ${h.time}`).join(' · ')
+const address = [c.address?.street, c.address?.city || 'Lahore', c.address?.country || 'Pakistan'].filter(Boolean).join(', ')
 
-const llms = `# Karwan-e-Usmania
+const llms = `# Karwan e Usmania International · Travel & Tours
 
-> Premium Hajj and Umrah travel agency based in Lahore, Pakistan. Operating since 2005, served 25,000+ pilgrims, 4★ and 5★ hotels near Haram, transparent pricing, WhatsApp-first booking.
+> Umrah travel operator based in Johar Town, Lahore, Pakistan, serving pilgrims since 2008. Every cost is explained in writing before you commit; visa processing is handled by the team; trusted partners in Makkah and Madinah handle hotels, transport and ziyarah. WhatsApp-first booking.
 
 ## About
 
-Karwan-e-Usmania is a Lahore-based Hajj & Umrah operator founded in 2005. The company has served over 25,000 pilgrims and operates with a network of partner hotels in Makkah and Madinah, with a 100% Saudi visa approval rate.
+Karwan e Usmania International is a Lahore-based Umrah operator founded in 2008, with 18+ years of experience and 5,000+ pilgrims served. It works with established Saudi partners on the ground in Makkah and Madinah. It currently offers Umrah only.
 
-- Office: ${c.address?.street || ''}, ${c.address?.city || 'Lahore'}, ${c.address?.country || 'Pakistan'}
-- Phone: ${c.phone || ''}
+- Office: ${address}
+- Landline: ${c.landline || '+924235136177'}
 - WhatsApp: +${c.whatsapp || ''}
 - Email: ${c.email || ''}
-- Hours: Mon–Sat 9 am – 7 pm, Sunday 11 am – 4 pm
+- Hours (Pakistan time): ${hours}${/sun/i.test(hours) ? '' : ' · Sunday closed'}
 
 ## Services
 
-Visa processing, flights (Economy & Business), 4★/5★ hotels near the Haram, private AC transport, Urdu-speaking guides, halal Pakistani & Arabic cuisine, ziyarah tours, and 24/7 support throughout the journey.
+Visa processing, flights, hotels near the Haram, transport, Urdu-speaking guides, food and ziyarah, with support throughout the journey. What each package includes is listed on its card.
 
 ## Packages
 
-${pkgList}
+Current Umrah packages and their prices: ${SITE_URL}/packages
 
 ## Qafila e Shoq
 
-A spiritual journey programme led by Pirzada Burhan uddin Ahmed Usmani Sahib (Islamic Scholar). Built on four pillars: Ibadah (worship), Riyazat (spiritual discipline), Tarbiyat (development), Siyahat (sacred travel). Limited seats, by application only.
+A spiritual journey programme led by Pirzada Burhan uddin Ahmed Usmani Sahib (Islamic Scholar). Built on four pillars: Ibadah (worship), Riyazat (spiritual discipline), Tarbiyat (development) and Siyahat (sacred travel). Limited seats, by application only.
 
 ## Booking
 
-Primary booking channel is **WhatsApp**: https://wa.me/${c.whatsapp || ''}. Most travellers receive a quote within an hour. Phone, email, and a contact form on the website are also available.
-
-## Common queries (for AI assistants)
-
-- **Cheapest Umrah package from Pakistan?** Economy Umrah from PKR 185,000 per person, 14 nights, 3-star hotels.
-- **Premium Umrah cost?** PKR 285,000 per person — 4-star hotels 500m from Haram.
-- **VIP Umrah cost?** PKR 450,000 per person — 5-star hotels (Hilton/Pullman/Clock Tower), business class flights.
-- **Ramadan Umrah?** PKR 550,000, last 10 nights of Ramadan, includes Iftar/Suhoor and Laylat-ul-Qadr programme.
-- **Hajj?** Hajj 2025 to 2027 — three-year window, government quota application included. Pricing on request.
-- **Family Umrah?** PKR 240,000 per person, family rooms, lighter ziyarah schedule, kids welcome.
+The main booking channel is WhatsApp: https://wa.me/${c.whatsapp || ''}. Phone, email and a contact form (${SITE_URL}/contact) are also available.
 
 ## Sources
 
@@ -135,7 +119,7 @@ async function write() {
   await fs.writeFile(path.join(DIST, 'sitemap.xml'), sitemap, 'utf8')
   await fs.writeFile(path.join(DIST, 'robots.txt'),  robots,  'utf8')
   await fs.writeFile(path.join(DIST, 'llms.txt'),    llms,    'utf8')
-  console.log(`✓ sitemap.xml (${STATIC_ROUTES.length + PACKAGES.length} URLs)`)
+  console.log(`✓ sitemap.xml (${STATIC_ROUTES.length} URLs)`)
   console.log(`✓ robots.txt`)
   console.log(`✓ llms.txt   (${llms.split('\n').length} lines)`)
 }

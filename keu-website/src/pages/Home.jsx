@@ -1,55 +1,68 @@
 import { Link } from 'react-router-dom'
-import Hero                 from '../components/Hero.jsx'
-import ServicesStrip        from '../components/ServicesStrip.jsx'
-import SanctuariesSection   from '../components/SanctuariesSection.jsx'
-import WhyChooseUs          from '../components/WhyChooseUs.jsx'
-import PackagesGrid         from '../components/PackagesGrid.jsx'
+import VideoHero            from '../components/VideoHero.jsx'
+import Seam                 from '../components/Seam.jsx'
 import StatsSection         from '../components/StatsSection.jsx'
+import PackagesGrid         from '../components/PackagesGrid.jsx'
+import BookingSteps         from '../components/BookingSteps.jsx'
+import ServicesStrip        from '../components/ServicesStrip.jsx'
+import SanctuaryChapter     from '../components/SanctuaryChapter.jsx'
+import WhyChooseUs          from '../components/WhyChooseUs.jsx'
 import TestimonialsSection  from '../components/TestimonialsSection.jsx'
+import FAQSection           from '../components/FAQSection.jsx'
 import CTABanner            from '../components/CTABanner.jsx'
 import SectionHeading       from '../components/SectionHeading.jsx'
-import FAQSection           from '../components/FAQSection.jsx'
 import JsonLd               from '../components/JsonLd.jsx'
 
 import { useGsapAnimations } from '../hooks/useGsapAnimations.js'
 import { useDocumentHead }   from '../lib/useDocumentHead.js'
+import { SITE_URL }          from '../lib/brand.js'
 import { useSite }           from '../lib/SiteContext.jsx'
 import { organizationSchema, websiteSchema, speakableSchema } from '../lib/schemas.js'
 
+/* Home (DESIGN-LANGUAGE §5.1): the film, the seam, then the letter.
+   Running-head numbers: 03 ledger · 04 packages · 05 steps · 06 services ·
+   07 Makkah/Madinah · 08 why · 09 voices · 10 questions · 11 closing letter. */
 export default function Home() {
-  const { site } = useSite()
+  const { site, packages } = useSite()
 
   useDocumentHead({
-    title: 'Karwan-e-Usmania — Premium Hajj & Umrah from Lahore (since 2005)',
-    description: 'Karwan-e-Usmania offers premium Hajj and Umrah packages from Lahore, Pakistan. 18+ years experience, 25,000+ pilgrims served, 100% Saudi visa approval. Book on WhatsApp.',
-    keywords: 'Hajj packages Pakistan, Umrah packages Lahore, Karwan-e-Usmania, Hajj 2025 2026 2027, Umrah package price Pakistan, premium umrah Lahore, Ramadan Umrah Pakistan, family umrah package',
-    canonical: 'https://keusmania.vercel.app/',
-    ogImage: 'keu/makkah/kaaba',
+    title: 'Karwan e Usmania International — Umrah packages from Lahore since 2008',
+    description: 'Karwan e Usmania International · Travel & Tours offers Umrah packages from Lahore, Pakistan. 18+ years of experience, every cost explained in writing, visa handled by our team. Book on WhatsApp.',
+    keywords: 'Umrah packages Lahore, Umrah package price Pakistan, Karwan e Usmania International, Ramadan Umrah Pakistan, family Umrah package, Qafila e Shoq',
+    canonical: `${SITE_URL}/`,
+    ogImage: '/og/home.jpg',
   })
   useGsapAnimations(['home'])
 
   return (
     <>
-      <JsonLd data={[organizationSchema(site), websiteSchema(), speakableSchema()]} />
+      <JsonLd data={[organizationSchema(site, packages), websiteSchema(), speakableSchema()]} />
 
-      <Hero />
-      <ServicesStrip />
-      <SanctuariesSection />
-      <WhyChooseUs />
-      <section id="packages-preview" className="section">
-        <div className="container">
-          <SectionHeading
-            bismillah="اَلْحَمْدُ لِلَّهِ"
-            title="Packages Crafted for Every Family"
-            subtext="Economy comfort to VIP indulgence — every package is built around the Haram experience."
-          />
-          <PackagesGrid showFilters={false} featured limit={3} />
-          <div className="text-center mt-12">
-            <Link to="/packages" className="btn btn--secondary">See all packages</Link>
+      <VideoHero />
+      <Seam />
+
+      <div className="home-pair" data-surface="paper">
+        <StatsSection className="home-pair__ledger" />
+        <section id="packages-preview" className="k-section home-pair__packages" aria-labelledby="packages-title">
+          <div className="k-container">
+            <SectionHeading
+              num="04"
+              eyebrow="Choose your karwan"
+              id="packages-title"
+              title="Packages Crafted for Every Family"
+              lead="Economy comfort to VIP indulgence. Every package is built around the Haram experience."
+            />
+            <PackagesGrid showFilters={false} featured limit={3} />
+            <p className="home-pair__trust">Prices per person · every cost explained in writing before you commit</p>
+            <Link className="k-link" to="/packages">All packages and Qafila e Shoq <span aria-hidden="true">→</span></Link>
           </div>
-        </div>
-      </section>
-      <StatsSection />
+        </section>
+      </div>
+
+      <BookingSteps />
+      <ServicesStrip />
+      <SanctuaryChapter />
+      <WhyChooseUs />
       <TestimonialsSection />
       <FAQSection />
       <CTABanner />

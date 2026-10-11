@@ -1,29 +1,35 @@
 import PageHeader            from '../components/PageHeader.jsx'
-import ContactInfo           from '../components/ContactInfo.jsx'
+import { ContactLetterhead, WhatsAppRows } from '../components/ContactInfo.jsx'
 import ContactForm           from '../components/ContactForm.jsx'
 import JsonLd                from '../components/JsonLd.jsx'
 
 import { useGsapAnimations } from '../hooks/useGsapAnimations.js'
 import { useDocumentHead }   from '../lib/useDocumentHead.js'
+import { SITE_URL }          from '../lib/brand.js'
 import { useSite }           from '../lib/SiteContext.jsx'
 import { breadcrumbSchema, organizationSchema } from '../lib/schemas.js'
 
+/* Contact (DESIGN-LANGUAGE §5.2): the letterhead block, WhatsApp topic rows,
+   then the form (7 columns) beside the map (5 columns, Johar Town).
+   Phone order: contact, WhatsApp rows, form, map. */
 export default function Contact() {
-  const { site } = useSite()
+  const { site, packages } = useSite()
+  const a = site.company?.address || {}
+  const mapQuery = encodeURIComponent([a.street, a.city, a.country].filter(Boolean).join(', ') || 'Usman Plaza, 436-G1, Johar Town, Lahore')
 
   useDocumentHead({
-    title: 'Contact & Bookings | Karwan-e-Usmania, Lahore',
-    description: 'Contact Karwan-e-Usmania for Hajj & Umrah bookings. Mansoora Homes, Multan Road, Lahore. WhatsApp +92-331-4211935. Open Mon–Sat 9am–7pm.',
-    keywords: 'Karwan-e-Usmania contact, Hajj booking Lahore, Umrah WhatsApp Pakistan, Mansoora Homes Multan Road',
-    canonical: 'https://keusmania.vercel.app/contact',
-    ogImage: 'keu/madinah/madinah-city',
+    title: 'Contact & Bookings | Karwan e Usmania International, Lahore',
+    description: 'Contact Karwan e Usmania International for Umrah bookings. Office No. 2, Usman Plaza, 436-G1, Johar Town, Lahore. WhatsApp +92 333 4883578. Open Monday to Friday 11 am–7 pm, Saturday 11 am–5 pm.',
+    keywords: 'Karwan e Usmania International contact, Umrah booking Lahore, Umrah WhatsApp Pakistan, Johar Town travel agency',
+    canonical: `${SITE_URL}/contact`,
+    ogImage: '/og/contact.jpg',
   })
   useGsapAnimations(['contact'])
 
   return (
     <>
       <JsonLd data={[
-        organizationSchema(site),
+        organizationSchema(site, packages),
         breadcrumbSchema([
           { name: 'Home', url: '/' },
           { name: 'Contact', url: '/contact' },
@@ -32,42 +38,24 @@ export default function Contact() {
 
       <PageHeader
         eyebrow="Contact"
-        title="We are here to help — السلام علیکم"
-        subtitle="Reach out on WhatsApp for the fastest response, or visit our Lahore office."
+        title="We are here to help"
+        arabic="السلام علیکم"
+        lead="WhatsApp is the fastest way to reach us, or visit our office in Johar Town, Lahore."
         image="keu/madinah/madinah-city"
         imageAlt="Madinah city view"
       />
 
-      <section className="section">
-        <div className="container">
-          <div
-            className="grid"
-            style={{ gridTemplateColumns: '1fr 1fr', gap: 'var(--space-12)', alignItems: 'start' }}
-          >
-            <ContactInfo />
-            <ContactForm />
-          </div>
-        </div>
-      </section>
-
-      <section className="section section--cream">
-        <div className="container">
-          <div
-            id="contact-map"
-            style={{
-              aspectRatio: '16/9',
-              borderRadius: 'var(--radius-lg)',
-              overflow: 'hidden',
-              border: '1px solid var(--color-border-gold)',
-              background: 'var(--color-cream)',
-            }}
-          >
+      <section className="k-section contact" data-surface="paper" aria-label="Contact details">
+        <div className="k-container contact__grid">
+          <div className="contact__letter" data-reveal="block"><ContactLetterhead /></div>
+          <div className="contact__wa" data-reveal="t1"><WhatsAppRows /></div>
+          <div className="contact__form"><ContactForm /></div>
+          <div className="contact__map" id="contact-map">
             <iframe
-              src="https://maps.google.com/maps?q=Mansoora+Homes+Multan+Road+Lahore&hl=en&z=16&output=embed"
-              style={{ width: '100%', height: '100%', border: 0 }}
+              src={`https://maps.google.com/maps?q=${mapQuery}&hl=en&z=16&output=embed`}
               loading="lazy"
               allowFullScreen
-              title="Karwan-e-Usmania Lahore office location"
+              title="Map: Karwan e Usmania International office, Johar Town, Lahore"
               referrerPolicy="no-referrer-when-downgrade"
             />
           </div>

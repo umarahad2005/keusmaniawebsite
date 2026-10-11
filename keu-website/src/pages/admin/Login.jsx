@@ -31,7 +31,7 @@ export default function AdminLogin() {
   return (
     <div className="admin-login">
       <div className="admin-login__card">
-        <img src="/logo.png" alt="" width="64" height="64" style={{ margin: '0 auto 1rem', display: 'block', borderRadius: '50%', background: 'white', padding: 8 }} />
+        <img src="/brand/keui-logo-512.png" alt="" width="64" height="64" style={{ margin: '0 auto 1rem', display: 'block', borderRadius: '50%', background: 'white', padding: 8 }} />
         <h1 className="admin-login__title">Karwan Dashboard</h1>
         <p className="admin-login__subtitle">Sign in to manage content &amp; inquiries.</p>
         <form onSubmit={onSubmit} className="stack mt-8">

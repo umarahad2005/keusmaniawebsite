@@ -1,0 +1,9 @@
+# Design-tool working files (large, regenerated)
+.impeccable/
+# Database snapshots taken before live edits: production data, keep local
+docs/rebrand/backups/
+# Source media used to produce src/assets and public/ (kept locally)
+docs/rebrand/assets/
+# Stray copies of the letterhead used during the design phase
+keu-website/letter_head.pdf
+keu-website/letterhead-preview-0.png

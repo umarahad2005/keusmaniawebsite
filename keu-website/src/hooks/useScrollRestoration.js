@@ -1,5 +1,6 @@
-import { useEffect } from 'react'
+import { useLayoutEffect } from 'react'
 import { useLocation } from 'react-router-dom'
+import { ScrollTrigger } from '../lib/motion.js'
 
 const NAV_OFFSET = -64   // fixed header height, matches useLenis's anchor handler
 
@@ -15,8 +16,9 @@ function jumpTo(target, offset = 0) {
 
   /* Lenis keeps its own internal scroll position and rewrites the native one on
      the next rAF tick — so a bare window.scrollTo gets snapped straight back.
-     Go through Lenis when it's running, and fall back to native scrolling when
-     it isn't (reduced-motion users, and the admin area). */
+     Go through Lenis when it's running (force: true works while it is stopped
+     under the route curtain), and fall back to native scrolling when it isn't
+     (reduced-motion users). */
   if (lenis) {
     lenis.scrollTo(target, { offset, immediate: true, force: true })
     return
@@ -34,22 +36,29 @@ function jumpTo(target, offset = 0) {
 /**
  * Sends every navigation to the top of the page, except when the URL carries a
  * hash — then it scrolls to that element (e.g. /packages#economy-umrah).
+ *
+ * Pass the displayed location (TransitionRoutes) so the jump happens while the
+ * route curtain is closed. It runs as a layout effect, i.e. in the same commit
+ * as the page swap, before anything is painted.
  */
-export function useScrollRestoration() {
-  const { pathname, hash } = useLocation()
+export function useScrollRestoration(displayLocation) {
+  const routerLocation = useLocation()
+  const { pathname, hash, key } = displayLocation || routerLocation
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (hash) {
       /* getElementById, not querySelector: package ids come from the admin and
-         may start with a digit ("21-days"), which is an invalid CSS selector. */
+         may start with a digit or contain spaces, which are invalid CSS selectors. */
       const el = document.getElementById(decodeURIComponent(hash.slice(1)))
       if (el) {
         jumpTo(el, NAV_OFFSET)
+        ScrollTrigger.update()
         return
       }
       // Unknown anchor — better to land at the top than wherever we were.
     }
 
     jumpTo(0)
-  }, [pathname, hash])
+    ScrollTrigger.update()
+  }, [pathname, hash, key])
 }

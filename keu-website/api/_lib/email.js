@@ -21,12 +21,12 @@ export function getTransport() {
 /** Send the contact-form lead notification to MAIL_TO. */
 export async function sendInquiryEmail(inquiry) {
   const t = getTransport()
-  const from = process.env.MAIL_FROM || `"Karwan-e-Usmania" <${process.env.SMTP_USER}>`
+  const from = process.env.MAIL_FROM || `"Karwan e Usmania International" <${process.env.SMTP_USER}>`
   const to   = process.env.MAIL_TO   || process.env.ADMIN_EMAIL
 
   const subject = `New ${inquiry.package || 'general'} inquiry — ${inquiry.name}`
   const text = [
-    `New inquiry from the Karwan-e-Usmania website.`,
+    `New inquiry from the Karwan e Usmania International website.`,
     ``,
     `Name:    ${inquiry.name}`,
     `Phone:   ${inquiry.phone}`,

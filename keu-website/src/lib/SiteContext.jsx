@@ -3,7 +3,7 @@
    useSite() to read SITE and PACKAGES (always defined; falls back to
    defaults if the API is unreachable). */
 
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import { SITE as DEFAULT_SITE, PACKAGES as DEFAULT_PACKAGES } from '../data.js'
 import { api } from './api.js'
 
@@ -38,6 +38,16 @@ export function SiteProvider({ children }) {
   }
 
   useEffect(() => { reload() }, [])
+
+  /* Tell motion code that the page height may have changed (more or fewer
+     packages, FAQs, testimonials), so ScrollTrigger positions are refreshed and
+     the reveal registry re-arms. Fired after React has painted the new content. */
+  const first = useRef(true)
+  useEffect(() => {
+    if (first.current) { first.current = false; return }
+    const id = requestAnimationFrame(() => window.dispatchEvent(new CustomEvent('keu:content')))
+    return () => cancelAnimationFrame(id)
+  }, [site, packages])
 
   return (
     <Ctx.Provider value={{ site, packages, loaded, reload }}>

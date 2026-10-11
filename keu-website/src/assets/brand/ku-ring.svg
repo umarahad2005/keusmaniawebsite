@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+<title>Keusmania orbit ring</title>
+<defs><linearGradient id="kuGold" gradientUnits="userSpaceOnUse" x1="10" y1="190" x2="190" y2="10"><stop offset="0" stop-color="#885800"/><stop offset=".22" stop-color="#c08010"/><stop offset=".45" stop-color="#e0a028"/><stop offset=".58" stop-color="#f0b030"/><stop offset=".8" stop-color="#e0a028"/><stop offset="1" stop-color="#a06800"/></linearGradient></defs>
+<path id="ring-gold" d="M6.00 100.00A94 94 0 0 1 83.68 7.43" stroke="url(#kuGold)" stroke-width="6" stroke-linecap="round"/>
+<path id="ring-green" d="M166.47 33.53A94 94 0 0 1 33.53 166.47" stroke="#004828" stroke-width="6" stroke-linecap="round"/>
+</svg>

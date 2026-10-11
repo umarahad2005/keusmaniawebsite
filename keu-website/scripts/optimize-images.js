@@ -1,5 +1,5 @@
 /* =========================================================
-   Karwan-e-Usmania — Image optimizer
+   Karwan e Usmania International — Image optimizer
    Walks public/images/, generates 400w / 800w / 1200w WebP
    variants alongside the originals (suffix: -400.webp etc.).
    Source files stay untouched.

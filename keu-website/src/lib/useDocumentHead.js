@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import { cldUrl } from './images.js'
-
-const SITE_URL = 'https://keusmania.vercel.app'
+import { SITE_URL } from './brand.js'
 
 /**
  * Per-route SEO + social meta updater. Updates <title>, description,

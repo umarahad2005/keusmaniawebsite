@@ -8,6 +8,8 @@ const NAV = [
   { to: '/admin/company',      label: 'Company',      icon: 'building'    },
   { to: '/admin/packages',     label: 'Packages',     icon: 'kaaba'       },
   { to: '/admin/testimonials', label: 'Testimonials', icon: 'star'        },
+  { to: '/admin/video-reviews', label: 'Video reviews', icon: 'users'      },
+  { to: '/admin/sound',        label: 'Background sound', icon: 'support' },
   { to: '/admin/team',         label: 'Team',         icon: 'users'       },
   { to: '/admin/gallery',      label: 'Gallery',      icon: 'building'    },
   { to: '/admin/sanctuaries',  label: 'Sanctuaries',  icon: 'crescent'    },
@@ -35,7 +37,7 @@ export default function AdminLayout() {
     <div className="admin-shell">
       <aside className="admin-sidebar">
         <div className="admin-sidebar__brand">
-          <img src="/logo.png" alt="" width="40" height="40" />
+          <img src="/brand/keui-logo-512.png" alt="" width="40" height="40" />
           <div>
             <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, color: 'var(--color-white)' }}>Karwan</div>
             <div style={{ fontSize: 'var(--text-xs)', color: 'rgba(255,255,255,0.5)' }}>Dashboard</div>
