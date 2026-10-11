@@ -130,7 +130,7 @@ export default function SanctuaryChapter() {
         <span className="runhead__label">{s.title}</span>
       </p>
       <p className="chapter__arabic" lang="ar" dir="rtl" data-fade>{CITY_AR[i]}</p>
-      <h3 className="chapter__title"><span className="chapter__mask"><span data-mask>{s.subtitle}</span></span></h3>
+      <h2 className="chapter__title"><span className="chapter__mask"><span data-mask>{s.subtitle}</span></span></h2>
       <p className="chapter__body" data-fade>{s.body}</p>
       <p data-fade>
         {i === 0

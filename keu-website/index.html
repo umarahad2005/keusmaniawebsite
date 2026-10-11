@@ -44,6 +44,24 @@
   <link rel="preload" as="image" href="/hero/poster-mobile-3x4.webp" fetchpriority="high" media="(max-width: 767px)" />
   <link rel="preload" as="image" href="/hero/poster-1920.webp" fetchpriority="high" media="(min-width: 768px)" />
 
+  <!-- Inner pages: start the header photo (their LCP) before the app's JS
+       arrives. Mirrors PageHeader's <Img> exactly (same srcset and sizes), so
+       the browser reuses this request. -->
+  <script>
+    (function () {
+      var map = { '/packages': 'keu/makkah/kaaba', '/about': 'keu/madinah/prophets-mosque', '/gallery': 'keu/makkah/masjid-al-haram', '/contact': 'keu/madinah/madinah-city' }
+      var id = map[location.pathname.replace(/\/+$/, '')]
+      if (!id) return
+      var base = 'https://res.cloudinary.com/dpmnlysdt/image/upload/f_auto,q_auto,w_'
+      var l = document.createElement('link')
+      l.rel = 'preload'; l.as = 'image'; l.setAttribute('fetchpriority', 'high')
+      l.setAttribute('imagesrcset', [480, 720, 960, 1280].map(function (w) { return base + w + '/' + id + ' ' + w + 'w' }).join(', '))
+      l.setAttribute('imagesizes', '(max-width: 767px) calc(100vw - 32px), 45vw')
+      l.href = base + '1280/' + id
+      document.head.appendChild(l)
+    })()
+  </script>
+
   <!-- Handshake (first Home visit per session). Shown only when this script adds
        html.intro-on: never with JS off, reduced motion, Save-Data or a slow
        connection. Spec: docs/rebrand/DESIGN-LANGUAGE.md §3.3. -->
