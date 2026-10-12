@@ -30,6 +30,9 @@ export default function SoundToggle({ className = '' }) {
   const audio = useRef(null)
   const fade = useRef(0)
   const [on, setOn] = useState(false)
+  // On a slow connection the track can take a few seconds to start: show that
+  // the press was received instead of looking unresponsive.
+  const [loading, setLoading] = useState(false)
   const wanted = useRef(false)       // what the visitor chose (survives tab hides)
 
   const ramp = useCallback((to, done) => {
@@ -56,7 +59,14 @@ export default function SoundToggle({ className = '' }) {
       audio.current = el
     }
     const el = audio.current
-    el.play().then(() => { setOn(true); ramp(target) }).catch(() => setOn(false))
+    setLoading(true)
+    el.play()
+      .then(() => {
+        if (!wanted.current) { el.pause(); return }   // pressed again while loading
+        setOn(true); ramp(target)
+      })
+      .catch(() => setOn(false))
+      .finally(() => setLoading(false))
   }, [a.src, target, ramp])
 
   const pause = useCallback(() => {
@@ -67,7 +77,7 @@ export default function SoundToggle({ className = '' }) {
   }, [ramp])
 
   const toggle = () => {
-    if (on) { wanted.current = false; writePref(false); pause() }
+    if (on || loading) { wanted.current = false; writePref(false); pause() }
     else { wanted.current = true; writePref(true); play() }
   }
 
@@ -112,14 +122,15 @@ export default function SoundToggle({ className = '' }) {
   return (
     <button
       type="button"
-      className={`sound-toggle${on ? ' is-on' : ''} ${className}`.trim()}
-      aria-pressed={on}
+      className={`sound-toggle${on ? ' is-on' : ''}${loading ? ' is-loading' : ''} ${className}`.trim()}
+      aria-pressed={on || loading}
+      aria-busy={loading || undefined}
       aria-label={a.title ? `${label}: ${a.title}` : label}
       title={a.credit || a.title || undefined}
       onClick={toggle}
     >
       <span className="sound-toggle__bars" aria-hidden="true"><i /><i /><i /><i /></span>
-      <span className="sound-toggle__text" aria-hidden="true">{on ? 'Sound on' : 'Sound off'}</span>
+      <span className="sound-toggle__text" aria-hidden="true">{loading ? 'Loading…' : on ? 'Sound on' : 'Sound off'}</span>
     </button>
   )
 }
