@@ -71,7 +71,7 @@ export const SITE = {
   stats: [
     { value: 21,    suffix: '+', label: 'Years of Service',  icon: 'calendar' },
     { value: 25000, suffix: '+', label: 'Pilgrims Served',   icon: 'users'    },
-    { value: 15,    suffix: '+', label: 'Partner Hotels',    icon: 'building' },
+    { value: 80,    suffix: '+', label: 'Partner Hotels',    icon: 'building' },
     { value: 100,   suffix: '%', label: 'Visa Success Rate', icon: 'check'    },
   ],
 

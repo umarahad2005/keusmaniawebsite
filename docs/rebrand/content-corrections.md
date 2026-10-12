@@ -1,4 +1,4 @@
-> **Update 2026-10-12 (owner):** founded **2005** (not 2008), **21+ years**, **25,000+ pilgrims**. These supersede the 2008 / 18+ / 5,000+ figures below; code defaults and the live content were updated.
+> **Update 2026-10-12 (owner):** founded **2005** (not 2008), **21+ years**, **25,000+ pilgrims**, **80+ partner hotels**. These supersede the 2008 / 18+ / 5,000+ figures below; code defaults and the live content were updated.
 
 # Staged content corrections (Phase 0)
 
