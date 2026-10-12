@@ -12,6 +12,8 @@
 /* The cloud name is public — it sits in every image URL on the page. The literal
    fallback keeps images working if VITE_CLOUDINARY_CLOUD_NAME is ever missing at
    build time, which would otherwise break every image on the site at once. */
+import LOCAL from './localImages.json'
+
 const CLOUD = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME?.trim() || 'dpmnlysdt'
 const BASE = `https://res.cloudinary.com/${CLOUD}/image/upload`
 
@@ -50,4 +52,22 @@ export function cldSrcSet(src, widths, opts = {}) {
     return undefined
   }
   return widths.map((w) => `${cldUrl(src, { ...opts, w })} ${w}w`).join(', ')
+}
+
+/* ---------- Local copies (scripts/localize-images.mjs) ---------- */
+
+/** Cloudinary public id from a public id or a delivery URL (version, transforms, extension removed). */
+export function publicIdOf(src = '') {
+  if (!src || typeof src !== 'string') return ''
+  if (!src.includes('res.cloudinary.com')) return /^keu\//.test(src) ? src.replace(/\.[a-z0-9]+$/i, '') : ''
+  const rest = (src.split(UPLOAD_MARKER)[1] || '').split('?')[0]
+  const parts = rest.split('/')
+  while (parts.length && (/^[a-z]{1,3}_[^/]*$/.test(parts[0]) || parts[0].includes(',') || /^v\d+$/.test(parts[0]))) parts.shift()
+  return parts.join('/').replace(/\.[a-z0-9]+$/i, '')
+}
+
+/** The local copy of a photo ({ file, widths, w, h }) or null. */
+export function localImage(src) {
+  const id = publicIdOf(src)
+  return (id && LOCAL[id]) || null
 }

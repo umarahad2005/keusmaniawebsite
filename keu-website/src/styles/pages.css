@@ -264,6 +264,9 @@
 .team__lead .team__initials { font-size: clamp(56px, 7vw, 96px); }
 .team__name { margin: var(--s-3) 0 2px; font: 600 16px/1.35 var(--font-sans); color: var(--ink); }
 .team__role { margin: 0; font: 400 var(--fs-meta)/1.4 var(--font-sans); color: var(--text-muted); }
+/* Arabic designation under the English one, aligned with it (LTR column). */
+.team__role-ar { margin: 2px 0 0; text-align: left; font-size: 15px; line-height: 1.5; color: var(--gold-800); }
+.team__lead .team__role-ar { font-size: 17px; }
 @media (max-width: 1023px) {
   .team { grid-template-columns: 1fr; }
   .team__lead { max-width: 420px; }

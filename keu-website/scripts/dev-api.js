@@ -9,11 +9,16 @@
    ========================================================= */
 
 import 'dotenv/config'
+import dns from 'node:dns'
 import { promises as fs } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import express from 'express'
 import { ensureAdmin } from '../api/_lib/ensureAdmin.js'
+
+// Some networks refuse the SRV lookup that mongodb+srv:// needs; public
+// resolvers work. Dev only: production (Vercel) resolves normally.
+dns.setServers(['1.1.1.1', '8.8.8.8'])
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname  = path.dirname(__filename)

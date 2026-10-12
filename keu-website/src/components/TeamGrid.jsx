@@ -2,7 +2,8 @@
    a large 4:5 frame; everyone else sits 3-up. A missing photo shows an initials
    plate in Cormorant caps, never a stock silhouette. Keeps .team-card for the
    reveal registry and the admin preview.
-   Each member is a button that opens their digital card (TeamCardDialog). */
+   Each member is a button that opens their digital card (TeamCardDialog).
+   The Arabic designation (from the printed cards) sits under the English one. */
 import { useCallback, useState } from 'react'
 import { useSite } from '../lib/SiteContext.jsx'
 import Img from './Img.jsx'
@@ -49,6 +50,7 @@ function TeamLayout({ head, rest }) {
         <div className="team__lead-text">
           <h3 className="team__name">{head.name}</h3>
           <p className="team__role">{head.role}</p>
+          {head.roleAr && <p className="team__role-ar" lang="ar" dir="rtl">{head.roleAr}</p>}
         </div>
       </article>
       {rest.length > 0 && (
@@ -58,6 +60,7 @@ function TeamLayout({ head, rest }) {
               {opener(m)}
               <h3 className="team__name">{m.name}</h3>
               <p className="team__role">{m.role}</p>
+              {m.roleAr && <p className="team__role-ar" lang="ar" dir="rtl">{m.roleAr}</p>}
             </li>
           ))}
         </ul>
