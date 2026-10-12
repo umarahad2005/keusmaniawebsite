@@ -7,7 +7,7 @@ export const SITE_URL = (import.meta.env?.VITE_SITE_URL || 'https://usmania.verc
 export const BRAND = 'Karwan e Usmania International'
 export const BRAND_FULL = 'Karwan e Usmania International · Travel & Tours'
 export const TAGLINE = 'Your Journey to the Holy Land, Our Priority'
-export const DESCRIPTION = 'Umrah packages from Lahore, Pakistan, since 2008'
+export const DESCRIPTION = 'Umrah packages from Lahore, Pakistan, since 2005'
 export const LOGO_PATH = '/brand/keui-logo-512.png'
 
 /** Absolute share-card URL for a page key (public/og/<key>.jpg, 1200×630). */

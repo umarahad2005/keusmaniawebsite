@@ -22,8 +22,8 @@ export default function About() {
   const body = story.filter((_, i) => i !== 3)
 
   useDocumentHead({
-    title: 'About Us — Serving Pilgrims Since 2008 | Karwan e Usmania International',
-    description: 'Karwan e Usmania International · Travel & Tours has served pilgrims from Lahore since 2008, with trusted partners on the ground in Makkah and Madinah. Meet the team and read our story.',
+    title: 'About Us — Serving Pilgrims Since 2005 | Karwan e Usmania International',
+    description: 'Karwan e Usmania International · Travel & Tours has served pilgrims from Lahore since 2005, with trusted partners on the ground in Makkah and Madinah. Meet the team and read our story.',
     keywords: 'Karwan e Usmania International about, Umrah operator Lahore, Umrah travel agency Johar Town, Pirzada Burhan Usmani',
     canonical: `${SITE_URL}/about`,
     ogImage: '/og/about.jpg',
@@ -45,7 +45,7 @@ export default function About() {
         eyebrow="About us"
         crumb="About"
         title="A Karwan rooted in service."
-        lead="Eighteen years of walking with pilgrims, from Lahore to the Haramain and back home."
+        lead="Twenty-one years of walking with pilgrims, from Lahore to the Haramain and back home."
         image="keu/madinah/prophets-mosque"
         imageAlt="Masjid an-Nabawi at sunset"
       />

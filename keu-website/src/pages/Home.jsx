@@ -26,8 +26,8 @@ export default function Home() {
   const { site, packages } = useSite()
 
   useDocumentHead({
-    title: 'Karwan e Usmania International — Umrah packages from Lahore since 2008',
-    description: 'Karwan e Usmania International · Travel & Tours offers Umrah packages from Lahore, Pakistan. 18+ years of experience, every cost explained in writing, visa handled by our team. Book on WhatsApp.',
+    title: 'Karwan e Usmania International — Umrah packages from Lahore since 2005',
+    description: 'Karwan e Usmania International · Travel & Tours offers Umrah packages from Lahore, Pakistan. 21+ years of experience, every cost explained in writing, visa handled by our team. Book on WhatsApp.',
     keywords: 'Umrah packages Lahore, Umrah package price Pakistan, Karwan e Usmania International, Ramadan Umrah Pakistan, family Umrah package, Qafila e Shoq',
     canonical: `${SITE_URL}/`,
     ogImage: '/og/home.jpg',

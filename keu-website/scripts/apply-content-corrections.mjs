@@ -57,7 +57,7 @@ const change = (key, from, to) => {
 const c = d.company || {}
 change('company.name', c.name, 'Karwan e Usmania International')
 change('company.tagline', c.tagline, 'Your Journey to the Holy Land, Our Priority')
-change('company.founded', c.founded, 2008)
+change('company.founded', c.founded, 2005)   // owner 2026-10-12 (was 2008)
 change('company.whatsapp', c.whatsapp, '923334883578')
 change('company.address.street', c.address?.street, 'Office No. 2, 1st Floor, Usman Plaza, 436-G1, Opposite Butt Sweets, Johar Town')
 change('company.address.postalCode', c.address?.postalCode, '')

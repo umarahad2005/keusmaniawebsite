@@ -70,7 +70,7 @@ export function organizationSchema(site, packages = []) {
     image: ogCard('home'),
     telephone: c.landline || c.phone,
     email: c.email,
-    foundingDate: String(c.founded || 2008),
+    foundingDate: String(c.founded || 2005),
     address,
     areaServed: { '@type': 'Country', name: 'Pakistan' },
     priceRange: priceRange(packages),
@@ -173,7 +173,7 @@ export function aboutPageSchema(site) {
     mainEntity: {
       '@type': 'Organization',
       name: BRAND,
-      foundingDate: String(site.company.founded || 2008),
+      foundingDate: String(site.company.founded || 2005),
       employee: (site.team || []).map(m => ({
         '@type': 'Person',
         name: m.name,

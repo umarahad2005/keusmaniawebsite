@@ -14,7 +14,7 @@ import { afterIdle } from '../lib/idle.js'
      data-reveal="block"    text + media modules: fade + rise 32 px over 750 ms
      data-reveal="heading"  English headings: line mask (never Arabic or Urdu)
      data-reveal="t3"       framed images: curtain from the bottom + inner scale
-     data-count="5000"      stat figures (data-prefix / data-suffix optional)
+     data-count="25000"     stat figures (data-prefix / data-suffix optional)
    A few classes are mapped by selector in LEGACY with the same tiers.
 
    Phase 6 (performance): one IntersectionObserver drives every reveal instead

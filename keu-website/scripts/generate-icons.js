@@ -94,7 +94,7 @@ await out('brand/keui-logo-512.png', await render(512, { pad: 0.02 }))
 const manifest = {
   name: 'Karwan e Usmania International',
   short_name: 'Karwan e Usmania',
-  description: 'Umrah packages from Lahore, Pakistan, since 2008',
+  description: 'Umrah packages from Lahore, Pakistan, since 2005',
   start_url: '/',
   display: 'standalone',
   background_color: '#fcfbf8',

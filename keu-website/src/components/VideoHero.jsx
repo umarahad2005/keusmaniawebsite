@@ -202,7 +202,7 @@ export default function VideoHero() {
 
       <div className="vhero__copy" ref={copy}>
         <p className="vhero__hud" data-hero-t1 style={{ "--i": 0 }}>Masjid al-Haram · Makkah</p>
-        <p className="vhero__eyebrow" data-hero-t1 style={{ "--i": 1 }}>Karwan e Usmania International · Since 2008</p>
+        <p className="vhero__eyebrow" data-hero-t1 style={{ "--i": 1 }}>Karwan e Usmania International · Since 2005</p>
         <h1 id="hero-title" className="hero__title vhero__title">
           <span>Your Journey</span> <span>to the Holy Land,</span> <span>Our Priority</span>
         </h1>

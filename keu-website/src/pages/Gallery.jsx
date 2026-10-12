@@ -15,7 +15,7 @@ export default function Gallery() {
 
   useDocumentHead({
     title: 'Gallery — Makkah & Madinah | Karwan e Usmania International',
-    description: 'Photographs of Masjid al-Haram, Masjid an-Nabawi and the Kaaba from Karwan e Usmania International, Umrah from Lahore since 2008.',
+    description: 'Photographs of Masjid al-Haram, Masjid an-Nabawi and the Kaaba from Karwan e Usmania International, Umrah from Lahore since 2005.',
     keywords: 'Makkah photos, Madinah photos, Umrah gallery, Masjid al-Haram, Masjid an-Nabawi, Karwan e Usmania International',
     canonical: `${SITE_URL}/gallery`,
     ogImage: '/og/gallery.jpg',

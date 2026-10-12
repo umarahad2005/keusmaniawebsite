@@ -1,3 +1,5 @@
+> **Update 2026-10-12 (owner):** founded **2005** (not 2008), **21+ years**, **25,000+ pilgrims**. These supersede the 2008 / 18+ / 5,000+ figures below; code defaults and the live content were updated.
+
 # Staged content corrections (Phase 0)
 
 Prepared 2026-10-10 from the live content at `https://usmania.vercel.app/api/content` and `keu-website/src/data.js`. Owner approved the copy clean-up on 2026-10-10.

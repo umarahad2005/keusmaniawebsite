@@ -9,7 +9,7 @@ export const SITE = {
   company: {
     name: 'Karwan e Usmania International',
     tagline: 'Your Journey to the Holy Land, Our Priority',
-    founded: 2008,   // owner decision 2026-10-10
+    founded: 2005,   // owner decision 2026-10-12 (was 2008)
     phone: '+92-333-4883578',
     whatsapp: '923334883578',   // owner decision 2026-10-10 (letterhead mobile)
     email: 'keusmania@gmail.com',
@@ -48,8 +48,8 @@ export const SITE = {
   whyChooseUs: [
     {
       icon: 'award',
-      title: '18+ Years of Experience',
-      body: 'Since 2008, we have served over 5,000 pilgrims with care, integrity, and attention to every detail of the sacred journey.',
+      title: '21+ Years of Experience',
+      body: 'Since 2005, we have served over 25,000 pilgrims with care, integrity, and attention to every detail of the sacred journey.',
     },
     {
       icon: 'kaaba',
@@ -69,8 +69,8 @@ export const SITE = {
   ],
 
   stats: [
-    { value: 18,    suffix: '+', label: 'Years of Service',  icon: 'calendar' },
-    { value: 5000,  suffix: '+', label: 'Pilgrims Served',   icon: 'users'    },
+    { value: 21,    suffix: '+', label: 'Years of Service',  icon: 'calendar' },
+    { value: 25000, suffix: '+', label: 'Pilgrims Served',   icon: 'users'    },
     { value: 15,    suffix: '+', label: 'Partner Hotels',    icon: 'building' },
     { value: 100,   suffix: '%', label: 'Visa Success Rate', icon: 'check'    },
   ],
@@ -168,7 +168,7 @@ export const SITE = {
     },
     {
       q: 'Is Karwan e Usmania International an established Umrah operator?',
-      a: 'Yes. Karwan e Usmania International is a Lahore-based travel operator that has served pilgrims since 2008. We work with established Saudi partners on the ground in Makkah and Madinah for hotels, transport and guides.',
+      a: 'Yes. Karwan e Usmania International is a Lahore-based travel operator that has served pilgrims since 2005. We work with established Saudi partners on the ground in Makkah and Madinah for hotels, transport and guides.',
     },
     {
       q: 'Where is your office?',
@@ -225,7 +225,7 @@ export const SITE = {
   about: {
     story: [
       'Karwan e Usmania International was founded in Lahore with a single mission: to make the sacred journey of Umrah accessible, comfortable, and spiritually fulfilling for every Muslim family.',
-      'Named in honour of the revered traditions of Islamic travel, we have spent 18 years perfecting every detail of the pilgrimage experience — from the moment you call us, to the day you return home with a heart full of duas.',
+      'Named in honour of the revered traditions of Islamic travel, we have spent 21 years perfecting every detail of the pilgrimage experience — from the moment you call us, to the day you return home with a heart full of duas.',
       'Our team in Lahore and our partners in Makkah and Madinah work as one Karwan, walking with you through every stage of your spiritual journey.',
       'We do not see our pilgrims as customers — we see them as Mehmaan-e-Khuda, the guests of Allah. That is the standard we hold ourselves to.',
     ],

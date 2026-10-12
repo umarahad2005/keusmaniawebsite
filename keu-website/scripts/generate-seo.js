@@ -79,11 +79,11 @@ const address = [c.address?.street, c.address?.city || 'Lahore', c.address?.coun
 
 const llms = `# Karwan e Usmania International · Travel & Tours
 
-> Umrah travel operator based in Johar Town, Lahore, Pakistan, serving pilgrims since 2008. Every cost is explained in writing before you commit; visa processing is handled by the team; trusted partners in Makkah and Madinah handle hotels, transport and ziyarah. WhatsApp-first booking.
+> Umrah travel operator based in Johar Town, Lahore, Pakistan, serving pilgrims since 2005. Every cost is explained in writing before you commit; visa processing is handled by the team; trusted partners in Makkah and Madinah handle hotels, transport and ziyarah. WhatsApp-first booking.
 
 ## About
 
-Karwan e Usmania International is a Lahore-based Umrah operator founded in 2008, with 18+ years of experience and 5,000+ pilgrims served. It works with established Saudi partners on the ground in Makkah and Madinah. It currently offers Umrah only.
+Karwan e Usmania International is a Lahore-based Umrah operator founded in 2005, with 21+ years of experience and 25,000+ pilgrims served. It works with established Saudi partners on the ground in Makkah and Madinah. It currently offers Umrah only.
 
 - Office: ${address}
 - Landline: ${c.landline || '+924235136177'}
