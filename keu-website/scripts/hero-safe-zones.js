@@ -28,7 +28,7 @@ const K2 = { x1: 0.30, x2: 0.52, y1: 0.64, y2: 0.90 }
 const OVERSCAN = { top: -0.08, height: 1.16 }
 const SETTLE = 1.06
 const CLEAR = 32
-const MIN_COLUMN = 520
+const MIN_COLUMN = 400   // was 520; the headline scales to the column (home.css), owner prefers the film at 100% zoom
 
 // Representative viewports per aspect band (all at or above the 1024 px desktop breakpoint).
 const BANDS = [

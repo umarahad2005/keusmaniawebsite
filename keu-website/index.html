@@ -80,6 +80,7 @@
         var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches
         var lite = c.saveData === true || /(^|-)2g$|^3g$/.test(c.effectiveType || '')
         if (/[?&]motion=full\b/.test(location.search)) reduce = lite = false   // QA override, as in motionEnv.js
+        if (/[?&]motion=(reduce|savedata)\b/.test(location.search)) reduce = true   // QA: no intro, as in motionEnv.js
         if (path === '/' && !sessionStorage.getItem('keuIntro') && !reduce && !lite) {
           d.classList.add('intro-on')
           window.__keuIntroStart = performance.now()

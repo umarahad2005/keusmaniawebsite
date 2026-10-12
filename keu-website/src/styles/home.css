@@ -347,3 +347,11 @@
    sections transparent: its text never depends on the stage, and contrast
    checkers (which cannot see the film) measure it against dark green. */
 .has-bg-stage .vhero { background: var(--green-950); }
+
+/* Film layout on narrower desktop screens (owner, 2026-10-12: the film layout
+   at 100% zoom): the headline scales with its column so its longest line
+   ("to the Holy Land,") always fits beside the Kaaba. */
+.vhero--film .vhero__copy { container-type: inline-size; }
+.vhero--film .vhero__title { font-size: min(var(--fs-hero), 13.2cqi); }
+.vhero--film .vhero__eyebrow,
+.vhero--film .vhero__hud { max-width: 100%; }

@@ -2,7 +2,7 @@
    Viewport-space keep-out boxes for the Home hero film at the worst case
    (settle scale 1.06, overscan 116%). Copy, rules, the
    HUD and the pause toggle stay at least 32px clear of --k1-* and --k2-*.
-   --hero-plate: 1 means the copy column is under 520px at this aspect,
+   --hero-plate: 1 means the copy column is under 400px at this aspect,
    so the hero uses the 16:9 plate layout instead of copy over film. */
 
 @media (min-width: 1024px) and (min-aspect-ratio: 16/9) {
@@ -17,9 +17,6 @@
     --hero-plate: 0;
   }
 }
-@media (min-width: 1024px) and (max-width: 1263px) and (min-aspect-ratio: 16/9) {
-  .hero { --hero-plate: 1; }
-}
 
 @media (min-width: 1024px) and (min-aspect-ratio: 3/2) and (max-aspect-ratio: 16/9) {
   .hero {
@@ -33,7 +30,7 @@
     --hero-plate: 0;
   }
 }
-@media (min-width: 1024px) and (max-width: 1439px) and (min-aspect-ratio: 3/2) and (max-aspect-ratio: 16/9) {
+@media (min-width: 1024px) and (max-width: 1143px) and (min-aspect-ratio: 3/2) and (max-aspect-ratio: 16/9) {
   .hero { --hero-plate: 1; }
 }
 
@@ -49,6 +46,6 @@
     --hero-plate: 0;
   }
 }
-@media (min-width: 1024px) and (max-width: 1975px) and (max-aspect-ratio: 3/2) {
+@media (min-width: 1024px) and (max-width: 1615px) and (max-aspect-ratio: 3/2) {
   .hero { --hero-plate: 1; }
 }
