@@ -144,43 +144,163 @@ export const SITE = {
       phone: '+92 347 5165469', whatsapp: '+92 347 5165469', email: 'keusmania@gmail.com', photo: '' },
   ],
 
-  // Corrected text (docs/rebrand/content-corrections.md §2, owner-approved 2026-10-10).
+  // FAQ: Part A (live) + owner-approved Part B answers (docs/rebrand/FAQ-draft-answers.md, 2026-10-12).
   faqs: [
     {
-      q: 'How much does an Umrah package from Pakistan cost?',
-      a: 'Prices depend on the hotels, the number of nights and whether flights are included. Our current packages are listed with their prices on the Packages page, and every cost is explained in writing before you commit.',
+      q: "How much does an Umrah package from Pakistan cost?",
+      a: "Prices depend on the hotels, the number of nights and whether flights are included. Our current packages are listed with their prices on the Packages page, and every cost is explained in writing before you commit.",
     },
     {
-      q: 'How long does Saudi Umrah visa processing take?',
-      a: 'Saudi Umrah visas are typically processed within 5–7 working days, and we have a 100% approval rate. The visa fee, biometric appointment and document attestation are all handled by our team, so you do not need to visit the consulate.',
+      q: "How do I book?",
+      a: "WhatsApp is our main booking channel. Message +92 333 4883578 with your preferred package and travel dates. You can also call +92 42 35136177, email keusmania@gmail.com, or visit our office in Johar Town.",
     },
     {
-      q: 'What is included in an Umrah package?',
-      a: 'Every package includes Saudi visa processing, insurance, documentation and 24/7 on-ground support. Hotels, transport, flights and ziyarah depend on the package: each package lists exactly what it includes, and some are offered without an air ticket.',
+      q: "What is included in an Umrah package?",
+      a: "Every package includes Saudi visa processing, insurance, documentation and 24/7 on-ground support. Hotels, transport, flights and ziyarah depend on the package: each package lists exactly what it includes, and some are offered without an air ticket.",
     },
     {
-      q: 'When is the best time for Umrah?',
-      a: 'Umrah can be performed at any time of year except during the Hajj season. The last 10 nights of Ramadan are the most sought-after time, so ask us early about Ramadan dates. The cooler months, November to February, are gentler for elderly pilgrims.',
+      q: "How much deposit is needed to confirm a booking?",
+      a: "A 50% deposit confirms your booking, and the remaining balance must be cleared before you travel. Every cost is explained in writing before you pay.",
     },
     {
-      q: 'Can children travel for Umrah?',
-      a: 'Yes. Families and children are welcome. Tell us who is travelling when you message us, and we will suggest the right rooms and schedule.',
+      q: "How far in advance should I book Umrah?",
+      a: "For a regular Umrah, we suggest booking at least 3–4 weeks before you want to travel. This leaves time for the visa, which usually takes 5–7 working days, and for hotel confirmation. For Ramadan, especially the last ten nights, please book as early as possible, as seats and hotels near the Haram fill quickly.",
     },
     {
-      q: 'Is Karwan e Usmania International an established Umrah operator?',
-      a: 'Yes. Karwan e Usmania International is a Lahore-based travel operator that has served pilgrims since 2005. We work with established Saudi partners on the ground in Makkah and Madinah for hotels, transport and guides.',
+      q: "How long does Saudi Umrah visa processing take?",
+      a: "Saudi Umrah visas are typically processed within 5–7 working days, and we have a 100% approval rate. The visa fee, biometric appointment and document attestation are all handled by our team, so you do not need to visit the consulate.",
     },
     {
-      q: 'Where is your office?',
-      a: 'Office No. 2, 1st Floor, Usman Plaza, 436-G1, Opposite Butt Sweets, Johar Town, Lahore. We are open Monday to Friday 11 am to 7 pm and Saturday 11 am to 5 pm (Pakistan time), and closed on Sunday. WhatsApp is the fastest way to reach us: +92 333 4883578. You can also call +92 42 35136177.',
+      q: "Which documents do I need for an Umrah visa?",
+      a: "Only your passport and photographs. Our team handles the visa process for you.",
     },
     {
-      q: 'What is Qafila e Shoq?',
-      a: 'Qafila e Shoq is a spiritual journey programme led by Pirzada Burhan uddin Ahmed Usmani Sahib (Islamic Scholar). It is built around four pillars: Ibadah (worship), Riyazat (spiritual discipline), Tarbiyat (development) and Siyahat (sacred travel). It is not a regular travel package: seats are limited and by application only.',
+      q: "When is the best time for Umrah?",
+      a: "Umrah can be performed at any time of year except during the Hajj season. The last 10 nights of Ramadan are the most sought-after time, so ask us early about Ramadan dates. The cooler months, November to February, are gentler for elderly pilgrims.",
     },
     {
-      q: 'How do I book?',
-      a: 'WhatsApp is our main booking channel. Message +92 333 4883578 with your preferred package and travel dates. You can also call +92 42 35136177, email keusmania@gmail.com, or visit our office in Johar Town.',
+      q: "Which payment methods do you accept?",
+      a: "We prefer online payment by bank transfer, and we also accept cash at our office in Johar Town, Lahore.",
+    },
+    {
+      q: "Can families pay in instalments?",
+      a: "Yes. Families can pay in instalments, as long as the full amount is cleared before departure for Umrah.",
+    },
+    {
+      q: "Can I change my travel dates or traveller names after booking?",
+      a: "It depends on the booking. Changes may be possible, and any penalty depends on the airline, hotel and visa rules at the time of the change. Please message us as early as possible and we will tell you what applies.",
+    },
+    {
+      q: "Is the Umrah visa included in every package?",
+      a: "Yes. Complete visa processing is included in every package, along with insurance, documentation and 24/7 on-ground support.",
+    },
+    {
+      q: "Can you arrange Umrah for pilgrims living outside Pakistan?",
+      a: "Yes. We can arrange Umrah for pilgrims living outside Pakistan, for example in the UAE or the UK. Message us with your country of residence and travel dates, and we will arrange the package from there.",
+    },
+    {
+      q: "Can women perform Umrah without a mahram?",
+      a: "Under current Saudi rules, women can perform Umrah without a mahram. Many women travel with our groups. Please tell us when you enquire so we can plan the right arrangement for you.",
+    },
+    {
+      q: "Which vaccinations are required for Umrah?",
+      a: "The meningitis vaccination is required for Umrah, and Pakistani travellers also need a polio vaccination certificate. We will tell you the current health requirements when you book.",
+    },
+    {
+      q: "Which cities can I fly from?",
+      a: "We can arrange flights to Saudi Arabia from anywhere in the world, in economy or business class.",
+    },
+    {
+      q: "Do you offer packages without an air ticket?",
+      a: "Yes. Some packages are offered without an air ticket, for pilgrims who prefer to book their own flights. For example, our 21-day Rabi ul Awal package includes the visa, hotels in Makkah and Madinah, transport and documentation, without the flight. If you choose a package without an air ticket, we will need a copy of your confirmed air ticket.",
+    },
+    {
+      q: "What is the baggage allowance? Can I bring Zamzam water home?",
+      a: "The baggage and Zamzam water allowance depends on the airline's policy. We will tell you the allowance for your flight.",
+    },
+    {
+      q: "Are airport transfers in Saudi Arabia included?",
+      a: "Yes. Transport is included in our packages, including transfers from the airport to your hotel and back. Some packages, such as our Star package, include private luxury transport.",
+    },
+    {
+      q: "How far are your hotels from the Haram?",
+      a: "We use 4-star and 5-star hotels close to the Haram. The distance depends on the package and is listed on each package card. For example, our Star package uses the 5-star Le Méridien in Makkah and the 4-star Al Ansar Golden Tulip in Madinah, and our 21-day package includes hotels with a free shuttle to the Haram.",
+    },
+    {
+      q: "Are meals included in the package?",
+      a: "Meals are not included as standard. On request, we can add breakfast, half board or full board in 4-star and 5-star hotels.",
+    },
+    {
+      q: "What room sharing options are available?",
+      a: "Different room sharing options are available, and the price depends on the room type you choose. Tell us who is travelling and we will suggest the right rooms.",
+    },
+    {
+      q: "Can I upgrade my hotel after choosing a package?",
+      a: "Yes. Upgrades are possible before you travel, subject to availability. Any price difference is payable at the time of the change.",
+    },
+    {
+      q: "Do you have Urdu-speaking guides?",
+      a: "Yes. Our guides speak Urdu, and our partners in Makkah and Madinah support the group throughout the journey.",
+    },
+    {
+      q: "Is ziyarah included?",
+      a: "Ziyarah of the historic sites of Makkah and Madinah is arranged by our partners on the ground, and our Star package includes a historical tour of both holy cities.",
+    },
+    {
+      q: "How do pilgrims travel between Makkah and Madinah?",
+      a: "It depends on the package: we offer both shared coaches and private luxury transport. Some packages, such as our Star package, also include a journey on the Haramain high-speed train.",
+    },
+    {
+      q: "Is there a 24/7 contact number while we are in Saudi Arabia?",
+      a: "Yes. 24/7 on-ground support is included in every package. You can WhatsApp us anytime on +92 333 4883578, even from the Haram itself.",
+    },
+    {
+      q: "Do you arrange women-only groups?",
+      a: "Yes, when we are running a dedicated women's group. Ask us about upcoming women's groups when you enquire.",
+    },
+    {
+      q: "Is insurance included? What happens if a pilgrim falls ill?",
+      a: "Yes, insurance is included in every package. If a pilgrim falls ill, our team on the ground helps arrange medical care.",
+    },
+    {
+      q: "Do you offer Ramadan Umrah and the last ten nights?",
+      a: "Yes. We offer Ramadan Umrah packages, including the last ten nights. This is the most sought-after time of the year, so please ask us early.",
+    },
+    {
+      q: "Can children travel for Umrah?",
+      a: "Yes. Families and children are welcome. Tell us who is travelling when you message us, and we will suggest the right rooms and schedule.",
+    },
+    {
+      q: "Is Karwan e Usmania International an established Umrah operator?",
+      a: "Yes. Karwan e Usmania International is a Lahore-based travel operator that has served pilgrims since 2005. We work with established Saudi partners on the ground in Makkah and Madinah for hotels, transport and guides.",
+    },
+    {
+      q: "Is Karwan e Usmania International a registered company?",
+      a: "Yes. Karwan e Usmania International is registered in Pakistan and has been serving pilgrims since 2005.",
+    },
+    {
+      q: "How many pilgrims have you served?",
+      a: "Since 2005, we have served more than 25,000 pilgrims.",
+    },
+    {
+      q: "What makes Karwan e Usmania International different?",
+      a: "More than 21 years of experience since 2005, trusted partners on the ground in Makkah and Madinah, every cost explained in writing before you commit, and 24/7 support from your first call to your safe return.",
+    },
+    {
+      q: "Where is your office?",
+      a: "Office No. 2, 1st Floor, Usman Plaza, 436-G1, Opposite Butt Sweets, Johar Town, Lahore. We are open Monday to Friday 11 am to 7 pm and Saturday 11 am to 5 pm (Pakistan time), and closed on Sunday. WhatsApp is the fastest way to reach us: +92 333 4883578. You can also call +92 42 35136177.",
+    },
+    {
+      q: "Do I need an appointment to visit your office?",
+      a: "No appointment is needed. You are welcome at our office in Usman Plaza, Johar Town, Lahore, Monday to Friday 11 am – 7 pm and Saturday 11 am – 5 pm (closed Sunday). If you message us on WhatsApp first, we can make sure the right person is there to meet you.",
+    },
+    {
+      q: "What is Qafila e Shoq?",
+      a: "Qafila e Shoq is a spiritual journey programme led by Pirzada Burhan uddin Ahmed Usmani Sahib (Islamic Scholar). It is built around four pillars: Ibadah (worship), Riyazat (spiritual discipline), Tarbiyat (development) and Siyahat (sacred travel). It is not a regular travel package: seats are limited and by application only.",
+    },
+    {
+      q: "How do I apply for Qafila e Shoq?",
+      a: "Apply by WhatsApp; seats are limited and by application only. Qafila e Shoq is led by Pirzada Burhan uddin Ahmed Usmani Sahib (Islamic Scholar) and is for those who want a spiritual journey built around worship, spiritual discipline, personal development and sacred travel, not only a regular Umrah.",
     },
   ],
 

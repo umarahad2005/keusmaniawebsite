@@ -643,6 +643,9 @@
 .faq__head .section-heading { margin-bottom: var(--s-4); }
 .faq__list { grid-column: 3; border-top: 1px solid var(--gold-hairline); }
 .faq-item { border-bottom: 1px solid var(--gold-hairline); }
+/* Beyond the first rows until "Show all questions" (still in the page for crawlers). */
+.faq-item--more { display: none; }
+.faq__more { margin-top: var(--s-6); }
 .faq-item__q {
   display: flex;
   align-items: center;
