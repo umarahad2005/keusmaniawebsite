@@ -14,6 +14,7 @@
     "optimize:images": "node scripts/optimize-images.js",
     "generate:icons": "node scripts/generate-icons.js",
     "generate:og": "node scripts/generate-og.js",
+    "warm:images": "node scripts/warm-images.mjs",
     "seed:admin": "node scripts/seed-admin.js",
     "hero:safe": "node scripts/hero-safe-zones.js"
   },

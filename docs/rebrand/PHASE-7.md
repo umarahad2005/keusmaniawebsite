@@ -24,6 +24,18 @@ Gate (mobile Perf ≥ 90, LCP ≤ 2.5 s, TBT ≤ 200 ms, CLS ≤ 0.05): **Home p
 
 **Share card**: `og:image` = `/og/home.jpg` (1200×630, 90 KB) served publicly with title and description.
 
+## Follow-ups (2026-10-12)
+
+- **Team grid** shows the Arabic designation under the English one (from the printed cards).
+- **Photo speed.** The About header photo loaded slowly because Cloudinary creates each resized version the first time it is requested. Serving the photos from the site itself was built and measured, then reverted: Vercel answers Pakistan from **Singapore (sin1)**, while Cloudinary's CDN (Fastly) answers from nearby (~56 ms) and serves smaller AVIF. Photos stay on Cloudinary, and `npm run warm:images` (`scripts/warm-images.mjs`) now pre-generates every photo at every width and format the pages request, so no visitor waits for a first-time resize. **Run it again after adding photos in the admin.** The Home hero poster is now preloaded on Home only.
+- **Local development:** `npm run dev` (web + API). `scripts/dev-api.js` uses public DNS for the MongoDB lookup (this machine's DNS refuses it). Note: the local API uses the production database, so saving in the local admin changes the live site.
+- **Admin login:** no default password exists in the code. It is whatever `ADMIN_EMAIL` / `ADMIN_PASSWORD` are set to — in `keu-website/.env` locally and in the Vercel project's environment variables for the live site. To change it, edit the Vercel variables and redeploy (old sessions are signed out automatically).
+- **FAQ questionnaire** for the client: `docs/rebrand/KEUI-FAQ-Questionnaire.pdf` (rebuild with `node docs/rebrand/faq-questionnaire/build.mjs`). Part A: the 9 live answers to confirm or correct; Part B: 36 new questions by topic; Part C: their own questions.
+
+## Phase 8 — owner questions
+
+All twelve answers in DESIGN-LANGUAGE §8.1 are applied on the live site (18+ years with founding year 2008; licences/postcode hidden until supplied; Umrah only; corrected FAQ and testimonial labels; approved artwork, hero framing, Madinah loop and booking steps; new hours; "Waqas Saleem"; new social links; host-agnostic build with Cloudinary + MongoDB). Still open, waiting on material from the owner: licence numbers and postcode (slots hidden), the Qafila seal retrace and the leader photo (not shown), and the client's FAQ answers (questionnaire above).
+
 ## Still to do by the owner (needs the admin login or a phone)
 
 - Vercel project → switch on **Web Analytics** and **Speed Insights**, then add the environment variable `VITE_ANALYTICS=vercel` and redeploy (until then tracking stays off by design).

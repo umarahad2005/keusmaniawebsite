@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>FAQ questionnaire · Karwan e Usmania International</title>
+<style>
+  @font-face { font-family: 'Cormorant'; src: url('file:///D:/personal/projects/keusmaniawebsite/keu-website/public/fonts/cormorant-500-latin.woff2') format('woff2'); font-weight: 500; }
+  @font-face { font-family: 'Manrope'; src: url('file:///D:/personal/projects/keusmaniawebsite/keu-website/public/fonts/manrope-var-latin.woff2') format('woff2'); font-weight: 200 800; }
+  @page { size: A4; margin: 16mm 16mm 18mm; }
+  :root { --green: #004828; --gold: #885800; --hair: #d9ae54; --ink: #1d2a24; --muted: #5f6f67; --paper: #fcfbf8; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 10.5pt/1.5 'Manrope', Arial, sans-serif; color: var(--ink); }
+  .cover { display: flex; align-items: center; gap: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--hair); }
+  .cover img { width: 54px; height: 54px; }
+  .brand { font: 500 17pt/1.1 'Cormorant', Georgia, serif; letter-spacing: .04em; color: var(--green); text-transform: uppercase; }
+  .brand small { display: block; font: 600 7.5pt/1.4 'Manrope', Arial; letter-spacing: .28em; color: var(--gold); }
+  h1 { margin: 18px 0 6px; font: 500 26pt/1.05 'Cormorant', Georgia, serif; color: var(--green); }
+  .lead { margin: 0 0 10px; color: var(--muted); max-width: 150mm; }
+  .how { margin: 12px 0 4px; padding: 10px 12px; border: 1px solid var(--hair); background: var(--paper); font-size: 9.5pt; }
+  .how b { color: var(--green); }
+  .fields { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px 18px; margin: 14px 0 6px; font-size: 9pt; color: var(--muted); }
+  .fields span { display: block; border-bottom: 1px solid #b9c2bc; height: 18px; }
+  .part { margin: 22px 0 4px; font: 600 8pt/1.2 'Manrope', Arial; letter-spacing: .26em; text-transform: uppercase; color: var(--gold); display: flex; align-items: center; gap: 10px; }
+  .part::before { content: ''; width: 40px; height: 1px; background: var(--hair); }
+  .part-title { margin: 0 0 4px; font: 500 18pt/1.1 'Cormorant', Georgia, serif; color: var(--green); }
+  .part-lead { margin: 0 0 6px; color: var(--muted); font-size: 9.5pt; }
+  h2.sec { margin: 16px 0 2px; font: 500 14pt/1.2 'Cormorant', Georgia, serif; color: var(--green); border-bottom: 1px solid var(--hair); padding-bottom: 3px; break-after: avoid; }
+  .q { display: grid; grid-template-columns: 30px 1fr; gap: 6px; padding: 10px 0 8px; border-bottom: 1px solid #e7e1d3; break-inside: avoid; }
+  .qn { margin: 2px 0 0; font: 600 8.5pt/1.4 'Manrope', Arial; color: var(--gold); }
+  h3 { margin: 0 0 6px; font: 600 10.5pt/1.4 'Manrope', Arial; color: var(--ink); }
+  .current { margin: 0 0 6px; padding: 6px 8px; background: var(--paper); border-left: 2px solid var(--hair); font-size: 9pt; color: #3c4a43; }
+  .current span { font-weight: 600; color: var(--green); }
+  .lines i { display: block; height: 22px; border-bottom: 1px solid #c9cfcb; }
+  .tick { margin: 7px 0 0; font-size: 8.5pt; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+  .box { width: 10px; height: 10px; border: 1px solid #7f8a84; display: inline-block; }
+  .sep { width: 14px; }
+  .other .lines i { height: 24px; }
+  footer { position: fixed; bottom: -10mm; left: 0; right: 0; font-size: 7.5pt; color: var(--muted); display: flex; justify-content: space-between; }
+</style></head>
+<body>
+  <footer><span>Karwan e Usmania International · Travel &amp; Tours · FAQ questionnaire</span><span>usmania.vercel.app</span></footer>
+  <div class="cover">
+    <img src="file:///D:/personal/projects/keusmaniawebsite/keu-website/src/assets/brand/ku-mark.svg" alt="">
+    <div class="brand">Karwan e Usmania<small>International · Travel &amp; Tours</small></div>
+  </div>
+  <h1>Website FAQ questionnaire</h1>
+  <p class="lead">Your answers become the "Frequently Asked Questions" on the website. Please answer in your own words, in English or Urdu; we will write the final text and show it to you before it goes live.</p>
+  <div class="how">
+    <b>How to fill this in.</b> Part A shows the answers on the website today: tick "Correct" or write the change. Part B has new questions pilgrims often ask: answer the ones that apply, skip the rest, and tick whether each should appear on the website. Short answers are fine. If a fact may change (prices, dates), say so and we will keep it general.
+  </div>
+  <div class="fields">
+    <div>Filled in by<span></span></div>
+    <div>Date<span></span></div>
+    <div>Phone / WhatsApp<span></span></div>
+  </div>
+
+  <p class="part">Part A</p>
+  <h2 class="part-title">Answers on the website today</h2>
+  <p class="part-lead">Please check each answer. Mark it correct, or write what it should say.</p>
+  
+  <section class="q">
+    <p class="qn">A1</p>
+    <div class="qb">
+      <h3>How much does an Umrah package from Pakistan cost?</h3>
+      <p class="current"><span>On the website now:</span> Prices depend on the hotels, the number of nights and whether flights are included. Our current packages are listed with their prices on the Packages page, and every cost is explained in writing before you commit.</p>
+      <p class="tick"><span class="box"></span> Correct as it is <span class="sep"></span><span class="box"></span> Change it to:</p>
+      <div class="lines"><i></i><i></i><i></i></div>
+    </div>
+  </section>
+  <section class="q">
+    <p class="qn">A2</p>
+    <div class="qb">
+      <h3>How long does Saudi Umrah visa processing take?</h3>
+      <p class="current"><span>On the website now:</span> Saudi Umrah visas are typically processed within 5–7 working days, and we have a 100% approval rate. The visa fee, biometric appointment and document attestation are all handled by our team, so you do not need to visit the consulate.</p>
+      <p class="tick"><span class="box"></span> Correct as it is <span class="sep"></span><span class="box"></span> Change it to:</p>
+      <div class="lines"><i></i><i></i><i></i></div>
+    </div>
+  </section>
+  <section class="q">
+    <p class="qn">A3</p>
+    <div class="qb">
+      <h3>What is included in an Umrah package?</h3>
+      <p class="current"><span>On the website now:</span> Every package includes Saudi visa processing, insurance, documentation and 24/7 on-ground support. Hotels, transport, flights and ziyarah depend on the package: each package lists exactly what it includes, and some are offered without an air ticket.</p>
+      <p class="tick"><span class="box"></span> Correct as it is <span class="sep"></span><span class="box"></span> Change it to:</p>
+      <div class="lines"><i></i><i></i><i></i></div>
+    </div>
+  </section>
+  <section class="q">
+    <p class="qn">A4</p>
+    <div class="qb">
+      <h3>When is the best time for Umrah?</h3>
+      <p class="current"><span>On the website now:</span> Umrah can be performed at any time of year except during the Hajj season. The last 10 nights of Ramadan are the most sought-after time, so ask us early about Ramadan dates. The cooler months, November to February, are gentler for elderly pilgrims.</p>
+      <p class="tick"><span class="box"></span> Correct as it is <span class="sep"></span><span class="box"></span> Change it to:</p>
+      <div class="lines"><i></i><i></i><i></i></div>
+    </div>
+  </section>
+  <section class="q">
+    <p class="qn">A5</p>
+    <div class="qb">
+      <h3>Can children travel for Umrah?</h3>
+      <p class="current"><span>On the website now:</span> Yes. Families and children are welcome. Tell us who is travelling when you message us, and we will suggest the right rooms and schedule.</p>
+      <p class="tick"><span class="box"></span> Correct as it is <span class="sep"></span><span class="box"></span> Change it to:</p>
+      <div class="lines"><i></i><i></i><i></i></div>
+    </div>
+  </section>
+  <section class="q">
+    <p class="qn">A6</p>
+    <div class="qb">
+      <h3>Is Karwan e Usmania International an established Umrah operator?</h3>
+      <p class="current"><span>On the website now:</span> Yes. Karwan e Usmania International is a Lahore-based travel operator that has served pilgrims since 2008. We work with established Saudi partners on the ground in Makkah and Madinah for hotels, transport and guides.</p>
+      <p class="tick"><span class="box"></span> Correct as it is <span class="sep"></span><span class="box"></span> Change it to:</p>
+      <div class="lines"><i></i><i></i><i></i></div>
+    </div>
+  </section>
+  <section class="q">
+    <p class="qn">A7</p>
+    <div class="qb">
+      <h3>Where is your office?</h3>
+      <p class="current"><span>On the website now:</span> Office No. 2, 1st Floor, Usman Plaza, 436-G1, Opposite Butt Sweets, Johar Town, Lahore. We are open Monday to Friday 11 am to 7 pm and Saturday 11 am to 5 pm (Pakistan time), and closed on Sunday. WhatsApp is the fastest way to reach us: +92 333 4883578. You can also call +92 42 35136177.</p>
+      <p class="tick"><span class="box"></span> Correct as it is <span class="sep"></span><span class="box"></span> Change it to:</p>
+      <div class="lines"><i></i><i></i><i></i></div>
+    </div>
+  </section>
+  <section class="q">
+    <p class="qn">A8</p>
+    <div class="qb">
+      <h3>What is Qafila e Shoq?</h3>
+      <p class="current"><span>On the website now:</span> Qafila e Shoq is a spiritual journey programme led by Pirzada Burhan uddin Ahmed Usmani Sahib (Islamic Scholar). It is built around four pillars: Ibadah (worship), Riyazat (spiritual discipline), Tarbiyat (development) and Siyahat (sacred travel). It is not a regular travel package: seats are limited and by application only.</p>
+      <p class="tick"><span class="box"></span> Correct as it is <span class="sep"></span><span class="box"></span> Change it to:</p>
+      <div class="lines"><i></i><i></i><i></i></div>
+    </div>
+  </section>
+  <section class="q">
+    <p class="qn">A9</p>
+    <div class="qb">
+      <h3>How do I book?</h3>
+      <p class="current"><span>On the website now:</span> WhatsApp is our main booking channel. Message +92 333 4883578 with your preferred package and travel dates. You can also call +92 42 35136177, email keusmania@gmail.com, or visit our office in Johar Town.</p>
+      <p class="tick"><span class="box"></span> Correct as it is <span class="sep"></span><span class="box"></span> Change it to:</p>
+      <div class="lines"><i></i><i></i><i></i></div>
+    </div>
+  </section>
+
+  <p class="part" style="break-before: page">Part B</p>
+  <h2 class="part-title">New questions</h2>
+  <p class="part-lead">Questions pilgrims commonly ask before booking. Answer the ones that apply to you.</p>
+  
+  <h2 class="sec">Booking and payment</h2>
+  
+  <section class="q">
+    <p class="qn">B1</p>
+    <div class="qb">
+      <h3>How far in advance should pilgrims book a regular Umrah? And for Ramadan?</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i></div>
+      <p class="tick"><span class="box"></span> Show this on the website <span class="sep"></span><span class="box"></span> Do not show</p>
+    </div>
+  </section>
+  <section class="q">
+    <p class="qn">B2</p>
+    <div class="qb">
+      <h3>What deposit confirms a booking, and when is the rest of the payment due?</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i></div>
+      <p class="tick"><span class="box"></span> Show this on the website <span class="sep"></span><span class="box"></span> Do not show</p>
+    </div>
+  </section>
+  <section class="q">
+    <p class="qn">B3</p>
+    <div class="qb">
+      <h3>Which payment methods do you accept (bank transfer, cash at the office, card, others)?</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i></div>
+      <p class="tick"><span class="box"></span> Show this on the website <span class="sep"></span><span class="box"></span> Do not show</p>
+    </div>
+  </section>
+  <section class="q">
+    <p class="qn">B4</p>
+    <div class="qb">
+      <h3>Can families pay in instalments? If yes, on what terms?</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i></div>
+      <p class="tick"><span class="box"></span> Show this on the website <span class="sep"></span><span class="box"></span> Do not show</p>
+    </div>
+  </section>
+  <section class="q">
+    <p class="qn">B5</p>
+    <div class="qb">
+      <h3>What is your cancellation and refund policy?</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i></div>
+      <p class="tick"><span class="box"></span> Show this on the website <span class="sep"></span><span class="box"></span> Do not show</p>
+    </div>
+  </section>
+  <section class="q">
+    <p class="qn">B6</p>
+    <div class="qb">
+      <h3>Can travel dates or traveller names be changed after booking? Is there a fee?</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i></div>
+      <p class="tick"><span class="box"></span> Show this on the website <span class="sep"></span><span class="box"></span> Do not show</p>
+    </div>
+  </section>
+  <h2 class="sec">Visa and documents</h2>
+  
+  <section class="q">
+    <p class="qn">B7</p>
+    <div class="qb">
+      <h3>Which documents must a pilgrim provide (passport validity, CNIC, photographs, anything else)?</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i></div>
+      <p class="tick"><span class="box"></span> Show this on the website <span class="sep"></span><span class="box"></span> Do not show</p>
+    </div>
+  </section>
+  <section class="q">
+    <p class="qn">B8</p>
+    <div class="qb">
+      <h3>Is the Umrah visa included in every package?</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i></div>
+      <p class="tick"><span class="box"></span> Show this on the website <span class="sep"></span><span class="box"></span> Do not show</p>
+    </div>
+  </section>
+  <section class="q">
+    <p class="qn">B9</p>
+    <div class="qb">
+      <h3>Can you arrange Umrah for pilgrims living outside Pakistan (for example the UAE or the UK)?</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i></div>
+      <p class="tick"><span class="box"></span> Show this on the website <span class="sep"></span><span class="box"></span> Do not show</p>
+    </div>
+  </section>
+  <section class="q">
+    <p class="qn">B10</p>
+    <div class="qb">
+      <h3>What is your current practice for women travelling without a mahram?</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i></div>
+      <p class="tick"><span class="box"></span> Show this on the website <span class="sep"></span><span class="box"></span> Do not show</p>
+    </div>
+  </section>
+  <section class="q">
+    <p class="qn">B11</p>
+    <div class="qb">
+      <h3>Which vaccinations or health certificates are required?</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i></div>
+      <p class="tick"><span class="box"></span> Show this on the website <span class="sep"></span><span class="box"></span> Do not show</p>
+    </div>
+  </section>
+  <h2 class="sec">Flights and travel</h2>
+  
+  <section class="q">
+    <p class="qn">B12</p>
+    <div class="qb">
+      <h3>Which cities can pilgrims fly from (Lahore only, or Islamabad and Karachi too)? Which airlines do you usually use?</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i></div>
+      <p class="tick"><span class="box"></span> Show this on the website <span class="sep"></span><span class="box"></span> Do not show</p>
+    </div>
+  </section>
+  <section class="q">
+    <p class="qn">B13</p>
+    <div class="qb">
+      <h3>Do you offer packages without an air ticket? What is included then?</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i></div>
+      <p class="tick"><span class="box"></span> Show this on the website <span class="sep"></span><span class="box"></span> Do not show</p>
+    </div>
+  </section>
+  <section class="q">
+    <p class="qn">B14</p>
+    <div class="qb">
+      <h3>What is the baggage allowance? Can pilgrims bring Zamzam water home?</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i></div>
+      <p class="tick"><span class="box"></span> Show this on the website <span class="sep"></span><span class="box"></span> Do not show</p>
+    </div>
+  </section>
+  <section class="q">
+    <p class="qn">B15</p>
+    <div class="qb">
+      <h3>Are airport transfers in Saudi Arabia included?</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i></div>
+      <p class="tick"><span class="box"></span> Show this on the website <span class="sep"></span><span class="box"></span> Do not show</p>
+    </div>
+  </section>
+  <h2 class="sec">Hotels and stay</h2>
+  
+  <section class="q">
+    <p class="qn">B16</p>
+    <div class="qb">
+      <h3>How far are your hotels from the Haram in Makkah and Madinah for each package tier?</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i></div>
+      <p class="tick"><span class="box"></span> Show this on the website <span class="sep"></span><span class="box"></span> Do not show</p>
+    </div>
+  </section>
+  <section class="q">
+    <p class="qn">B17</p>
+    <div class="qb">
+      <h3>Are meals included? Which ones (breakfast, half board, full board)?</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i></div>
+      <p class="tick"><span class="box"></span> Show this on the website <span class="sep"></span><span class="box"></span> Do not show</p>
+    </div>
+  </section>
+  <section class="q">
+    <p class="qn">B18</p>
+    <div class="qb">
+      <h3>What room sharing options are there (double, triple, quad), and how does the price change?</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i></div>
+      <p class="tick"><span class="box"></span> Show this on the website <span class="sep"></span><span class="box"></span> Do not show</p>
+    </div>
+  </section>
+  <section class="q">
+    <p class="qn">B19</p>
+    <div class="qb">
+      <h3>Can pilgrims upgrade their hotel after choosing a package?</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i></div>
+      <p class="tick"><span class="box"></span> Show this on the website <span class="sep"></span><span class="box"></span> Do not show</p>
+    </div>
+  </section>
+  <h2 class="sec">On the journey</h2>
+  
+  <section class="q">
+    <p class="qn">B20</p>
+    <div class="qb">
+      <h3>Does someone from your team travel with the group? Is the guide Urdu-speaking?</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i></div>
+      <p class="tick"><span class="box"></span> Show this on the website <span class="sep"></span><span class="box"></span> Do not show</p>
+    </div>
+  </section>
+  <section class="q">
+    <p class="qn">B21</p>
+    <div class="qb">
+      <h3>Which ziyarah sites are visited in Makkah and Madinah, and are they included?</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i></div>
+      <p class="tick"><span class="box"></span> Show this on the website <span class="sep"></span><span class="box"></span> Do not show</p>
+    </div>
+  </section>
+  <section class="q">
+    <p class="qn">B22</p>
+    <div class="qb">
+      <h3>How do pilgrims travel between Makkah and Madinah (bus, Haramain train, private car)?</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i></div>
+      <p class="tick"><span class="box"></span> Show this on the website <span class="sep"></span><span class="box"></span> Do not show</p>
+    </div>
+  </section>
+  <section class="q">
+    <p class="qn">B23</p>
+    <div class="qb">
+      <h3>What food arrangements are there during the stay?</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i></div>
+      <p class="tick"><span class="box"></span> Show this on the website <span class="sep"></span><span class="box"></span> Do not show</p>
+    </div>
+  </section>
+  <section class="q">
+    <p class="qn">B24</p>
+    <div class="qb">
+      <h3>Is there a 24/7 contact number for pilgrims while they are in Saudi Arabia?</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i></div>
+      <p class="tick"><span class="box"></span> Show this on the website <span class="sep"></span><span class="box"></span> Do not show</p>
+    </div>
+  </section>
+  <h2 class="sec">Families, elderly and special needs</h2>
+  
+  <section class="q">
+    <p class="qn">B25</p>
+    <div class="qb">
+      <h3>What support do you give elderly pilgrims and wheelchair users?</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i></div>
+      <p class="tick"><span class="box"></span> Show this on the website <span class="sep"></span><span class="box"></span> Do not show</p>
+    </div>
+  </section>
+  <section class="q">
+    <p class="qn">B26</p>
+    <div class="qb">
+      <h3>What is your policy for children and infants (age limits, prices)?</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i></div>
+      <p class="tick"><span class="box"></span> Show this on the website <span class="sep"></span><span class="box"></span> Do not show</p>
+    </div>
+  </section>
+  <section class="q">
+    <p class="qn">B27</p>
+    <div class="qb">
+      <h3>Do you arrange women-only groups or have female staff on the journey?</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i></div>
+      <p class="tick"><span class="box"></span> Show this on the website <span class="sep"></span><span class="box"></span> Do not show</p>
+    </div>
+  </section>
+  <section class="q">
+    <p class="qn">B28</p>
+    <div class="qb">
+      <h3>Is travel or health insurance included? What happens if a pilgrim falls ill?</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i></div>
+      <p class="tick"><span class="box"></span> Show this on the website <span class="sep"></span><span class="box"></span> Do not show</p>
+    </div>
+  </section>
+  <h2 class="sec">Seasons and Ramadan</h2>
+  
+  <section class="q">
+    <p class="qn">B29</p>
+    <div class="qb">
+      <h3>When are Ramadan packages announced, and do you offer the last ten nights?</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i></div>
+      <p class="tick"><span class="box"></span> Show this on the website <span class="sep"></span><span class="box"></span> Do not show</p>
+    </div>
+  </section>
+  <section class="q">
+    <p class="qn">B30</p>
+    <div class="qb">
+      <h3>Which months are calmer or lower priced for Umrah?</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i></div>
+      <p class="tick"><span class="box"></span> Show this on the website <span class="sep"></span><span class="box"></span> Do not show</p>
+    </div>
+  </section>
+  <h2 class="sec">Qafila e Shoq</h2>
+  
+  <section class="q">
+    <p class="qn">B31</p>
+    <div class="qb">
+      <h3>How does someone apply for Qafila e Shoq, and who is it suitable for?</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i></div>
+      <p class="tick"><span class="box"></span> Show this on the website <span class="sep"></span><span class="box"></span> Do not show</p>
+    </div>
+  </section>
+  <section class="q">
+    <p class="qn">B32</p>
+    <div class="qb">
+      <h3>How often does Qafila e Shoq travel, how many seats are there, and what does it cost?</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i></div>
+      <p class="tick"><span class="box"></span> Show this on the website <span class="sep"></span><span class="box"></span> Do not show</p>
+    </div>
+  </section>
+  <h2 class="sec">About the company</h2>
+  
+  <section class="q">
+    <p class="qn">B33</p>
+    <div class="qb">
+      <h3>Which licences or registrations do you hold (for example the Ministry of Religious Affairs, DTS, IATA)? May we show the numbers on the website?</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i></div>
+      <p class="tick"><span class="box"></span> Show this on the website <span class="sep"></span><span class="box"></span> Do not show</p>
+    </div>
+  </section>
+  <section class="q">
+    <p class="qn">B34</p>
+    <div class="qb">
+      <h3>Roughly how many pilgrims or groups do you take each year?</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i></div>
+      <p class="tick"><span class="box"></span> Show this on the website <span class="sep"></span><span class="box"></span> Do not show</p>
+    </div>
+  </section>
+  <section class="q">
+    <p class="qn">B35</p>
+    <div class="qb">
+      <h3>In one or two sentences, what makes Karwan e Usmania International different?</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i></div>
+      <p class="tick"><span class="box"></span> Show this on the website <span class="sep"></span><span class="box"></span> Do not show</p>
+    </div>
+  </section>
+  <section class="q">
+    <p class="qn">B36</p>
+    <div class="qb">
+      <h3>Do pilgrims need an appointment to visit the office?</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i></div>
+      <p class="tick"><span class="box"></span> Show this on the website <span class="sep"></span><span class="box"></span> Do not show</p>
+    </div>
+  </section>
+
+  <h2 class="sec">Anything else</h2>
+  <section class="q other">
+    <p class="qn">C1</p>
+    <div class="qb">
+      <h3>Which other questions do your clients ask you most often? Please write each question and your answer.</h3>
+      <div class="lines"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    </div>
+  </section>
+</body></html>
