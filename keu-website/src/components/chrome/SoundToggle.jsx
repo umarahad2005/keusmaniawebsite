@@ -6,14 +6,16 @@
      downloaded until then.
    - If a visitor switched it on before, the choice is remembered and the sound
      resumes on their first tap or key press of the next visit.
-   - Fades in and out over ~1.2 s, loops, and pauses while the tab is hidden or
-     another sound plays (a video review fires 'keu:media-play').
+   - Fades in and out over ~1.2 s and loops: short clips (like the 16 s
+     Talbiyah) repeat seamlessly with no gap (lib/loopPlayer.js). Pauses while
+     the tab is hidden or another sound plays (a video review fires
+     'keu:media-play'), and resumes where it stopped.
    - It lives in the nav, so it keeps playing across page changes. */
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useSite } from '../../lib/SiteContext.jsx'
+import { createLoopPlayer } from '../../lib/loopPlayer.js'
 
 const PREF = 'keuSound'
-const FADE_MS = 1200
 
 function readPref() {
   try { return localStorage.getItem(PREF) === 'on' } catch { return false }
@@ -27,62 +29,39 @@ export default function SoundToggle({ className = '' }) {
   const a = site.ambience || {}
   const active = Boolean(a.enabled && a.src)
   const target = Math.min(0.8, Math.max(0.05, Number(a.volume) || 0.35))
-  const audio = useRef(null)
-  const fade = useRef(0)
+  const player = useRef(null)
   const [on, setOn] = useState(false)
   // On a slow connection the track can take a few seconds to start: show that
   // the press was received instead of looking unresponsive.
   const [loading, setLoading] = useState(false)
   const wanted = useRef(false)       // what the visitor chose (survives tab hides)
-
-  const ramp = useCallback((to, done) => {
-    const el = audio.current
-    if (!el) return
-    cancelAnimationFrame(fade.current)
-    const from = el.volume, t0 = performance.now()
-    const step = (now) => {
-      const p = Math.min(1, (now - t0) / FADE_MS)
-      el.volume = from + (to - from) * p
-      if (p < 1) fade.current = requestAnimationFrame(step)
-      else done?.()
-    }
-    fade.current = requestAnimationFrame(step)
-  }, [])
+  const duration = Number(a.duration) || 0
 
   const play = useCallback(() => {
-    if (!audio.current) {
-      const el = new Audio()
-      el.src = a.src
-      el.loop = true
-      el.preload = 'auto'
-      el.volume = 0
-      audio.current = el
-    }
-    const el = audio.current
+    if (!player.current) player.current = createLoopPlayer(a.src, { volume: target, duration })
+    const p = player.current
     setLoading(true)
-    el.play()
+    p.start()
       .then(() => {
-        if (!wanted.current) { el.pause(); return }   // pressed again while loading
-        setOn(true); ramp(target)
+        if (!wanted.current) { p.stop(); return }   // pressed again while loading
+        setOn(true)
       })
       .catch(() => setOn(false))
       .finally(() => setLoading(false))
-  }, [a.src, target, ramp])
+  }, [a.src, target, duration])
 
   const pause = useCallback(() => {
-    const el = audio.current
-    if (!el || el.paused) { setOn(false); return }
     setOn(false)
-    ramp(0, () => el.pause())
-  }, [ramp])
+    player.current?.stop()
+  }, [])
 
   const toggle = () => {
     if (on || loading) { wanted.current = false; writePref(false); pause() }
     else { wanted.current = true; writePref(true); play() }
   }
 
-  // A track replaced in the admin: drop the old element.
-  useEffect(() => () => { audio.current?.pause(); audio.current = null }, [a.src])
+  // A track replaced in the admin: drop the old player.
+  useEffect(() => () => { player.current?.destroy(); player.current = null }, [a.src])
 
   // Remembered "on": resume at the visitor's first interaction of this visit.
   useEffect(() => {
