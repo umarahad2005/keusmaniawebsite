@@ -14,6 +14,11 @@ import './styles/pages.css'
 
 import App from './App.jsx'
 
+/* Pre-rendered pages (scripts/prerender.mjs) ship static HTML and JSON-LD for
+   crawlers that don't run JS. The app renders fresh over the HTML, and its
+   JsonLd components add live copies of the blocks, so drop the static ones. */
+document.querySelectorAll('script[type="application/ld+json"][data-prerender]').forEach(s => s.remove())
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>

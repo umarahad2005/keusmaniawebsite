@@ -10,12 +10,16 @@
    Usage:
      <JsonLd data={{ "@context":"https://schema.org", "@type":"FAQPage", ... }} /> */
 import { useEffect, useId } from 'react'
+import { IS_SSR, collector } from '../lib/ssr.js'
 
 const staticFor = (ldId) =>
   ldId ? [...document.querySelectorAll('script[type="application/ld+json"][data-ld-id]')].find(s => s.dataset.ldId === ldId) : null
 
 export default function JsonLd({ data }) {
   const id = useId().replace(/:/g, '_')
+
+  // Pre-render: hand the blocks to scripts/prerender.mjs instead of the DOM.
+  if (IS_SSR && collector()) collector().ld.push(...(Array.isArray(data) ? data : [data]))
 
   useEffect(() => {
     const items = Array.isArray(data) ? data : [data]

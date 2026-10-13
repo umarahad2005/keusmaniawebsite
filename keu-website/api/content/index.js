@@ -24,6 +24,17 @@ function isPrivateRead(req) {
   return /[?&]t=/.test(req.url || '')
 }
 
+/* Pages are pre-rendered at build time (scripts/prerender.mjs), so a save asks
+   Vercel for a fresh build through a Deploy Hook (Vercel → Settings → Git →
+   Deploy Hooks; the URL goes in VERCEL_DEPLOY_HOOK_URL). Until it finishes the
+   static HTML is a little behind, but visitors' browsers still load the live
+   content. Without the variable, or if the call fails, the save still succeeds. */
+async function triggerRebuild() {
+  const hook = process.env.VERCEL_DEPLOY_HOOK_URL
+  if (!hook) return
+  try { await fetch(hook, { method: 'POST', signal: AbortSignal.timeout(4000) }) } catch { /* the save already succeeded */ }
+}
+
 async function handler(req, res) {
   if (req.method === 'GET') {
     // no-store until the read succeeds, so a 503 from a DB hiccup is never cached.
@@ -50,6 +61,7 @@ async function handler(req, res) {
       { type, data },
       { upsert: true, new: true, setDefaultsOnInsert: true },
     ).lean()
+    await triggerRebuild()
     return res.status(200).json({ ok: true, content: doc })
   }
 

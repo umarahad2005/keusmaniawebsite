@@ -1,6 +1,13 @@
 import { useEffect } from 'react'
 import { cldUrl } from './images.js'
 import { SITE_URL } from './brand.js'
+import { IS_SSR, collector } from './ssr.js'
+
+// Social crawlers want a fixed 1.91:1 card, hence the explicit crop.
+function absoluteOg(ogImage) {
+  const resolved = cldUrl(ogImage, { w: 1200, h: 630 })
+  return resolved.startsWith('http') ? resolved : SITE_URL + resolved
+}
 
 /**
  * Per-route SEO + social meta updater. Updates <title>, description,
@@ -9,11 +16,10 @@ import { SITE_URL } from './brand.js'
  * content="noindex">; every other page removes it again (each public page
  * calls this hook, so leaving the 404 always clears it).
  *
- * Note: SPAs only update <head> client-side. Google + Bing render JS
- * so this works for them. For Twitter/Facebook crawlers (which don't
- * run JS), the static defaults in index.html are what they see.
- * Pre-rendering (react-snap or Vercel's static optimization) is a
- * future option if first-paint social cards become important.
+ * At build time (scripts/prerender.mjs) the same values are recorded and
+ * written into each page's static HTML, so crawlers that don't run JS
+ * (AI assistants, WhatsApp/Facebook previews) see the right head too.
+ * The last call during a render wins, as it does in the browser.
  */
 export function useDocumentHead({
   title,
@@ -24,6 +30,13 @@ export function useDocumentHead({
   ogType = 'website',
   noindex = false,
 }) {
+  if (IS_SSR && collector()) {
+    collector().head = {
+      title, description, canonical, keywords, ogType, noindex,
+      ogImage: ogImage ? absoluteOg(ogImage) : null,
+    }
+  }
+
   useEffect(() => {
     if (title) document.title = title
 
@@ -60,10 +73,8 @@ export function useDocumentHead({
     }
     if (ogImage) {
       /* ogImage may be a Cloudinary public_id, a full URL, or a /public path.
-         cldUrl resolves the first two; the third still needs the origin prefix.
-         Social crawlers want a fixed 1.91:1 card, hence the explicit crop. */
-      const resolved = cldUrl(ogImage, { w: 1200, h: 630 })
-      const absolute = resolved.startsWith('http') ? resolved : SITE_URL + resolved
+         cldUrl resolves the first two; the third still needs the origin prefix. */
+      const absolute = absoluteOg(ogImage)
       setMeta('meta[property="og:image"]', 'content', absolute)
       ensureMeta('name', 'twitter:image').setAttribute('content', absolute)
     }

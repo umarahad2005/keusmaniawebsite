@@ -72,7 +72,7 @@ export default function Packages() {
       </section>
 
       <QafilaSection />
-      <FAQSection num="03" />
+      <FAQSection num="03" schema={false} />
       <CTABanner num="04" />
     </>
   )

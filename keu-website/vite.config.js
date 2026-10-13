@@ -1,9 +1,12 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-export default defineConfig({
+// isSsrBuild: the build-time pre-render bundle (src/entry-server.jsx) keeps its
+// node_modules external, so it gets no manual chunks.
+export default defineConfig(({ isSsrBuild }) => ({
   plugins: [react()],
   base: '/',
+  publicDir: isSsrBuild ? false : 'public',
   server: {
     port: 5173,
     open: true,
@@ -41,7 +44,7 @@ export default defineConfig({
     },
     chunkSizeWarningLimit: 600,
     rollupOptions: {
-      output: {
+      output: isSsrBuild ? {} : {
         manualChunks: {
           react:  ['react', 'react-dom', 'react-router-dom'],
           gsap:   ['gsap', 'gsap/ScrollTrigger', 'gsap/SplitText', 'gsap/Flip', 'gsap/DrawSVGPlugin', 'gsap/CustomEase'],
@@ -50,4 +53,4 @@ export default defineConfig({
       },
     },
   },
-})
+}))

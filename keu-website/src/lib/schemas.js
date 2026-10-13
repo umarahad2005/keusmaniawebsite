@@ -3,7 +3,7 @@
 import { cldUrl } from './images.js'
 import { SITE_URL, BRAND, DESCRIPTION, LOGO_PATH, ogCard } from './brand.js'
 import { hoursRows } from './hours.js'
-import { packageAnchor } from './team.js'
+import { packageAnchor, memberUrl } from './team.js'
 
 /* Cloudinary public_id, full URL or /public path → absolute URL. */
 const absImage = (src, w) => {
@@ -173,17 +173,17 @@ export function aboutPageSchema(site) {
     name: `About ${BRAND}`,
     url: `${SITE_URL}/about`,
     about: { '@id': `${SITE_URL}/#organization` },
-    mainEntity: {
-      '@type': 'Organization',
-      name: BRAND,
-      foundingDate: String(site.company.founded || 2005),
-      employee: (site.team || []).map(m => ({
-        '@type': 'Person',
-        name: m.name,
-        jobTitle: m.role,
-        image: m.photo ? absImage(m.photo, 640) : undefined,
-      })),
-    },
+    // The page is about the one organization node (no second, anonymous copy);
+    // the team are listed as people who work for it, each with their card page.
+    mainEntity: { '@id': `${SITE_URL}/#organization` },
+    mentions: (site.team || []).filter(m => m && m.name).map(m => ({
+      '@type': 'Person',
+      name: m.name,
+      jobTitle: m.role,
+      url: memberUrl(m),
+      image: m.photo ? absImage(m.photo, 640) : undefined,
+      worksFor: { '@id': `${SITE_URL}/#organization` },
+    })),
   }
 }
 

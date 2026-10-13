@@ -11,7 +11,13 @@
    `error` is true when the latest read failed and the page is running on the
    bundled defaults, so a page can avoid a 404 for content it cannot see. The
    context value is memoised: route changes re-render the provider (useLocation)
-   but must not re-render every useSite() consumer. */
+   but must not re-render every useSite() consumer.
+
+   Pre-rendered pages (scripts/prerender.mjs) carry the content they were built
+   with in window.__KEU_CONTENT__, and the build passes the same object as
+   `initial`. Starting from it means the first render matches the static HTML
+   (no flash of the bundled default packages); the API read still runs and
+   replaces it with anything edited since the build. */
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
@@ -28,10 +34,23 @@ const Ctx = createContext({
 
 export function useSite() { return useContext(Ctx) }
 
-export function SiteProvider({ children }) {
-  const [site,     setSite]     = useState(DEFAULT_SITE)
-  const [packages, setPackages] = useState(DEFAULT_PACKAGES)
-  const [loaded,   setLoaded]   = useState(false)
+// Each top-level key in `site` can be overridden by a row in Content collection.
+// Special-case "packages" (a separate top-level field) and "site" (the rest).
+export function mergeContent(content) {
+  return {
+    site: { ...DEFAULT_SITE, ...((content && content.site) || {}) },
+    packages: Array.isArray(content && content.packages) ? content.packages : DEFAULT_PACKAGES,
+  }
+}
+
+const snapshot = (initial) =>
+  initial || (typeof window !== 'undefined' && window.__KEU_CONTENT__) || null
+
+export function SiteProvider({ children, initial }) {
+  const [start]                   = useState(() => snapshot(initial) && mergeContent(snapshot(initial)))
+  const [site,     setSite]     = useState(start ? start.site : DEFAULT_SITE)
+  const [packages, setPackages] = useState(start ? start.packages : DEFAULT_PACKAGES)
+  const [loaded,   setLoaded]   = useState(!!start)
   const [error,    setError]    = useState(false)
 
   const inAdmin = useLocation().pathname.startsWith('/admin')
@@ -43,11 +62,9 @@ export function SiteProvider({ children }) {
     try {
       const content = fresh ? await api.getFresh('/api/content') : await api.get('/api/content')
       if (mine !== seq.current) return
-      // Each top-level key in `site` can be overridden by a row in Content collection.
-      // Special-case "packages" (a separate top-level field) and "site" (the rest).
-      const siteOverride = content.site || {}
-      setSite({ ...DEFAULT_SITE, ...siteOverride })
-      setPackages(Array.isArray(content.packages) ? content.packages : DEFAULT_PACKAGES)
+      const next = mergeContent(content)
+      setSite(next.site)
+      setPackages(next.packages)
       setError(false)
     } catch {
       // API not reachable — keep bundled defaults silently. The site renders fine

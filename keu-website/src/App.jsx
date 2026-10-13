@@ -87,9 +87,11 @@ function AdminAuth() {
   return <AuthProvider><Outlet /></AuthProvider>
 }
 
-export default function App() {
+/* `initialContent` is only passed by the build-time pre-render
+   (src/entry-server.jsx); in the browser SiteProvider reads the snapshot itself. */
+export default function App({ initialContent }) {
   return (
-    <SiteProvider>
+    <SiteProvider initial={initialContent}>
       {/* Only the lazy admin screens ever suspend here. */}
       <Suspense fallback={<div className="admin-loading" role="status">Loading…</div>}>
         <Routes>

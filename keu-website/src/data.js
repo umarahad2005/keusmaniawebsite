@@ -37,7 +37,7 @@ export const SITE = {
   },
 
   services: [
-    { icon: 'visa',  label: 'Visa Processing', sublabel: '100% approval rate' },
+    { icon: 'visa',  label: 'Visa Processing', sublabel: 'Handled end to end' },
     { icon: 'plane', label: 'Flights',          sublabel: 'Economy & Business' },
     { icon: 'hotel', label: 'Hotels',           sublabel: '4★ & 5★ near Haram' },
     { icon: 'bus',   label: 'Transport',        sublabel: 'Private AC coaches' },
@@ -72,7 +72,7 @@ export const SITE = {
     { value: 21,    suffix: '+', label: 'Years of Service',  icon: 'calendar' },
     { value: 25000, suffix: '+', label: 'Pilgrims Served',   icon: 'users'    },
     { value: 80,    suffix: '+', label: 'Partner Hotels',    icon: 'building' },
-    { value: 100,   suffix: '%', label: 'Visa Success Rate', icon: 'check'    },
+    { value: 24,    suffix: '/7', label: 'On-ground Support', icon: 'check'   },
   ],
 
   sanctuaries: [
@@ -168,11 +168,11 @@ export const SITE = {
     },
     {
       q: "How long does Saudi Umrah visa processing take?",
-      a: "Saudi Umrah visas are typically processed within 5–7 working days, and we have a 100% approval rate. The visa fee, biometric appointment and document attestation are all handled by our team, so you do not need to visit the consulate.",
+      a: "Saudi Umrah visas are typically processed within 5–7 working days. The visa fee, biometric appointment and document attestation are all handled by our team, so you do not need to visit the consulate.",
     },
     {
       q: "Which documents do I need for an Umrah visa?",
-      a: "Only your passport and photographs. Our team handles the visa process for you.",
+      a: "You will need: a passport valid for at least six months from your travel date; recent passport-size photographs with a white background; your meningitis vaccination certificate and polio vaccination certificate; and, if you choose a package without an air ticket, a copy of your confirmed ticket. Our team handles the rest of the visa process for you and will confirm the current list when you book.",
     },
     {
       q: "When is the best time for Umrah?",
@@ -224,7 +224,7 @@ export const SITE = {
     },
     {
       q: "How far are your hotels from the Haram?",
-      a: "We use 4-star and 5-star hotels close to the Haram. The distance depends on the package and is listed on each package card. For example, our Star package uses the 5-star Le Méridien in Makkah and the 4-star Al Ansar Golden Tulip in Madinah, and our 21-day package includes hotels with a free shuttle to the Haram.",
+      a: "We use 4-star and 5-star hotels close to the Haram. The distance depends on the package; ask us on WhatsApp and we will tell you the walking distance for each hotel. For example, our Star package uses the 5-star Le Méridien in Makkah and the 4-star Al Ansar Golden Tulip in Madinah, and our 21-day package includes hotels with a free shuttle to the Haram.",
     },
     {
       q: "Are meals included in the package?",

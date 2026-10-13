@@ -14,7 +14,9 @@ import { useWaLink } from '../lib/whatsapp.js'
 import SectionHeading from './SectionHeading.jsx'
 import JsonLd from './JsonLd.jsx'
 
-export default function FAQSection({ num = '10', surface = 'paper', initial = 8 }) {
+/* `schema`: the FAQPage JSON-LD goes on one URL only (Home), so search engines
+   see one canonical FAQ page; Packages shows the same questions without it. */
+export default function FAQSection({ num = '10', surface = 'paper', initial = 8, schema = true }) {
   const { site } = useSite()
   const wa = useWaLink()
   const [all, setAll] = useState(false)
@@ -70,7 +72,7 @@ export default function FAQSection({ num = '10', surface = 'paper', initial = 8 
           )}
         </div>
       </div>
-      <JsonLd data={faqLd} />
+      {schema && <JsonLd data={faqLd} />}
     </section>
   )
 }
