@@ -2,51 +2,6 @@
 
 **Site:** https://usmania.vercel.app · **Date:** 12 October 2026 · **Audits:** seo-audit, ai-seo, content-strategy, core-web-vitals (every finding below was checked a second time)
 
-## Progress (updated 13 October 2026)
-
-**Status:** the developer quick fixes from the "Do now" list are **live** (commit `5d20a66`). The four skills re-tested them before release, and the live site was checked after deploy.
-
-| Area | Before | Now |
-|---|---|---|
-| SEO | Needs work | Better. The quick wins are fixed. Pre-rendering is still the big job. |
-| AEO | Needs work | Better. The FAQ is marked up once, and `llms-full.txt` now carries all 39 FAQs. The owner content fixes are still open. |
-| GEO | Weak | Still weak until pre-rendering ships and the owner builds a presence outside the site. AI crawler rules are fixed. |
-| Speed | Good | Same score so far. Content is now served from Vercel's cache, and the admin login check and admin styles are gone from public pages. |
-
-### Done and verified
-
-| Fix | Audit IDs | Checked by |
-|---|---|---|
-| "Page not found" page (noindex, own canonical) for unknown addresses and unknown team pages | S:SEO-2, A:SEO-1 | seo-audit, live |
-| `robots.txt`: `Disallow: /admin` and `/api` in every group, newer AI crawlers named | S:SEO-10, A:GEO-7 | seo-audit, ai-seo, live |
-| Sitemap includes the 8 team pages (13 addresses in total) | A:CON-2 | live |
-| `llms.txt` built from live content; new `llms-full.txt` with all 39 FAQs | A:GEO-5 | ai-seo, live |
-| Addresses ending in a slash redirect (308); `/admin` and `/api` send noindex | trailing slash | live |
-| `/api/content` served from Vercel's cache (60 s, then up to 10 min while it refreshes); the admin always reads fresh | W:CWV-3 | core-web-vitals, live (HIT) |
-| Admin login check and admin styles load only on `/admin` | W:CWV-5, W:CWV-4 | core-web-vitals |
-| FAQ marked up once (JSON-LD only); one organization record | A:AEO-4, A:GEO-6 | ai-seo |
-| Package links use clean names (`#star-package`), the same on cards, footer and schema; "yaya" is gone from public links | A:CON-1 (dev part) | seo-audit, re-check |
-| Gallery alt text; footer column titles are no longer headings | gallery alt, footer headings | seo-audit |
-| Page header image shows immediately (no fade-in) | W:CWV-1 (part) | core-web-vitals |
-| No "Hajj" or "VIP" in the built-in text; placeholder packages are neutral; search keywords match the real packages | C:CON-4 (dev part), W:CWV-2 (part) | content-strategy |
-| A link to a package card opened in a fresh tab now scrolls to the card | found in re-test | build check |
-
-**One behaviour change:** admin edits now take up to about a minute to appear for visitors, because of the caching. The admin itself always shows the latest version.
-
-### Still open
-
-**Developer (next):** pre-render every page. This is still the most important fix. It gives AI crawlers and link previews real pages, makes unknown addresses return a real 404 status, and improves the 4.1 s LCP on Packages. FAQPage markup is also still on 2 pages: pick one page to carry it. The About page still has a third organization record.
-
-**Owner, in the admin:**
-- Change "Hajj and Umrah" in the About story.
-- Edit the "VIP package" testimonial.
-- Give each video review its own caption.
-- Clean up both packages: test name, 21 vs 20 nights, price of 1, landline "Call/WhatsApp" line, expired offer.
-- Back up or soften "100% visa success" in its three places.
-- Rewrite FAQ 7 as a checklist.
-
-**Owner, outside the site:** a domain of your own, a Google Business Profile, licence and MoRA registration numbers, and the privacy and terms text.
-
 ## 1. Executive summary
 
 The site is fast, looks professional, and has strong content underneath: 39 owner-approved FAQs, real pilgrim video reviews, the Qafila e Shoq programme, and detailed business data for Google. The problem is how that content reaches search engines and AI assistants. The site is built so that the page is put together in the visitor's browser. Google does this extra step and can see the real pages. Most AI assistants (ChatGPT, Claude, Perplexity), WhatsApp and Facebook link previews, and Bing's first pass do not. They see the same empty page on every link. Outside the website, a search for "Karwan e Usmania" found nothing about the business: no Google Business Profile linked, no directory listings, and no licence number shown. Some content on the site also weakens trust: two different pilgrims carry the same review text, the landline is labelled as WhatsApp, a test name ("yaya") appears in a package link, and there is an unproven "100% visa success" claim.
