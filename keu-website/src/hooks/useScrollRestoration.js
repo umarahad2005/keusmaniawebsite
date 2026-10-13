@@ -1,6 +1,7 @@
-import { useLayoutEffect } from 'react'
+import { useEffect, useLayoutEffect, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
 import { ScrollTrigger } from '../lib/motion.js'
+import { useSite } from '../lib/SiteContext.jsx'
 
 const NAV_OFFSET = -64   // fixed header height, matches useLenis's anchor handler
 
@@ -44,8 +45,11 @@ function jumpTo(target, offset = 0) {
 export function useScrollRestoration(displayLocation) {
   const routerLocation = useLocation()
   const { pathname, hash, key } = displayLocation || routerLocation
+  const { packages } = useSite()
+  const pending = useRef(null)   // an anchor that wasn't on the page yet
 
   useLayoutEffect(() => {
+    pending.current = null
     if (hash) {
       /* getElementById, not querySelector: package ids come from the admin and
          may start with a digit or contain spaces, which are invalid CSS selectors. */
@@ -55,10 +59,23 @@ export function useScrollRestoration(displayLocation) {
         ScrollTrigger.update()
         return
       }
-      // Unknown anchor — better to land at the top than wherever we were.
+      // Unknown anchor — better to land at the top than wherever we were. It may
+      // be a package card that only exists once live content arrives, so retry then.
+      pending.current = hash
     }
 
     jumpTo(0)
     ScrollTrigger.update()
   }, [pathname, hash, key])
+
+  /* A fresh load of /packages#<card> renders the default cards first; jump
+     once the live packages (and their anchors) are on the page. */
+  useEffect(() => {
+    if (!pending.current) return
+    const el = document.getElementById(decodeURIComponent(pending.current.slice(1)))
+    if (!el) return
+    pending.current = null
+    jumpTo(el, NAV_OFFSET)
+    ScrollTrigger.update()
+  }, [packages])
 }

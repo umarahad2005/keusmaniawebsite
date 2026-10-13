@@ -93,6 +93,11 @@ function Lightbox({ items, index, onIndex, onClose }) {
   )
 }
 
+/* The tile's alt text: the admin's alt, else a caption or title, else a plain
+   description, so image search and screen readers always get a name. */
+const photoAlt = (img, i) =>
+  String(img.alt || img.caption || img.title || '').trim() || `Karwan e Usmania International Umrah photo ${i + 1}`
+
 export default function GalleryGrid() {
   const { site } = useSite()
   const items = (site.gallery || []).filter(g => g && g.src)
@@ -110,11 +115,11 @@ export default function GalleryGrid() {
                 className="gallery__frame"
                 data-reveal={i < 6 ? 't3' : 'block'}
                 onClick={() => setOpen(i)}
-                aria-label={`Open photo: ${img.alt || `photo ${i + 1}`}`}
+                aria-label={`Open photo: ${photoAlt(img, i)}`}
               >
                 <Img
                   src={img.src}
-                  alt=""
+                  alt={photoAlt(img, i)}
                   widths={[400, 600, 900, 1200]}
                   sizes={img.size === 'wide' ? '(max-width: 767px) 100vw, 66vw' : '(max-width: 767px) 50vw, 33vw'}
                   loading="lazy"

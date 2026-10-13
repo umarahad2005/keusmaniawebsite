@@ -4,7 +4,9 @@
       address · phones · email and website · hours.
    2. The letterhead sweep and champagne ribbon into the green band.
    3. On the band: the lockup with a solid gold wordmark, links, live packages,
-      socials and the credit line. No motto here (it appears once, in the Home seam). */
+      socials and the credit line. No motto here (it appears once, in the Home seam).
+   Column titles are plain <p> labels, not headings, so the page outline stays
+   the page's own content. */
 import { Link } from 'react-router-dom'
 import { useSite } from '../lib/SiteContext.jsx'
 import { Icon } from '../icons.jsx'
@@ -12,6 +14,7 @@ import { useWaLink, waNumber } from '../lib/whatsapp.js'
 import { hoursRows } from '../lib/hours.js'
 import Lockup from './brand/Lockup.jsx'
 import { formatPk, DEFAULT_LANDLINE } from '../lib/phone.js'
+import { packageAnchor } from '../lib/team.js'
 
 const SITE_HOST = 'usmania.vercel.app'
 
@@ -94,7 +97,7 @@ export default function Footer() {
           </div>
 
           <nav className="site-footer__col" aria-label="Footer">
-            <h2 className="site-footer__title">Explore</h2>
+            <p className="site-footer__title">Explore</p>
             <ul role="list">
               <li><Link to="/">Home</Link></li>
               <li><Link to="/packages">Packages</Link></li>
@@ -105,18 +108,18 @@ export default function Footer() {
           </nav>
 
           <div className="site-footer__col">
-            <h2 className="site-footer__title">Packages</h2>
+            <p className="site-footer__title">Packages</p>
             {/* From the live package data, so renamed packages never leave a dead link. */}
             <ul role="list">
               {packages.slice(0, 5).map(p => (
-                <li key={p.id}><Link to={`/packages#${encodeURIComponent(p.id)}`}>{p.name}</Link></li>
+                <li key={p.id}><Link to={`/packages#${packageAnchor(p)}`}>{p.name}</Link></li>
               ))}
               <li><Link to="/packages#qafila">Qafila e Shoq</Link></li>
             </ul>
           </div>
 
           <div className="site-footer__col">
-            <h2 className="site-footer__title">Follow</h2>
+            <p className="site-footer__title">Follow</p>
             <ul className="site-footer__socials" role="list">
               {(c.socials || []).map(s => (
                 <li key={s.name}>

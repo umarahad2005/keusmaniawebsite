@@ -1,6 +1,12 @@
+/* Admin sign-in. noindex with a self canonical (the path is also disallowed in
+   robots.txt and sent with X-Robots-Tag), never the home page's canonical. */
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../lib/AuthContext.jsx'
+import { useDocumentHead } from '../../lib/useDocumentHead.js'
+import { SITE_URL } from '../../lib/brand.js'
+/* Admin styles live in the lazy admin chunk, not the public CSS. */
+import '../../styles/admin.css'
 
 export default function AdminLogin() {
   const { login, admin, loading } = useAuth()
@@ -9,6 +15,8 @@ export default function AdminLogin() {
   const [password, setPassword] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState(null)
+
+  useDocumentHead({ title: 'Sign in | Karwan Dashboard', canonical: `${SITE_URL}/admin/login`, noindex: true })
 
   useEffect(() => {
     if (!loading && admin) nav('/admin', { replace: true })

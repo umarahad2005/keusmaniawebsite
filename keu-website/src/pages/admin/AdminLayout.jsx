@@ -1,7 +1,12 @@
-import { useEffect } from 'react'
+/* Admin shell: sidebar navigation and the signed-in outlet. The head is set
+   to noindex with a self canonical, so no admin URL ever claims the home page. */
 import { Outlet, NavLink, Navigate, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../lib/AuthContext.jsx'
 import { Icon } from '../../icons.jsx'
+import { useDocumentHead } from '../../lib/useDocumentHead.js'
+import { SITE_URL } from '../../lib/brand.js'
+/* Admin styles live in the lazy admin chunk, not the public CSS. */
+import '../../styles/admin.css'
 
 const NAV = [
   { to: '/admin/inbox',        label: 'Inbox',        icon: 'mail'        },
@@ -21,7 +26,7 @@ export default function AdminLayout() {
   const { admin, loading, logout } = useAuth()
   const nav = useNavigate()
 
-  useEffect(() => { document.title = 'Karwan Dashboard' }, [])
+  useDocumentHead({ title: 'Karwan Dashboard', canonical: `${SITE_URL}/admin`, noindex: true })
 
   if (loading) {
     return <div style={{ display: 'grid', placeItems: 'center', minHeight: '60vh', color: 'var(--color-text-muted)' }}>Loading…</div>

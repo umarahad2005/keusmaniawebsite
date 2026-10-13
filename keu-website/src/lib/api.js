@@ -1,4 +1,6 @@
-/* Tiny fetch wrapper — credentials always included so the JWT cookie travels. */
+/* Tiny fetch wrapper — credentials always included so the JWT cookie travels.
+   getFresh() adds a ?t=<timestamp> cache-buster and skips the browser cache, for
+   reads that must bypass the CDN copy (the admin editing content). */
 
 async function request(path, options = {}) {
   const res = await fetch(path, {
@@ -20,6 +22,7 @@ async function request(path, options = {}) {
 
 export const api = {
   get:    (path)        => request(path),
+  getFresh: (path)      => request(`${path}${path.includes('?') ? '&' : '?'}t=${Date.now()}`, { cache: 'no-store' }),
   post:   (path, data)  => request(path, { method: 'POST',  body: JSON.stringify(data) }),
   put:    (path, data)  => request(path, { method: 'PUT',   body: JSON.stringify(data) }),
   patch:  (path, data)  => request(path, { method: 'PATCH', body: JSON.stringify(data) }),

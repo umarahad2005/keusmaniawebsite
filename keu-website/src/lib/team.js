@@ -10,6 +10,11 @@ export function slugify(s = '') {
     .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'member'
 }
 
+/** A package's in-page anchor (/packages#star-package). Slugged from the
+    visible name, not the raw admin id ("Star Package yaya "), so the card id,
+    the footer link and the JSON-LD URL always agree and stay clean. */
+export const packageAnchor = (pkg) => slugify(pkg?.name || pkg?.id)
+
 /** The member's card slug: the admin's own slug if set, else from the name. */
 export const memberSlug = (m) => slugify(m?.slug || m?.name)
 export const memberPath = (m) => `/team/${memberSlug(m)}`

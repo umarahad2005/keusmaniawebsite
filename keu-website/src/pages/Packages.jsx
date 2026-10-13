@@ -14,15 +14,18 @@ import { breadcrumbSchema, packageListSchema, organizationSchema } from '../lib/
 
 /* Packages (DESIGN-LANGUAGE §5.2): split header, sticky filter chips over a
    ruled grid, the trust line, then the Qafila e Shoq chapter, FAQ and the
-   closing letter. Hash links (/packages#<id>) are scrolled by
+   closing letter. Hash links (/packages#<packageAnchor>) are scrolled by
    useScrollRestoration once the curtain opens. */
 export default function Packages() {
   const { site, packages } = useSite()
+  // "Prices per person" only when a card actually shows a price (not while
+  // the neutral "On request" placeholders are up, or every package is on request).
+  const anyPriced = packages.some(p => /\d/.test(String(p.priceLabel || '')))
 
   useDocumentHead({
     title: 'Umrah Packages from Lahore | Karwan e Usmania International',
     description: 'Umrah packages from Lahore with every cost explained in writing before you commit. Hotels near the Haram, visa handled by our team, and the Qafila e Shoq spiritual journey. Book on WhatsApp.',
-    keywords: 'Umrah package price Pakistan, Umrah packages Lahore, VIP Umrah Lahore, family Umrah package, Qafila e Shoq, Karwan e Usmania International',
+    keywords: 'Umrah package price Pakistan, Umrah packages Lahore, Umrah package without air ticket, premium Umrah package Lahore, Qafila e Shoq, Karwan e Usmania International',
     canonical: `${SITE_URL}/packages`,
     ogImage: '/og/packages.jpg',
   })
@@ -63,7 +66,7 @@ export default function Packages() {
         <div className="k-container">
           <h2 className="sr-only" id="packages-title">All packages</h2>
           <PackagesGrid showFilters sticky />
-          <p className="packages-page__trust">Prices per person · every cost explained in writing before you commit</p>
+          <p className="packages-page__trust">{anyPriced ? 'Prices per person · every cost' : 'Every cost'} explained in writing before you commit</p>
           {licence && <p className="ledger__licence">{licence}</p>}
         </div>
       </section>

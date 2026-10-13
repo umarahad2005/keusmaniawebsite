@@ -1,5 +1,6 @@
 /* Questions (DESIGN-LANGUAGE §4 FAQ). A sticky heading beside native <details>
-   rows (first one open). The FAQPage microdata and JSON-LD stay. Opening is
+   rows (first one open). The FAQPage is described once, as JSON-LD (no
+   microdata, so engines never see it marked up twice). Opening is
    animated with ::details-content where the browser supports it, and instant
    elsewhere and under reduced motion. Keeps #faq and .faq-item__q.
 
@@ -46,22 +47,19 @@ export default function FAQSection({ num = '10', surface = 'paper', initial = 8 
           <SectionHeading num={num} eyebrow="Questions" id="faq-title" title="Frequently Asked Questions" lead="Everything pilgrims ask before they book." />
           <a className="k-link" href={wa('general')} target="_blank" rel="noopener">Ask on WhatsApp <span aria-hidden="true">→</span></a>
         </div>
-        <div className="faq__list" ref={list} itemScope itemType="https://schema.org/FAQPage">
+        <div className="faq__list" ref={list}>
           {faqs.map((f, i) => (
             <details
               key={i}
               className={`faq-item${!all && i >= initial ? ' faq-item--more' : ''}`}
               open={i === 0}
-              itemScope
-              itemProp="mainEntity"
-              itemType="https://schema.org/Question"
             >
-              <summary className="faq-item__q" itemProp="name">
+              <summary className="faq-item__q">
                 <span>{f.q}</span>
                 <span className="faq-item__icon" aria-hidden="true" />
               </summary>
-              <div className="faq-item__a" itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
-                <p itemProp="text">{f.a}</p>
+              <div className="faq-item__a">
+                <p>{f.a}</p>
               </div>
             </details>
           ))}

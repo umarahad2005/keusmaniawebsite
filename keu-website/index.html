@@ -121,10 +121,14 @@
     @media (max-width: 767px) { .ki-markwrap { width: 80px; height: 80px; } }
   </style>
 
-  <script type="application/ld+json">
+  <!-- Organization node for crawlers without JS. Mirrors organizationSchema()
+       in src/lib/schemas.js (sameAs = the admin's socials with a URL); JsonLd.jsx
+       rewrites this same tag in place (data-ld-id) so there is only ever one node
+       with this @id. Keep the two in step when company details change. -->
+  <script type="application/ld+json" data-ld-id="https://usmania.vercel.app/#organization">
   {
     "@context": "https://schema.org",
-    "@type": "TravelAgency",
+    "@type": ["TravelAgency", "LocalBusiness"],
     "@id": "https://usmania.vercel.app/#organization",
     "name": "Karwan e Usmania International",
     "alternateName": ["Karwan e Usmania", "Karwan e Usmania International Travel & Tours"],
@@ -132,30 +136,31 @@
     "url": "https://usmania.vercel.app",
     "logo": "https://usmania.vercel.app/brand/keui-logo-512.png",
     "image": "https://usmania.vercel.app/og/home.jpg",
-    "foundingDate": "2005",
-    "telephone": "+92-42-35136177",
+    "telephone": "+924235136177",
     "email": "keusmania@gmail.com",
+    "foundingDate": "2005",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "Office No. 2, 1st Floor, Usman Plaza, 436-G1, Opposite Butt Sweets, Johar Town",
       "addressLocality": "Lahore",
       "addressCountry": "PK"
     },
-    "areaServed": "Pakistan",
-    "openingHours": ["Mo-Fr 11:00-19:00", "Sa 11:00-17:00"],
+    "areaServed": { "@type": "Country", "name": "Pakistan" },
+    "openingHoursSpecification": [
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "11:00", "closes": "19:00" },
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Saturday"], "opens": "11:00", "closes": "17:00" }
+    ],
+    "sameAs": [
+      "https://www.facebook.com/profile.php?id=61552498595314",
+      "https://www.instagram.com/keusmania"
+    ],
     "contactPoint": {
       "@type": "ContactPoint",
       "telephone": "+923334883578",
       "contactType": "customer support",
       "areaServed": "PK",
       "availableLanguage": ["en", "ur"]
-    },
-    "sameAs": [
-      "https://www.facebook.com/profile.php?id=61552498595314",
-      "https://www.instagram.com/keusmania",
-      "https://youtube.com/@karwaneusmania",
-      "https://www.tiktok.com/@keusmania"
-    ]
+    }
   }
   </script>
 </head>

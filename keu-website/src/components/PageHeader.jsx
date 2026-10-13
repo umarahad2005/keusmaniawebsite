@@ -1,7 +1,9 @@
 /* Inner page header, split (DESIGN-LANGUAGE §4 PageHeader). On paper:
    breadcrumb, running head, H1 and lead on the left; the still on the right in a
    20 px inset frame with the letterhead corner device. No type ever sits on the
-   image. ≤56vh. The still opens with T3; the copy is painted from the start.
+   image. ≤56vh. The still is the page's LCP element, so it paints at once with
+   no reveal (a T3 curtain would hold it at clip 100% until JS runs); the copy
+   is painted from the start too.
    `data-page-header` is the sentinel the FAB and thumb bar watch. */
 import { Link } from 'react-router-dom'
 import Img from './Img.jsx'
@@ -41,7 +43,7 @@ export default function PageHeader({
         </div>
         {image && (
           <figure className="pheader__media">
-            <div className="pheader__frame" data-reveal="t3">
+            <div className="pheader__frame">
               <Img
                 src={image}
                 alt={imageAlt}

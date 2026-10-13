@@ -5,7 +5,9 @@ import { SITE_URL } from './brand.js'
 /**
  * Per-route SEO + social meta updater. Updates <title>, description,
  * canonical, OG (title/description/image/type/url), Twitter card,
- * and keywords on route change.
+ * and keywords on route change. `noindex` adds <meta name="robots"
+ * content="noindex">; every other page removes it again (each public page
+ * calls this hook, so leaving the 404 always clears it).
  *
  * Note: SPAs only update <head> client-side. Google + Bing render JS
  * so this works for them. For Twitter/Facebook crawlers (which don't
@@ -20,6 +22,7 @@ export function useDocumentHead({
   keywords,
   ogImage,
   ogType = 'website',
+  noindex = false,
 }) {
   useEffect(() => {
     if (title) document.title = title
@@ -65,5 +68,7 @@ export function useDocumentHead({
       ensureMeta('name', 'twitter:image').setAttribute('content', absolute)
     }
     setMeta('meta[property="og:type"]', 'content', ogType)
-  }, [title, description, canonical, keywords, ogImage, ogType])
+    if (noindex) ensureMeta('name', 'robots').setAttribute('content', 'noindex')
+    else document.querySelector('meta[name="robots"]')?.remove()
+  }, [title, description, canonical, keywords, ogImage, ogType, noindex])
 }

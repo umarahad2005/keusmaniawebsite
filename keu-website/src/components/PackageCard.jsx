@@ -8,9 +8,11 @@
    narrow card, then "+N more"), the summary behind "Full package details", and
    the WhatsApp button pinned to the bottom.
    The numeric `price` field is never shown, sorted or trusted (live data has 1
-   and 78498 in it); "on request" is detected from the label. Anchors keep the
-   raw id: the sitemap, structured data and footer links depend on it. */
+   and 78498 in it); "on request" is detected from the label. The element id is
+   packageAnchor(pkg), shared with the footer links and the JSON-LD URL; the
+   WhatsApp message stays keyed on the raw pkg.id. */
 import { useWaLink } from '../lib/whatsapp.js'
+import { packageAnchor } from '../lib/team.js'
 import { Icon } from '../icons.jsx'
 
 const TIER = { economy: 'Economy', premium: 'Premium', vip: 'VIP' }
@@ -33,7 +35,7 @@ export default function PackageCard({ pkg }) {
   const variant = pkg.tier === 'vip' ? ' package-card--vip' : isOnRequest ? ' package-card--request' : ''
 
   return (
-    <article className={`package-card${variant}`} id={pkg.id} data-category={pkg.category} data-tier={pkg.tier}>
+    <article className={`package-card${variant}`} id={packageAnchor(pkg)} data-category={pkg.category} data-tier={pkg.tier}>
       <div className="package-card__inner">
         <p className="package-card__eyebrow">
           {eyebrow && <span>{eyebrow}</span>}

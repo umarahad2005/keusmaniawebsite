@@ -3,6 +3,7 @@
 import { cldUrl } from './images.js'
 import { SITE_URL, BRAND, DESCRIPTION, LOGO_PATH, ogCard } from './brand.js'
 import { hoursRows } from './hours.js'
+import { packageAnchor } from './team.js'
 
 /* Cloudinary public_id, full URL or /public path → absolute URL. */
 const absImage = (src, w) => {
@@ -113,10 +114,12 @@ export function breadcrumbSchema(items) {
 }
 
 /** TouristTrip with Offer per package. The price comes from the label the
-    owner typed ("PKR 78,500"); the numeric `price` field is never trusted. */
+    owner typed ("PKR 78,500"); the numeric `price` field is never trusted.
+    The @id and URL fragment use packageAnchor() ("Star Package" → star-package),
+    the same id the card and the footer link use. */
 export function packageSchema(pkg) {
   const amount = Number(String(pkg.priceLabel || '').replace(/[^\d]/g, ''))
-  const url = `${SITE_URL}/packages#${pkg.id}`
+  const url = `${SITE_URL}/packages#${packageAnchor(pkg)}`
   const inclusions = (pkg.inclusions || []).filter(Boolean).slice(0, 4)
   const description = [pkg.subtitle, inclusions.length ? `Includes: ${inclusions.join(', ')}` : '']
     .map(t => String(t || '').trim()).filter(Boolean).join('. ')

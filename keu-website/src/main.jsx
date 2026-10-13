@@ -11,7 +11,6 @@ import './styles/sections.css'
 import './styles/home.css'
 import './styles/hero-safe.css'   // after home.css: its per-aspect vars override the defaults
 import './styles/pages.css'
-import './styles/admin.css'
 
 import App from './App.jsx'
 

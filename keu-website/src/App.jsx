@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Outlet } from 'react-router-dom'
 
 import Nav         from './components/Nav.jsx'
 import Footer      from './components/Footer.jsx'
@@ -16,6 +16,7 @@ import About    from './pages/About.jsx'
 import Gallery  from './pages/Gallery.jsx'
 import Contact  from './pages/Contact.jsx'
 import TeamMember from './pages/TeamMember.jsx'
+import NotFound from './pages/NotFound.jsx'
 
 /* The admin is code-split: visitors never download it, and it never pulls in
    the motion chunks (DESIGN-LANGUAGE Phase 6: "no motion chunks on /admin"). */
@@ -74,39 +75,45 @@ function PublicApp() {
         <Route path="/gallery"  element={<Gallery />} />
         <Route path="/contact"  element={<Contact />} />
         <Route path="/team/:slug" element={<TeamMember />} />
-        <Route path="*"         element={<Home />} />
+        <Route path="*"         element={<NotFound />} />
       </TransitionRoutes>
     </MenuProvider>
   )
 }
 
+/* Auth wraps only the admin screens, so a public pageview never calls
+   /api/auth/me. One pathless parent keeps the session across login → /admin. */
+function AdminAuth() {
+  return <AuthProvider><Outlet /></AuthProvider>
+}
+
 export default function App() {
   return (
-    <AuthProvider>
-      <SiteProvider>
-        {/* Only the lazy admin screens ever suspend here. */}
-        <Suspense fallback={<div className="admin-loading" role="status">Loading…</div>}>
+    <SiteProvider>
+      {/* Only the lazy admin screens ever suspend here. */}
+      <Suspense fallback={<div className="admin-loading" role="status">Loading…</div>}>
         <Routes>
-          <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin"       element={<AdminLayout />}>
-            <Route index               element={<AdminInbox />} />
-            <Route path="inbox"        element={<AdminInbox />} />
-            <Route path="company"      element={<AdminCompany />} />
-            <Route path="packages"     element={<AdminPackages />} />
-            <Route path="testimonials" element={<AdminTestimonials />} />
-            <Route path="video-reviews" element={<AdminVideoReviews />} />
-            <Route path="sound"        element={<AdminSound />} />
-            <Route path="team"         element={<AdminTeam />} />
-            <Route path="gallery"      element={<AdminGallery />} />
-            <Route path="sanctuaries"  element={<AdminGeneric type="sanctuaries" title="Sanctuaries" />} />
-            <Route path="why"          element={<AdminGeneric type="whyChooseUs" title="Why Choose Us" />} />
-            <Route path="faqs"         element={<AdminGeneric type="faqs" title="FAQs" />} />
+          <Route element={<AdminAuth />}>
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin"       element={<AdminLayout />}>
+              <Route index               element={<AdminInbox />} />
+              <Route path="inbox"        element={<AdminInbox />} />
+              <Route path="company"      element={<AdminCompany />} />
+              <Route path="packages"     element={<AdminPackages />} />
+              <Route path="testimonials" element={<AdminTestimonials />} />
+              <Route path="video-reviews" element={<AdminVideoReviews />} />
+              <Route path="sound"        element={<AdminSound />} />
+              <Route path="team"         element={<AdminTeam />} />
+              <Route path="gallery"      element={<AdminGallery />} />
+              <Route path="sanctuaries"  element={<AdminGeneric type="sanctuaries" title="Sanctuaries" />} />
+              <Route path="why"          element={<AdminGeneric type="whyChooseUs" title="Why Choose Us" />} />
+              <Route path="faqs"         element={<AdminGeneric type="faqs" title="FAQs" />} />
+            </Route>
           </Route>
 
           <Route path="*" element={<PublicApp />} />
         </Routes>
-        </Suspense>
-      </SiteProvider>
-    </AuthProvider>
+      </Suspense>
+    </SiteProvider>
   )
 }
