@@ -6,15 +6,15 @@
   "rewrites": [
     {
       "source": "/admin",
-      "destination": "/app.html"
+      "destination": "/app"
     },
     {
       "source": "/admin/(.*)",
-      "destination": "/app.html"
+      "destination": "/app"
     },
     {
       "source": "/team/:slug",
-      "destination": "/app.html"
+      "destination": "/app"
     }
   ],
   "headers": [
