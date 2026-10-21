@@ -172,11 +172,11 @@ export const SITE = {
     },
     {
       q: "Which documents do I need for an Umrah visa?",
-      a: "You will need: a passport valid for at least six months from your travel date; recent passport-size photographs with a white background; your meningitis vaccination certificate and polio vaccination certificate; and, if you choose a package without an air ticket, a copy of your confirmed ticket. Our team handles the rest of the visa process for you and will confirm the current list when you book.",
+      a: "You will need: a passport valid for at least six months from your travel date; recent passport-size photographs with a white background; and your polio vaccination certificate. Our team handles the rest of the visa process for you and will confirm the current list when you book.",
     },
     {
       q: "When is the best time for Umrah?",
-      a: "Umrah can be performed at any time of year except during the Hajj season. The last 10 nights of Ramadan are the most sought-after time, so ask us early about Ramadan dates. The cooler months, November to February, are gentler for elderly pilgrims.",
+      a: "Umrah can be performed at any time of year except during the Hajj season: the Umrah season runs from Muharram to Shawwal. The last 10 nights of Ramadan are the most sought-after time, so ask us early about Ramadan dates.",
     },
     {
       q: "Which payment methods do you accept?",
@@ -204,7 +204,7 @@ export const SITE = {
     },
     {
       q: "Which vaccinations are required for Umrah?",
-      a: "The meningitis vaccination is required for Umrah, and Pakistani travellers also need a polio vaccination certificate. We will tell you the current health requirements when you book.",
+      a: "Pakistani travellers need a polio vaccination certificate for Umrah. We will tell you the current health requirements when you book.",
     },
     {
       q: "Which cities can I fly from?",
