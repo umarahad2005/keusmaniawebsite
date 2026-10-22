@@ -28,7 +28,9 @@ const DEFAULTS = dataMod.SITE     || {}
 // build, first deploy).
 async function loadSite() {
   try {
-    const res = await fetch(`${SITE_URL}/api/content`, { signal: AbortSignal.timeout(8000) })
+    // Cache-busted: the API is edge-cached (s-maxage=60, stale-while-revalidate=600), so a build
+    // right after an admin edit could otherwise bake in stale content.
+    const res = await fetch(`${SITE_URL}/api/content?build=${Date.now()}`, { signal: AbortSignal.timeout(8000), headers: { 'Cache-Control': 'no-cache' } })
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
     const live = (await res.json())?.site
     if (live && typeof live === 'object') return { site: { ...DEFAULTS, ...live }, from: 'live API' }

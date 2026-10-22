@@ -35,7 +35,9 @@ const { render, publicRoutes } = await import(pathToFileURL(path.join(SSR_DIR, '
 
 async function loadContent() {
   try {
-    const res = await fetch(`${SITE_URL}/api/content`, { signal: AbortSignal.timeout(10000) })
+    // Cache-busted: the API is edge-cached (s-maxage=60, stale-while-revalidate=600), so a build
+    // right after an admin edit could otherwise bake in stale content.
+    const res = await fetch(`${SITE_URL}/api/content?build=${Date.now()}`, { signal: AbortSignal.timeout(10000), headers: { 'Cache-Control': 'no-cache' } })
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
     return await res.json()
   } catch (e) {
