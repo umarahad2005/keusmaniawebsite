@@ -30,7 +30,7 @@ export const SITE = {
     landline: '+924235136177',
     socials: [
       { name: 'Facebook',  url: 'https://www.facebook.com/profile.php?id=61552498595314', icon: 'facebook'  },
-      { name: 'Instagram', url: 'https://www.instagram.com/keusmania', icon: 'instagram' },
+      { name: 'Instagram', url: 'https://www.instagram.com/keusmania_international', icon: 'instagram' },
       { name: 'YouTube',   url: 'https://youtube.com/@karwaneusmania',                         icon: 'youtube'   },
       { name: 'TikTok',    url: 'https://www.tiktok.com/@keusmania',                          icon: 'tiktok'    },
     ],
