@@ -11,11 +11,36 @@
    and 78498 in it); "on request" is detected from the label. The element id is
    packageAnchor(pkg), shared with the footer links and the JSON-LD URL; the
    WhatsApp message stays keyed on the raw pkg.id.
-   `soldOut` (set in the admin) dims the card under a rubber-stamp "Sold out"
+   `soldOut` (set in the admin) dims the card under a round "Sold out" seal
    and turns the button into an enquiry about the next group. */
 import { useWaLink } from '../lib/whatsapp.js'
 import { packageAnchor } from '../lib/team.js'
 import { Icon } from '../icons.jsx'
+
+/* Round seal: double outer ring, "ALHAMDULILLAH" over the top and "GROUP FULL"
+   under the bottom on the band, SOLD / OUT in the centre. The bottom text runs
+   on a slightly larger radius because its letters hang inward from the path. */
+function SoldOutSeal() {
+  return (
+    <svg className="package-card__seal" viewBox="0 0 200 200" role="img" aria-label="Sold out">
+      <defs>
+        <path id="seal-top" d="M 30 100 A 70 70 0 0 1 170 100" />
+        <path id="seal-bottom" d="M 21 100 A 79 79 0 0 0 179 100" />
+      </defs>
+      <circle className="package-card__seal-fill" cx="100" cy="100" r="96" />
+      <circle className="package-card__seal-line" cx="100" cy="100" r="95" strokeWidth="3" />
+      <circle className="package-card__seal-line" cx="100" cy="100" r="88" strokeWidth="1.2" />
+      <circle className="package-card__seal-line" cx="100" cy="100" r="62" strokeWidth="1.2" />
+      <text className="package-card__seal-ring"><textPath href="#seal-top" startOffset="50%" textAnchor="middle">Alhamdulillah</textPath></text>
+      <text className="package-card__seal-ring"><textPath href="#seal-bottom" startOffset="50%" textAnchor="middle">Group full</textPath></text>
+      <text className="package-card__seal-star" x="25" y="104" textAnchor="middle">★</text>
+      <text className="package-card__seal-star" x="175" y="104" textAnchor="middle">★</text>
+      <line className="package-card__seal-line" x1="58" y1="100" x2="142" y2="100" strokeWidth="1.2" />
+      <text className="package-card__seal-main" x="100" y="94" textAnchor="middle">Sold</text>
+      <text className="package-card__seal-main" x="100" y="131" textAnchor="middle">Out</text>
+    </svg>
+  )
+}
 
 const TIER = { economy: 'Economy', premium: 'Premium', vip: 'VIP' }
 const CATEGORY = { umrah: 'Umrah', ramadan_umrah: 'Ramadan', family: 'Family', hajj: 'Hajj' }
@@ -39,12 +64,7 @@ export default function PackageCard({ pkg }) {
 
   return (
     <article className={`package-card${variant}${soldOut ? ' package-card--sold-out' : ''}`} id={packageAnchor(pkg)} data-category={pkg.category} data-tier={pkg.tier}>
-      {soldOut && (
-        <div className="package-card__stamp" role="img" aria-label="Sold out">
-          <span className="package-card__stamp-main">Sold out</span>
-          <span className="package-card__stamp-sub">Alhamdulillah · group full</span>
-        </div>
-      )}
+      {soldOut && <SoldOutSeal />}
       <div className="package-card__inner">
         <p className="package-card__eyebrow">
           {eyebrow && <span>{eyebrow}</span>}

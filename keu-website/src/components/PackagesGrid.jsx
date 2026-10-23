@@ -21,7 +21,7 @@ const FILTERS = [
  * even after every package has been renamed or replaced. `ids` still works for
  * pinning an explicit set.
  */
-export default function PackagesGrid({ showFilters = true, ids = null, featured = false, limit = null, sticky = false }) {
+export default function PackagesGrid({ showFilters = true, ids = null, featured = false, limit = null, sticky = false, rtl = false }) {
   const [filter, setFilter] = useState('all')
   const { packages } = useSite()
   const grid = useRef(null)
@@ -66,6 +66,8 @@ export default function PackagesGrid({ showFilters = true, ids = null, featured 
     list = packages.filter(p => p.category === filter)
   }
   if (limit) list = list.slice(0, limit)
+  // Available first, sold out last; each group keeps the admin's order.
+  list = [...list.filter(p => !p.soldOut), ...list.filter(p => p.soldOut)]
 
   return (
     <>
@@ -86,7 +88,7 @@ export default function PackagesGrid({ showFilters = true, ids = null, featured 
       )}
       <p className="sr-only" aria-live="polite">{list.length} {list.length === 1 ? 'package' : 'packages'}</p>
 
-      <div ref={grid} className={`packages-grid packages-grid--n${Math.min(list.length, 3)}`}>
+      <div ref={grid} className={`packages-grid packages-grid--n${Math.min(list.length, 3)}${rtl ? ' packages-grid--rtl' : ''}`}>
         {list.map(p => <PackageCard key={p.id} pkg={p} />)}
       </div>
 

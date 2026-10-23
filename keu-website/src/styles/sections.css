@@ -215,6 +215,11 @@
   .packages-grid, .packages-grid--n1, .packages-grid--n2 { grid-template-columns: minmax(0, 1fr); }
 }
 .packages-grid__empty { color: var(--text-muted); }
+/* /packages lays the cards out right to left (owner, 2026-10-23): available
+   packages start at the top right and sold-out ones end on the left. The
+   cards themselves stay left to right. */
+.packages-grid--rtl { direction: rtl; }
+.packages-grid--rtl > * { direction: ltr; }
 
 .package-card {
   container-type: inline-size;
@@ -367,56 +372,55 @@
 .package-card--vip .package-card__details summary { color: var(--gold-200); }
 .package-card--request { background: var(--ivory); }
 
-/* Sold out: the content steps back and a rubber stamp sits across the price.
+/* Sold out: the content steps back and a round seal sits across the price.
    The button stays live (it asks about the next group). A mask of fine dots
-   knocks out the ink so the stamp reads as pressed, not printed. */
+   knocks out the ink so the seal reads as pressed, not printed. */
 .package-card--sold-out .package-card__inner > :not(.package-card__cta) { opacity: .5; filter: grayscale(.6); }
 .package-card--sold-out .package-card__amount { text-decoration: line-through; text-decoration-thickness: 1px; }
-.package-card__stamp {
-  --stamp: var(--error);
+.package-card__seal {
+  --seal: var(--green-700);
   position: absolute;
   z-index: 2;
-  top: clamp(96px, 30%, 150px);
-  left: 50%;
-  display: grid;
-  justify-items: center;
-  gap: 4px;
-  padding: 12px 24px 10px;
-  border: 3px double var(--stamp);
-  border-radius: 6px;
-  outline: 1.5px solid var(--stamp);
-  outline-offset: 3px;
-  color: var(--stamp);
-  background: color-mix(in srgb, var(--card) 92%, transparent);
-  transform: translateX(-50%) rotate(-11deg);
+  top: clamp(120px, 26%, 170px);
+  right: 7%;
+  width: clamp(150px, 44cqi, 190px);
+  height: auto;
+  color: var(--seal);
+  transform: rotate(-14deg);
   pointer-events: none;
-  white-space: nowrap;
+  overflow: visible;
+  filter: drop-shadow(0 1px 0 rgba(0, 72, 40, .08));
   -webkit-mask: radial-gradient(circle at 30% 40%, #000 .7px, transparent 1px) 0 0 / 6px 6px, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask: radial-gradient(circle at 30% 40%, #000 .7px, transparent 1px) 0 0 / 6px 6px exclude, linear-gradient(#000 0 0);
 }
-.package-card__stamp-main {
-  font: 700 clamp(26px, 9cqi, 42px)/1 var(--font-display);
-  letter-spacing: .16em;
-  padding-left: .16em;
+.package-card__seal-fill { fill: color-mix(in srgb, var(--card) 90%, transparent); }
+.package-card__seal-line { fill: none; stroke: currentColor; }
+.package-card__seal-ring {
+  fill: currentColor;
+  font: 700 12.5px/1 var(--font-sans);
+  letter-spacing: .26em;
   text-transform: uppercase;
 }
-.package-card__stamp-sub {
-  font: 600 11px/1.2 var(--font-sans);
-  letter-spacing: .22em;
+.package-card__seal-star { fill: currentColor; font: 12px/1 var(--font-sans); }
+.package-card__seal-main {
+  fill: currentColor;
+  font: 700 34px/1 var(--font-display);
+  letter-spacing: .14em;
   text-transform: uppercase;
 }
-.package-card--vip .package-card__stamp { --stamp: var(--gold-200); background: color-mix(in srgb, var(--green-950) 92%, transparent); }
-.package-card--request .package-card__stamp { background: color-mix(in srgb, var(--ivory) 92%, transparent); }
+.package-card--vip .package-card__seal { --seal: var(--gold-200); }
+.package-card--vip .package-card__seal-fill { fill: color-mix(in srgb, var(--green-950) 90%, transparent); }
+.package-card--request .package-card__seal-fill { fill: color-mix(in srgb, var(--ivory) 90%, transparent); }
 @media (hover: hover) {
   .package-card--sold-out:hover { transform: none; }
 }
 @media (prefers-reduced-motion: no-preference) {
-  .package-card__stamp { animation: stamp-in .45s cubic-bezier(.2, 1.6, .4, 1) both; }
+  .package-card__seal { animation: seal-in .45s cubic-bezier(.2, 1.6, .4, 1) both; }
 }
-@keyframes stamp-in {
-  from { opacity: 0; transform: translateX(-50%) rotate(-11deg) scale(1.6); }
-  to   { opacity: 1; transform: translateX(-50%) rotate(-11deg) scale(1); }
+@keyframes seal-in {
+  from { opacity: 0; transform: rotate(-14deg) scale(1.6); }
+  to   { opacity: 1; transform: rotate(-14deg) scale(1); }
 }
 
 /* =========================================================
