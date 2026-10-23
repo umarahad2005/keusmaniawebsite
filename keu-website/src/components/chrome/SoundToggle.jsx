@@ -1,11 +1,13 @@
 /* Background sound (owner request, 2026-10-11). The track is uploaded in
    /admin/sound and saved as `site.ambience`.
 
-   - Never plays on its own: the visitor presses this button (browsers block
-     sound before a tap, and WCAG 1.4.2 asks for a visible control). Nothing is
-     downloaded until then.
-   - If a visitor switched it on before, the choice is remembered and the sound
-     resumes on their first tap or key press of the next visit.
+   - On by default (owner, 2026-10-23): browsers block sound until the visitor
+     interacts, so it starts at the first tap, click or key press anywhere on
+     the page — or at once where the browser already allows sound. Nothing is
+     downloaded before that.
+   - "Sound off" is remembered: a visitor who turned it off is never played to
+     again until they press the button. The button is the visible control
+     WCAG 1.4.2 asks for.
    - Fades in and out over ~1.2 s and loops: short clips (like the 16 s
      Talbiyah) repeat seamlessly with no gap (lib/loopPlayer.js). Pauses while
      the tab is hidden or another sound plays (a video review fires
@@ -17,8 +19,15 @@ import { createLoopPlayer } from '../../lib/loopPlayer.js'
 
 const PREF = 'keuSound'
 
+// On unless this visitor turned it off before.
 function readPref() {
-  try { return localStorage.getItem(PREF) === 'on' } catch { return false }
+  try { return localStorage.getItem(PREF) !== 'off' } catch { return true }
+}
+
+// Firefox (and newer Chromium) can say up front whether sound may start
+// without a gesture; elsewhere wait for one.
+function canAutoplay() {
+  try { return navigator.getAutoplayPolicy?.('audiocontext') === 'allowed' } catch { return false }
 }
 function writePref(on) {
   try { localStorage.setItem(PREF, on ? 'on' : 'off') } catch { /* private mode */ }
@@ -63,17 +72,31 @@ export default function SoundToggle({ className = '' }) {
   // A track replaced in the admin: drop the old player.
   useEffect(() => () => { player.current?.destroy(); player.current = null }, [a.src])
 
-  // Remembered "on": resume at the visitor's first interaction of this visit.
+  // Default on: start at once if allowed, else at the first interaction of
+  // this visit. A scroll or a touch-down does not count as permission on
+  // phones, so keep listening until the sound is actually playing. A press on
+  // this button is left to toggle(), so clicking "Sound off" turns it on
+  // instead of on-then-off.
+  const playing = useRef(false)
+  useEffect(() => { playing.current = on }, [on])
   useEffect(() => {
     if (!active || !readPref()) return
-    const go = () => { wanted.current = true; play() }
-    const opts = { once: true, capture: true }
-    window.addEventListener('pointerdown', go, opts)
-    window.addEventListener('keydown', go, opts)
-    return () => {
-      window.removeEventListener('pointerdown', go, opts)
-      window.removeEventListener('keydown', go, opts)
+    if (canAutoplay()) { wanted.current = true; play() }
+    const events = ['pointerdown', 'keydown', 'touchend', 'click']
+    const opts = { capture: true }
+    const done = () => events.forEach(ev => window.removeEventListener(ev, go, opts))
+    function go(e) {
+      if (playing.current || !readPref()) { done(); return }
+      if (e.type === 'pointerdown' && e.pointerType !== 'mouse') return
+      if (e.target?.closest?.('.sound-toggle')) return
+      // Where the browser can tell, only try inside a real activation, so a
+      // scroll never leaves the button stuck on "Loading…".
+      if (navigator.userActivation && !navigator.userActivation.isActive) return
+      wanted.current = true
+      play()
     }
+    events.forEach(ev => window.addEventListener(ev, go, opts))
+    return done
   }, [active, play])
 
   // Hidden tab or another sound: pause; come back only if the visitor wanted it.
