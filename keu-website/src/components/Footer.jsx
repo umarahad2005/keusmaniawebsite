@@ -15,6 +15,7 @@ import { hoursRows } from '../lib/hours.js'
 import Lockup from './brand/Lockup.jsx'
 import { formatPk, DEFAULT_LANDLINE } from '../lib/phone.js'
 import { packageAnchor } from '../lib/team.js'
+import { footerNumbers } from '../lib/footerNumbers.js'
 
 const SITE_HOST = 'usmania.vercel.app'
 
@@ -25,21 +26,9 @@ export default function Footer() {
   const year = new Date().getFullYear()
   const landline = c.landline || DEFAULT_LANDLINE
   const street = [c.address?.street, c.address?.city, c.address?.country].filter(Boolean).join(', ')
-  // The other numbers from the team's printed cards (owner, 2026-10-12): every
-  // member's WhatsApp/mobile from the live team list, minus the two office
-  // numbers above, each labelled with the member's first name.
-  const shown = new Set([waNumber(landline), waNumber(c.whatsapp || c.phone)])
-  const teamNumbers = []
-  // "Muhammad Mawiz Usmani" → "Mawiz", "Abdul Rahman Khan" → "Abdul Rahman", else the first name.
-  const label = (w) => (w[0] === 'Muhammad' && w[1] ? w[1] : /^abd/i.test(w[0]) && w[1] ? `${w[0]} ${w[1]}` : w[0])
-  for (const m of site.team || []) {
-    const number = m.whatsapp || m.phone
-    const digits = number ? waNumber(number) : ''
-    if (!digits || shown.has(digits)) continue
-    shown.add(digits)
-    const words = String(m.name || '').trim().split(/\s+/)
-    teamNumbers.push({ number, digits, name: label(words) })
-  }
+  // Team numbers under the office ones: edited in Admin → Company, or taken
+  // from the team list until that is saved (lib/footerNumbers.js).
+  const teamNumbers = footerNumbers(site)
 
   return (
     <footer className="site-footer" id="site-footer">
@@ -57,9 +46,9 @@ export default function Footer() {
               {teamNumbers.length > 0 && (
                 <ul className="site-footer__team" role="list" aria-label="Team WhatsApp numbers">
                   {teamNumbers.map(t => (
-                    <li key={t.digits}>
+                    <li key={`${t.digits}-${t.name}`}>
                       <a href={`https://wa.me/${t.digits}`} target="_blank" rel="noopener">{formatPk(t.number)}</a>
-                      <span className="site-footer__tag"> {t.name}</span>
+                      {t.name && <span className="site-footer__tag"> {t.name}</span>}
                     </li>
                   ))}
                 </ul>

@@ -275,7 +275,8 @@ html { scroll-padding-top: calc(var(--nav-h) + 16px); }
 .site-footer__tag { font-size: 13px; color: var(--text-muted); }
 /* Team numbers from the printed cards, under the office numbers. */
 .site-footer__team { margin: 6px 0 0; padding: 6px 0 0; list-style: none; border-top: 1px solid rgba(0, 72, 40, .18); display: grid; gap: 2px; }
-.site-footer__team li { white-space: nowrap; }
+/* Wraps instead of running into the next column. */
+.site-footer__team li { overflow-wrap: anywhere; }
 .site-footer__hours { margin: 0; display: grid; gap: 2px; }
 .site-footer__hours div { display: flex; gap: 10px; }
 .site-footer__hours dt { min-width: 76px; color: var(--text-muted); }
