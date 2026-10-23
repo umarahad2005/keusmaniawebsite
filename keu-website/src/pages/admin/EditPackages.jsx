@@ -31,13 +31,13 @@ export default function EditPackages() {
 
   useEffect(() => { setList(packages) }, [packages])
 
-  const save = async () => {
+  const save = async (data = list, done = 'Saved') => {
     setBusy(true); setMsg(null)
     try {
-      await api.put('/api/content', { type: 'packages', data: list })
-      setMsg('Saved')
+      await api.put('/api/content', { type: 'packages', data })
+      setMsg(done)
       await reload()
-      setTimeout(() => setMsg(null), 2000)
+      setTimeout(() => setMsg(null), 4000)
     } catch (e) {
       setMsg('Failed: ' + e.message)
     } finally { setBusy(false) }
@@ -53,11 +53,13 @@ export default function EditPackages() {
   }
 
   /* Sold out keeps the package on /packages with a stamp and takes it off the
-     home page. Like Edit and Delete, it goes live on "Save changes". */
+     home page. One click publishes it (with any other unsaved edits in the
+     list); the site rebuilds in a minute or two. */
   const toggleSoldOut = (id) => {
     const pkg = list.find(p => p.id === id)
-    setList(prev => prev.map(p => p.id === id ? { ...p, soldOut: !p.soldOut } : p))
-    setMsg(`${pkg?.name || 'Package'} marked ${pkg?.soldOut ? 'available' : 'sold out'} — click Save changes to publish`)
+    const next = list.map(p => p.id === id ? { ...p, soldOut: !p.soldOut } : p)
+    setList(next)
+    save(next, `${pkg?.name || 'Package'} is now ${pkg?.soldOut ? 'available' : 'sold out'} — live on the site in a minute or two`)
   }
 
   const remove = (id) => {
@@ -71,7 +73,7 @@ export default function EditPackages() {
         <h1>Packages</h1>
         <div className="cluster">
           <button className="btn btn--ghost" onClick={() => setEditing(blank())}>+ Add package</button>
-          <button className="btn btn--primary" onClick={save} disabled={busy}>
+          <button className="btn btn--primary" onClick={() => save()} disabled={busy}>
             {busy ? 'Saving…' : 'Save changes'}
           </button>
         </div>
@@ -92,7 +94,7 @@ export default function EditPackages() {
             </div>
             <div className="cluster">
               <button className="btn btn--ghost btn--sm" onClick={() => setEditing({ ...p })}>Edit</button>
-              <button className="btn btn--ghost btn--sm" aria-pressed={!!p.soldOut} onClick={() => toggleSoldOut(p.id)}>
+              <button className="btn btn--ghost btn--sm" aria-pressed={!!p.soldOut} onClick={() => toggleSoldOut(p.id)} disabled={busy}>
                 {p.soldOut ? 'Mark available' : 'Mark sold out'}
               </button>
               <button className="btn btn--ghost btn--sm" style={{ borderColor: 'var(--color-error)', color: 'var(--color-error)' }} onClick={() => remove(p.id)}>Delete</button>
