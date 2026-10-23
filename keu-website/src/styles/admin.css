@@ -313,3 +313,47 @@
   .pkg-editor__preview-stage { overflow: visible; }
 }
 
+/* =========================================================
+   Photo cropper (team photos): canvas on the left, controls on the right;
+   stacks on narrow screens.
+   ========================================================= */
+.cropper {
+  width: min(880px, 100%);
+  max-height: min(94vh, 900px);
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  overflow: hidden;
+}
+.cropper__title { font-size: var(--text-2xl); padding-right: var(--space-12); }
+.cropper__body {
+  display: grid;
+  grid-template-columns: minmax(0, 400px) minmax(0, 1fr);
+  gap: var(--space-6);
+  min-height: 0;
+  overflow-y: auto;
+}
+.cropper__stage { position: relative; background: #1d2622; border-radius: var(--radius-md); padding: var(--space-3); }
+.cropper__canvas {
+  display: block;
+  /* Width follows the height cap so the canvas is never stretched; pointer
+     maths assumes the drawn size keeps the canvas's own ratio. */
+  width: min(100%, calc(62vh * var(--ar, .8)));
+  height: auto;
+  margin: 0 auto;
+  cursor: grab;
+  touch-action: none;
+  border-radius: 4px;
+}
+.cropper__canvas.is-dragging { cursor: grabbing; }
+.cropper__canvas:focus-visible { outline: 3px solid var(--color-gold); outline-offset: 3px; }
+.cropper__loading { position: absolute; inset: 0; display: grid; place-items: center; margin: 0; color: #fff; }
+.cropper__controls { display: flex; flex-direction: column; gap: var(--space-4); }
+.cropper__controls input[type='range'] { width: 100%; accent-color: var(--color-primary, #004828); }
+.cropper__footer { display: flex; justify-content: flex-end; gap: var(--space-3); }
+@media (max-width: 720px) {
+  .cropper { padding: var(--space-4); }
+  .cropper__body { grid-template-columns: minmax(0, 1fr); }
+  .cropper__canvas { width: min(100%, calc(50vh * var(--ar, .8))); }
+}

@@ -12,7 +12,7 @@ const BASE = `https://res.cloudinary.com/${CLOUD}/video/upload`
 
 /* Keep in sync with VIDEO_EAGER in api/upload-signature.js. */
 export const VIDEO_TRANSFORM = 'c_limit,h_720,q_auto'
-export const POSTER_TRANSFORM = 'so_2,c_limit,w_960,q_auto'
+export const POSTER_TRANSFORM = 'so_2,c_limit,w_960,q_auto,f_auto'
 
 /** 720p MP4 for playback. */
 export function reviewVideoUrl(publicId) {

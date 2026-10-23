@@ -5,6 +5,10 @@ import CloudinaryUpload from '../../components/admin/CloudinaryUpload.jsx'
 import Img from '../../components/Img.jsx'
 import { memberPath } from '../../lib/team.js'
 
+/* 4:5 is the lead's frame on /about; everyone else shows the centre square,
+   and the digital card a circle, which the cropper's guides mark. */
+const TEAM_CROP = { aspect: 4 / 5, output: 1080, guides: true }
+
 const blank = () => ({ name: '', role: '', photo: '', nameAr: '', roleAr: '', phone: '', whatsapp: '', email: '', bio: '', slug: '', linkedin: '', facebook: '', instagram: '' })
 
 /* Digital card fields (all optional). Empty fields are hidden on the card. */
@@ -103,7 +107,13 @@ export default function EditTeam() {
                 ? <Img src={m.photo} alt={m.name} w={200} h={200} />
                 : <div style={{ display: 'grid', placeItems: 'center', height: '100%', color: 'var(--color-text-muted)' }}>No photo</div>}
             </div>
-            <CloudinaryUpload folder="keu/team" label={m.photo ? 'Replace photo' : 'Upload photo'} onUpload={setPhoto(i)} />
+            <CloudinaryUpload
+              folder="keu/team"
+              label={m.photo ? 'Replace photo' : 'Upload photo'}
+              onUpload={setPhoto(i)}
+              crop={TEAM_CROP}
+              editSrc={m.photo}
+            />
             <label className="field mt-4">
               <span className="field__label">Name</span>
               <input className="field__input" value={m.name} onChange={update(i, 'name')} />

@@ -5,9 +5,14 @@
    to slow connections), shows progress, and asks Cloudinary to prepare a 720p
    copy and a poster in the background.
    resourceType="audio" uploads one sound file (MP3/M4A, up to 20 MB) to the
-   'video' resource type, where Cloudinary keeps audio. */
+   'video' resource type, where Cloudinary keeps audio.
+   crop={{ aspect, output, guides }} opens PhotoCropper on the chosen image and
+   uploads the edited JPEG instead; with editSrc it also offers "Adjust photo"
+   to re-frame the current image without choosing a file again. */
 import { useState } from 'react'
 import { api } from '../../lib/api.js'
+import { cldUrl } from '../../lib/images.js'
+import PhotoCropper from './PhotoCropper.jsx'
 
 const CHUNK = 20 * 1024 * 1024
 const MAX_VIDEO_BYTES = 500 * 1024 * 1024
@@ -51,25 +56,40 @@ async function uploadChunked(sig, file, onProgress) {
   return result
 }
 
-export default function CloudinaryUpload({ onUpload, folder = 'keu', label, resourceType = 'image' }) {
+export default function CloudinaryUpload({ onUpload, folder = 'keu', label, resourceType = 'image', crop = null, editSrc = '' }) {
   const isVideo = resourceType === 'video'
   const isAudio = resourceType === 'audio'
   const [busy, setBusy] = useState(false)
   const [progress, setProgress] = useState(0)
   const [error, setError] = useState(null)
+  const [cropSrc, setCropSrc] = useState(null)
+
+  const closeCropper = () => {
+    if (cropSrc?.startsWith('blob:')) URL.revokeObjectURL(cropSrc)
+    setCropSrc(null)
+  }
 
   const handle = async (e) => {
     const file = e.target.files?.[0]
     if (!file) return
     setError(null)
+    if (crop && !isVideo && !isAudio) {
+      setCropSrc(URL.createObjectURL(file))
+      e.target.value = ''
+      return
+    }
+    await upload(file)
+    e.target.value = ''
+  }
+
+  const upload = async (file) => {
+    setError(null)
     if (isVideo && file.size > MAX_VIDEO_BYTES) {
       setError('This video is larger than 500 MB. Please export it smaller (for example by sending it to yourself on WhatsApp) and try again.')
-      e.target.value = ''
       return
     }
     if (isAudio && file.size > MAX_AUDIO_BYTES) {
       setError('This sound file is larger than 20 MB. Please use an MP3 of a few minutes (about 3–5 MB) and try again.')
-      e.target.value = ''
       return
     }
     setBusy(true)
@@ -90,16 +110,35 @@ export default function CloudinaryUpload({ onUpload, folder = 'keu', label, reso
       setError(err.message)
     } finally {
       setBusy(false)
-      e.target.value = ''
     }
   }
 
   const text = label || (isVideo ? 'Upload video' : isAudio ? 'Upload sound' : 'Upload image')
   return (
-    <label className="cloudinary-upload">
-      <input type="file" accept={isVideo ? 'video/*' : isAudio ? 'audio/mpeg,audio/mp4,audio/aac,audio/*' : 'image/*'} onChange={handle} disabled={busy} hidden />
-      <span className="btn btn--ghost btn--sm">{busy ? (isVideo ? `Uploading… ${progress}%` : 'Uploading…') : text}</span>
-      {error && <span role="alert" style={{ color: 'var(--color-error)', fontSize: 'var(--text-xs)', marginLeft: 8 }}>{error}</span>}
-    </label>
+    <>
+      <span className="cluster" style={{ gap: 'var(--space-2)' }}>
+        <label className="cloudinary-upload">
+          <input type="file" accept={isVideo ? 'video/*' : isAudio ? 'audio/mpeg,audio/mp4,audio/aac,audio/*' : 'image/*'} onChange={handle} disabled={busy} hidden />
+          <span className="btn btn--ghost btn--sm">{busy ? (isVideo ? `Uploading… ${progress}%` : 'Uploading…') : text}</span>
+        </label>
+        {crop && editSrc && !busy && (
+          // A large copy of the current image; Cloudinary serves it with CORS so the canvas can export it.
+          <button type="button" className="btn btn--ghost btn--sm" onClick={() => setCropSrc(cldUrl(editSrc, { w: 2000, crop: 'limit' }))}>
+            Adjust photo
+          </button>
+        )}
+        {error && <span role="alert" style={{ color: 'var(--color-error)', fontSize: 'var(--text-xs)' }}>{error}</span>}
+      </span>
+      {cropSrc && (
+        <PhotoCropper
+          src={cropSrc}
+          aspect={crop.aspect}
+          output={crop.output}
+          guides={crop.guides}
+          onCancel={closeCropper}
+          onDone={(file) => { closeCropper(); upload(file) }}
+        />
+      )}
+    </>
   )
 }
