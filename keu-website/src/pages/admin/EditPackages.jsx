@@ -17,6 +17,7 @@ const blank = () => ({
   summary: '',
   badge: '',
   featured: false,
+  soldOut: false,
   inclusions: [''],
   waMessage: '',
 })
@@ -51,6 +52,14 @@ export default function EditPackages() {
     setEditing(null)
   }
 
+  /* Sold out keeps the package on /packages with a stamp and takes it off the
+     home page. Like Edit and Delete, it goes live on "Save changes". */
+  const toggleSoldOut = (id) => {
+    const pkg = list.find(p => p.id === id)
+    setList(prev => prev.map(p => p.id === id ? { ...p, soldOut: !p.soldOut } : p))
+    setMsg(`${pkg?.name || 'Package'} marked ${pkg?.soldOut ? 'available' : 'sold out'} — click Save changes to publish`)
+  }
+
   const remove = (id) => {
     if (!confirm('Delete this package?')) return
     setList(prev => prev.filter(p => p.id !== id))
@@ -77,11 +86,15 @@ export default function EditPackages() {
               <div className="muted" style={{ fontSize: 'var(--text-sm)' }}>
                 {p.category} · {p.tier} · {p.priceLabel}
                 {p.badge && ` · ${p.badge}`}
-                {p.featured && ' · ★ featured on home'}
+                {p.featured && !p.soldOut && ' · ★ featured on home'}
+                {p.soldOut && <strong style={{ color: 'var(--error)' }}> · Sold out{p.featured ? ' (hidden from home)' : ''}</strong>}
               </div>
             </div>
             <div className="cluster">
               <button className="btn btn--ghost btn--sm" onClick={() => setEditing({ ...p })}>Edit</button>
+              <button className="btn btn--ghost btn--sm" aria-pressed={!!p.soldOut} onClick={() => toggleSoldOut(p.id)}>
+                {p.soldOut ? 'Mark available' : 'Mark sold out'}
+              </button>
               <button className="btn btn--ghost btn--sm" style={{ borderColor: 'var(--color-error)', color: 'var(--color-error)' }} onClick={() => remove(p.id)}>Delete</button>
             </div>
           </article>
@@ -157,6 +170,20 @@ function PackageEditor({ pkg, onSave, onCancel }) {
                 <strong>Feature on the home page</strong>
                 <span className="field__hint" style={{ display: 'block' }}>
                   Home shows up to 3 featured packages. If none are ticked it falls back to the first 3.
+                </span>
+              </span>
+            </label>
+
+            <label className="cluster" style={{ gap: 'var(--space-3)', cursor: 'pointer' }}>
+              <input
+                type="checkbox"
+                checked={!!p.soldOut}
+                onChange={(e) => setP({ ...p, soldOut: e.target.checked })}
+              />
+              <span>
+                <strong>Sold out</strong>
+                <span className="field__hint" style={{ display: 'block' }}>
+                  Stays on the Packages page with a Sold out stamp and is left off the home page.
                 </span>
               </span>
             </label>

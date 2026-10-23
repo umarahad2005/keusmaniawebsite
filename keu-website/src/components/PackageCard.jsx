@@ -10,7 +10,9 @@
    The numeric `price` field is never shown, sorted or trusted (live data has 1
    and 78498 in it); "on request" is detected from the label. The element id is
    packageAnchor(pkg), shared with the footer links and the JSON-LD URL; the
-   WhatsApp message stays keyed on the raw pkg.id. */
+   WhatsApp message stays keyed on the raw pkg.id.
+   `soldOut` (set in the admin) dims the card under a rubber-stamp "Sold out"
+   and turns the button into an enquiry about the next group. */
 import { useWaLink } from '../lib/whatsapp.js'
 import { packageAnchor } from '../lib/team.js'
 import { Icon } from '../icons.jsx'
@@ -33,9 +35,16 @@ export default function PackageCard({ pkg }) {
   const eyebrow = [TIER[pkg.tier] || '', CATEGORY[pkg.category] || ''].filter(Boolean).join(' · ')
   const badge = String(pkg.badge || '').trim()
   const variant = pkg.tier === 'vip' ? ' package-card--vip' : isOnRequest ? ' package-card--request' : ''
+  const soldOut = !!pkg.soldOut
 
   return (
-    <article className={`package-card${variant}`} id={packageAnchor(pkg)} data-category={pkg.category} data-tier={pkg.tier}>
+    <article className={`package-card${variant}${soldOut ? ' package-card--sold-out' : ''}`} id={packageAnchor(pkg)} data-category={pkg.category} data-tier={pkg.tier}>
+      {soldOut && (
+        <div className="package-card__stamp" role="img" aria-label="Sold out">
+          <span className="package-card__stamp-main">Sold out</span>
+          <span className="package-card__stamp-sub">Alhamdulillah · group full</span>
+        </div>
+      )}
       <div className="package-card__inner">
         <p className="package-card__eyebrow">
           {eyebrow && <span>{eyebrow}</span>}
@@ -83,7 +92,7 @@ export default function PackageCard({ pkg }) {
 
         <a className="k-btn k-btn--wa package-card__cta" href={wa(pkg.id)} target="_blank" rel="noopener">
           <Icon name="whatsapp" className="k-ico" />
-          {isOnRequest ? 'Enquire on WhatsApp' : 'Book on WhatsApp'}
+          {soldOut ? 'Ask about the next group' : isOnRequest ? 'Enquire on WhatsApp' : 'Book on WhatsApp'}
         </a>
       </div>
     </article>

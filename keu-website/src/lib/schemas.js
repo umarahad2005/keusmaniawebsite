@@ -123,6 +123,7 @@ export function packageSchema(pkg) {
   const inclusions = (pkg.inclusions || []).filter(Boolean).slice(0, 4)
   const description = [pkg.subtitle, inclusions.length ? `Includes: ${inclusions.join(', ')}` : '']
     .map(t => String(t || '').trim()).filter(Boolean).join('. ')
+  const soldOut = pkg.soldOut ? 'https://schema.org/SoldOut' : null
   return {
     '@context': 'https://schema.org',
     '@type': 'TouristTrip',
@@ -136,7 +137,7 @@ export function packageSchema(pkg) {
       '@type': 'Offer',
       price: amount,
       priceCurrency: 'PKR',
-      availability: 'https://schema.org/InStock',
+      availability: soldOut || 'https://schema.org/InStock',
       url,
       priceSpecification: {
         '@type': 'UnitPriceSpecification',
@@ -147,7 +148,7 @@ export function packageSchema(pkg) {
     } : {
       '@type': 'Offer',
       url,
-      availability: 'https://schema.org/PreOrder',
+      availability: soldOut || 'https://schema.org/PreOrder',
       description: 'Price on request',
     },
   }

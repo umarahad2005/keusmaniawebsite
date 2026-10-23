@@ -367,6 +367,58 @@
 .package-card--vip .package-card__details summary { color: var(--gold-200); }
 .package-card--request { background: var(--ivory); }
 
+/* Sold out: the content steps back and a rubber stamp sits across the price.
+   The button stays live (it asks about the next group). A mask of fine dots
+   knocks out the ink so the stamp reads as pressed, not printed. */
+.package-card--sold-out .package-card__inner > :not(.package-card__cta) { opacity: .5; filter: grayscale(.6); }
+.package-card--sold-out .package-card__amount { text-decoration: line-through; text-decoration-thickness: 1px; }
+.package-card__stamp {
+  --stamp: var(--error);
+  position: absolute;
+  z-index: 2;
+  top: clamp(96px, 30%, 150px);
+  left: 50%;
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  padding: 12px 24px 10px;
+  border: 3px double var(--stamp);
+  border-radius: 6px;
+  outline: 1.5px solid var(--stamp);
+  outline-offset: 3px;
+  color: var(--stamp);
+  background: color-mix(in srgb, var(--card) 92%, transparent);
+  transform: translateX(-50%) rotate(-11deg);
+  pointer-events: none;
+  white-space: nowrap;
+  -webkit-mask: radial-gradient(circle at 30% 40%, #000 .7px, transparent 1px) 0 0 / 6px 6px, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: radial-gradient(circle at 30% 40%, #000 .7px, transparent 1px) 0 0 / 6px 6px exclude, linear-gradient(#000 0 0);
+}
+.package-card__stamp-main {
+  font: 700 clamp(26px, 9cqi, 42px)/1 var(--font-display);
+  letter-spacing: .16em;
+  padding-left: .16em;
+  text-transform: uppercase;
+}
+.package-card__stamp-sub {
+  font: 600 11px/1.2 var(--font-sans);
+  letter-spacing: .22em;
+  text-transform: uppercase;
+}
+.package-card--vip .package-card__stamp { --stamp: var(--gold-200); background: color-mix(in srgb, var(--green-950) 92%, transparent); }
+.package-card--request .package-card__stamp { background: color-mix(in srgb, var(--ivory) 92%, transparent); }
+@media (hover: hover) {
+  .package-card--sold-out:hover { transform: none; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .package-card__stamp { animation: stamp-in .45s cubic-bezier(.2, 1.6, .4, 1) both; }
+}
+@keyframes stamp-in {
+  from { opacity: 0; transform: translateX(-50%) rotate(-11deg) scale(1.6); }
+  to   { opacity: 1; transform: translateX(-50%) rotate(-11deg) scale(1); }
+}
+
 /* =========================================================
    Booking steps
    ========================================================= */

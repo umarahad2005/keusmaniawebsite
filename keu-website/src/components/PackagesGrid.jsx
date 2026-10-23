@@ -58,8 +58,10 @@ export default function PackagesGrid({ showFilters = true, ids = null, featured 
   if (ids) {
     list = packages.filter(p => ids.includes(p.id))
   } else if (featured) {
-    const flagged = packages.filter(p => p.featured)
-    list = flagged.length ? flagged : packages
+    // Sold-out packages stay on /packages (stamped) but never on the home page.
+    const available = packages.filter(p => !p.soldOut)
+    const flagged = available.filter(p => p.featured)
+    list = flagged.length ? flagged : available
   } else if (filter !== 'all') {
     list = packages.filter(p => p.category === filter)
   }
@@ -89,7 +91,11 @@ export default function PackagesGrid({ showFilters = true, ids = null, featured 
       </div>
 
       {list.length === 0 && (
-        <p className="packages-grid__empty">No packages in this category yet. Message us on WhatsApp and we will tell you what is available.</p>
+        <p className="packages-grid__empty">
+          {featured
+            ? 'Our current groups are full. Message us on WhatsApp and we will tell you when the next one opens.'
+            : 'No packages in this category yet. Message us on WhatsApp and we will tell you what is available.'}
+        </p>
       )}
     </>
   )
