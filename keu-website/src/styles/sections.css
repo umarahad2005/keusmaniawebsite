@@ -215,11 +215,6 @@
   .packages-grid, .packages-grid--n1, .packages-grid--n2 { grid-template-columns: minmax(0, 1fr); }
 }
 .packages-grid__empty { color: var(--text-muted); }
-/* /packages lays the cards out right to left (owner, 2026-10-23): available
-   packages start at the top right and sold-out ones end on the left. The
-   cards themselves stay left to right. */
-.packages-grid--rtl { direction: rtl; }
-.packages-grid--rtl > * { direction: ltr; }
 
 .package-card {
   container-type: inline-size;

@@ -155,7 +155,7 @@ const address = [c.address?.street, c.address?.city || 'Lahore', c.address?.coun
 // or '923334883578' (the old `+${c.whatsapp}` printed '++92…'), and wa.me
 // wants the digits with no '+'.
 const digits = (n) => String(n || '').replace(/\D/g, '')
-const waDigits = digits(c.whatsapp || c.phone) || '923334883578'
+const waDigits = digits(c.whatsapp || c.phone) || '923314950665'
 const landline = digits(c.landline) || '924235136177'
 
 const llms = `# Karwan e Usmania International · Travel & Tours

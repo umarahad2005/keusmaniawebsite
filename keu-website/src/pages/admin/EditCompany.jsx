@@ -60,7 +60,7 @@ export default function EditCompany() {
         <Input label="Company name"     value={c.name}     onChange={set('name')} />
         <Input label="Tagline"          value={c.tagline}  onChange={set('tagline')} />
         <Input label="Phone"            value={c.phone}    onChange={set('phone')} />
-        <Input label="WhatsApp (digits, e.g. 923334883578)" value={c.whatsapp} onChange={set('whatsapp')} />
+        <Input label="WhatsApp (digits, e.g. 923314950665)" value={c.whatsapp} onChange={set('whatsapp')} />
         <Input label="Email"            value={c.email}    onChange={set('email')} />
         <Input label="Founded year"     type="number"      value={c.founded}  onChange={set('founded')} />
       </div>

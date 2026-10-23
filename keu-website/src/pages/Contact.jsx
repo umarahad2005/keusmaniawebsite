@@ -19,7 +19,7 @@ export default function Contact() {
 
   useDocumentHead({
     title: 'Contact & Bookings | Karwan e Usmania International, Lahore',
-    description: 'Contact Karwan e Usmania International for Umrah bookings. Office No. 2, Usman Plaza, 436-G1, Johar Town, Lahore. WhatsApp +92 333 4883578. Open Monday to Friday 11 am–7 pm, Saturday 11 am–5 pm.',
+    description: 'Contact Karwan e Usmania International for Umrah bookings. Office No. 2, Usman Plaza, 436-G1, Johar Town, Lahore. WhatsApp +92 331 4950665. Open Monday to Friday 11 am–7 pm, Saturday 11 am–5 pm.',
     keywords: 'Karwan e Usmania International contact, Umrah booking Lahore, Umrah WhatsApp Pakistan, Johar Town travel agency',
     canonical: `${SITE_URL}/contact`,
     ogImage: '/og/contact.jpg',

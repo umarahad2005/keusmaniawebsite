@@ -65,7 +65,7 @@ export default function Packages() {
       <section id="packages" className="k-section packages-page" data-surface="paper" aria-labelledby="packages-title">
         <div className="k-container">
           <h2 className="sr-only" id="packages-title">All packages</h2>
-          <PackagesGrid showFilters sticky rtl />
+          <PackagesGrid showFilters sticky />
           <p className="packages-page__trust">{anyPriced ? 'Prices per person · every cost' : 'Every cost'} explained in writing before you commit</p>
           {licence && <p className="ledger__licence">{licence}</p>}
         </div>

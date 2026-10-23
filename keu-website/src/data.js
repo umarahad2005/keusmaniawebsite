@@ -11,7 +11,7 @@ export const SITE = {
     tagline: 'Your Journey to the Holy Land, Our Priority',
     founded: 2005,   // owner decision 2026-10-12 (was 2008)
     phone: '+92-333-4883578',
-    whatsapp: '923334883578',   // owner decision 2026-10-10 (letterhead mobile)
+    whatsapp: '923314950665',   // owner, 2026-10-23: Moeed Usmani (was 923334883578, 2026-10-10)
     email: 'keusmania@gmail.com',
     address: {
       // Letterhead address (content-corrections §1). No postcode: none supplied.
@@ -152,7 +152,7 @@ export const SITE = {
     },
     {
       q: "How do I book?",
-      a: "WhatsApp is our main booking channel. Message +92 333 4883578 with your preferred package and travel dates. You can also call +92 42 35136177, email keusmania@gmail.com, or visit our office in Johar Town.",
+      a: "WhatsApp is our main booking channel. Message +92 331 4950665 with your preferred package and travel dates. You can also call +92 42 35136177, email keusmania@gmail.com, or visit our office in Johar Town.",
     },
     {
       q: "What is included in an Umrah package?",
@@ -252,7 +252,7 @@ export const SITE = {
     },
     {
       q: "Is there a 24/7 contact number while we are in Saudi Arabia?",
-      a: "Yes. 24/7 on-ground support is included in every package. You can WhatsApp us anytime on +92 333 4883578, even from the Haram itself.",
+      a: "Yes. 24/7 on-ground support is included in every package. You can WhatsApp us anytime on +92 331 4950665, even from the Haram itself.",
     },
     {
       q: "Do you arrange women-only groups?",
@@ -288,7 +288,7 @@ export const SITE = {
     },
     {
       q: "Where is your office?",
-      a: "Office No. 2, 1st Floor, Usman Plaza, 436-G1, Opposite Butt Sweets, Johar Town, Lahore. We are open Monday to Friday 11 am to 7 pm and Saturday 11 am to 5 pm (Pakistan time), and closed on Sunday. WhatsApp is the fastest way to reach us: +92 333 4883578. You can also call +92 42 35136177.",
+      a: "Office No. 2, 1st Floor, Usman Plaza, 436-G1, Opposite Butt Sweets, Johar Town, Lahore. We are open Monday to Friday 11 am to 7 pm and Saturday 11 am to 5 pm (Pakistan time), and closed on Sunday. WhatsApp is the fastest way to reach us: +92 331 4950665. You can also call +92 42 35136177.",
     },
     {
       q: "Do I need an appointment to visit your office?",
