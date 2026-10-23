@@ -131,23 +131,47 @@ export async function mirrorMedia(m) {
 /* ---------- Captions ---------- */
 
 /* Lines that belong to the contact footer every caption carries (numbers,
-   links, the office address, hours), not to the post itself. */
+   links, email, the office address, hours, and the "📞 Contact Us:" style
+   headings older posts use), not to the post itself. */
 const FOOTER_LINE = [
   /wa\.me\//i,
   /instagram\.com|facebook\.com|tiktok\.com|youtube\.com/i,
   /^\s*(whatsapp|instagram|facebook|call|phone|email|website|visit us|office)\b/i,
-  /\+92[\s\d-]{8,}/,
+  /\+?92[\s-]?\d{2,3}[\s-]?\d{3}[\s-]?\d{4}/,
+  /(^|\D)0\d{3}[\s-]?(\d{7}|\d{3}[\s-]?\d{4})(\D|$)/,
+  /[\w.+-]+@[\w-]+\.[\w.]+/,
+  /\b[\w-]+\.(vercel\.app|com|pk|net|org)\b/i,
   /usman plaza|johar town/i,
   /\b(mon|peer)\s*[–-]\s*(fri|juma)\b/i,
+  /^[\s\p{Extended_Pictographic}\uFE0F]*(contact( us)?|umrah booking( & details)?|for (booking|details)|booking & details|call us|book now)\b.*:\s*$/iu,
 ]
 const HASHTAG = /(^|\s)#[\p{L}\p{M}\p{N}_]+/gu
+const TAG_WORD = /^#?[\p{L}\p{N}_]*\p{Lu}[\p{Ll}\p{N}]+\p{Lu}[\p{L}\p{N}_]*$|^#[\p{L}\p{M}\p{N}_]+$/u
+
+/* A hashtag block: starts with a #tag, or is mostly #tags and run-together
+   CamelCase words (older captions drop the # after the first few). */
+function isTagLine(line) {
+  const words = line.trim().split(/\s+/).filter(Boolean)
+  if (!words.length) return false
+  if (words[0].startsWith('#')) return true
+  return words.length >= 3 && words.filter(w => TAG_WORD.test(w)).length / words.length >= 0.7
+}
+
+// "Contact us:" / "رابطہ کریں:" / "Get in touch: 👇" lines that only lead
+// into the contact block, which has just been removed.
+const LEAD_IN = /[:：]\s*[\p{Extended_Pictographic}\uFE0F\s]*$/u
+const isFooter = (line) => FOOTER_LINE.some(re => re.test(line)) || isTagLine(line)
 
 /** The caption as the site shows it: no contact footer, no hashtags. */
 export function cleanCaption(caption = '') {
-  return String(caption)
-    .replace(/\r\n?/g, '\n')
-    .split('\n')
-    .filter(line => !FOOTER_LINE.some(re => re.test(line)))
+  const lines = String(caption).replace(/\r\n?/g, '\n').split('\n')
+  const nextText = (i) => { for (let j = i + 1; j < lines.length; j++) if (lines[j].trim()) return j; return -1 }
+  return lines
+    .filter((line, i) => {
+      if (isFooter(line)) return false
+      if (LEAD_IN.test(line)) { const j = nextText(i); return j !== -1 && !isFooter(lines[j]) }
+      return true
+    })
     .map(line => line.replace(HASHTAG, '').replace(/[ \t]+$/g, ''))
     .join('\n')
     .replace(/\n{3,}/g, '\n\n')
