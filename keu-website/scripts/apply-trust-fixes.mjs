@@ -11,11 +11,11 @@
                  are only the fallback while video reviews are shown)
                stats: "100% Visa Success Rate" → "24/7 On-ground Support"
                services[0].sublabel "100% approval rate" → "Handled end to end"
-               FAQ "visa processing" drops the 100% claim; FAQ "documents"
-                 becomes a checklist; FAQ "distance" no longer says the
+               FAQ "visa processing" drops the 100% claim; FAQ "distance" no longer says the
                  distance is on the card
-     packages: nights 20 on the 14 + 6 night package, numeric prices match the
-               labels, the landline "Call/WhatsApp … Website …" line is removed
+     packages: numeric prices match the labels, the landline "Call/WhatsApp …
+               Website …" line is removed, "BUGDET PACKAGE" → "Budget Package",
+               a bare "86000" price label → "PKR 86,000" (nights untouched)
 
      usage:  node scripts/apply-trust-fixes.mjs           (preview only)
              node scripts/apply-trust-fixes.mjs --apply   (backup, then write)
@@ -80,9 +80,8 @@ const plan = (doc, set, show) => { if (Object.keys(set).length) plans.push({ doc
   ;(d.faqs || []).forEach((f, i) => {
     let a = f.a
     if (/100% approval/i.test(a)) a = a.replace(/,? and we have a 100% approval rate/i, '')
-    if (/^Which documents do I need/i.test(f.q)) {
-      a = 'You will need: a passport valid for at least six months from your travel date; recent passport-size photographs with a white background; your meningitis vaccination certificate and polio vaccination certificate; and, if you choose a package without an air ticket, a copy of your confirmed ticket. Our team handles the rest of the visa process for you and will confirm the current list when you book.'
-    }
+    // The documents answer is left alone: the owner set it to polio only (no
+    // meningitis) on 2026-10-21, which this script's old checklist would undo.
     if (/listed on each package card/i.test(a)) {
       a = a.replace(/The distance depends on the package and is listed on each package card\./i,
         'The distance depends on the package; ask us on WhatsApp and we will tell you the walking distance for each hotel.')
@@ -106,8 +105,12 @@ const plan = (doc, set, show) => { if (Object.keys(set).length) plans.push({ doc
       }
       const s = p.summary || ''
       change('summary', s, s.replace(/\s*Book Your Journey:\s*Call\/WhatsApp:\s*\+?\d+\s*Website:\s*\S+\s*/i, '  ').replace(/\s{3,}/g, '  ').trim())
-      const m = s.match(/Makkah\s*\((\d+)\s*Nights?\).*?Madinah\s*\((\d+)\s*Nights?\)/i)
-      if (m) change('nights', p.nights, Number(m[1]) + Number(m[2]))
+      // Nights are left as entered: the owner confirmed 21 for the Rabi ul Awal
+      // package (2026-10-23), although its summary lists 14 + 6.
+      if (/^bugdet package$/i.test(String(p.name || '').trim())) change('name', p.name, 'Budget Package')
+      if (/^\d+$/.test(String(p.priceLabel || '').trim())) {
+        change('priceLabel', p.priceLabel, `PKR ${Number(p.priceLabel).toLocaleString('en-US')}`)
+      }
       const label = Number(String(p.priceLabel || '').replace(/[^\d]/g, ''))
       if (label >= 1000) change('price', p.price, label)
     })
