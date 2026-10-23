@@ -15,6 +15,16 @@ export function slugify(s = '') {
     the footer link and the JSON-LD URL always agree and stay clean. */
 export const packageAnchor = (pkg) => slugify(pkg?.name || pkg?.id)
 
+/** How long a package is, in its own words: { days } when its name or
+    subtitle gives days ("Rabi ul Awal Umrah · 21 days", whose admin `nights`
+    holds the days), else { nights } from the admin field; null when unset. */
+export function packageLength(pkg) {
+  const d = [pkg?.name, pkg?.subtitle].join(' ').match(/\b(\d{1,3})[\s-]*days?\b/i)
+  if (d) return { days: Number(d[1]), label: `${d[1]} days` }
+  const n = Math.round(Number(pkg?.nights) || 0)
+  return n > 0 ? { nights: n, label: `${n} nights` } : null
+}
+
 /** The member's card slug: the admin's own slug if set, else from the name. */
 export const memberSlug = (m) => slugify(m?.slug || m?.name)
 export const memberPath = (m) => `/team/${memberSlug(m)}`

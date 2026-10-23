@@ -17,7 +17,7 @@ import { DisplayLocationContext } from '../chrome/ChromeContext.jsx'
 import { useScrollRestoration } from '../../hooks/useScrollRestoration.js'
 import PageCurtain from './PageCurtain.jsx'
 
-const CAPTIONS = { '/': 'Home', '/packages': 'Packages', '/about': 'About', '/gallery': 'Gallery', '/contact': 'Contact' }
+const CAPTIONS = { '/': 'Home', '/packages': 'Packages', '/about': 'About', '/gallery': 'Gallery', '/contact': 'Contact', '/faq': 'Questions', '/guides': 'Guides', '/updates': 'Updates' }
 const MIN_HOLD_MS = 120
 
 const frames = (n = 2) => new Promise(resolve => {

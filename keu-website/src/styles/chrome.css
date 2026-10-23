@@ -190,6 +190,8 @@ html { scroll-padding-top: calc(var(--nav-h) + 16px); }
 .site-nav--film .site-nav__menu:focus-visible,
 .site-nav--solid .site-nav__menu:focus-visible { outline-color: var(--focus-film); }
 
+/* Six links: a tighter gap until the bar has room (1024–1279 px). */
+@media (max-width: 1279px) { .site-nav__links { gap: 20px; } }
 @media (max-width: 1023px) {
   .site-nav__links { display: none; }
   .site-nav__menu { display: grid; }

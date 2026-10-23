@@ -21,14 +21,20 @@ export function render(url, content) {
   return { html, head: collected.head, ld: collected.ld }
 }
 
-/* Every public URL the build writes as static HTML: the five pages and one card
-   page per team member (same slugs as the site's own links). */
+/* Every public URL the build writes as static HTML: the five pages, the FAQ,
+   the guides (src/data.js GUIDES), the social feed (/updates, rendered with
+   the posts handed to primeSocial) and one card page per team member (same
+   slugs as the site's own links). */
 export { mergeContent } from './lib/SiteContext.jsx'
 import { memberSlug } from './lib/team.js'
 import { mergeContent as merge } from './lib/SiteContext.jsx'
+import { GUIDES } from './data.js'
+export { GUIDES }
+export { primeSocial } from './lib/social.js'
 
 export function publicRoutes(content) {
   const { site } = merge(content)
   const team = [...new Set((site.team || []).filter(m => m && m.name).map(m => `/team/${memberSlug(m)}`))]
-  return ['/', '/packages', '/about', '/gallery', '/contact', ...team]
+  const guides = GUIDES.map(g => `/guides/${g.slug}`)
+  return ['/', '/packages', '/about', '/gallery', '/contact', '/faq', '/guides', ...guides, '/updates', ...team]
 }

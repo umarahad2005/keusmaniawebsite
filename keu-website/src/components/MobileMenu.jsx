@@ -19,6 +19,7 @@ const LINKS = [
   { to: '/packages', label: 'Packages' },
   { to: '/about',    label: 'About' },
   { to: '/gallery',  label: 'Gallery' },
+  { to: '/updates',  label: 'Updates' },
   { to: '/contact',  label: 'Contact' },
 ]
 

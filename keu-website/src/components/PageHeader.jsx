@@ -17,6 +17,7 @@ export default function PageHeader({
   image,          // Cloudinary public_id — e.g. keu/makkah/kaaba
   imageAlt = '',
   crumb,          // breadcrumb label for this page (defaults to the eyebrow)
+  parent,         // optional middle crumb: { to: '/guides', label: 'Guides' }
 }) {
   const text = lead ?? subtitle
   return (
@@ -26,6 +27,7 @@ export default function PageHeader({
           <nav className="pheader__crumbs" aria-label="Breadcrumb">
             <ol role="list">
               <li><Link to="/">Home</Link></li>
+              {parent && <li><Link to={parent.to}>{parent.label}</Link></li>}
               <li aria-current="page">{crumb || eyebrow}</li>
             </ol>
           </nav>

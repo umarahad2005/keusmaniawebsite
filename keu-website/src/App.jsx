@@ -16,6 +16,10 @@ import About    from './pages/About.jsx'
 import Gallery  from './pages/Gallery.jsx'
 import Contact  from './pages/Contact.jsx'
 import TeamMember from './pages/TeamMember.jsx'
+import Faq      from './pages/Faq.jsx'
+import Guides   from './pages/Guides.jsx'
+import Guide    from './pages/Guide.jsx'
+import Updates  from './pages/Updates.jsx'
 import NotFound from './pages/NotFound.jsx'
 
 /* The admin is code-split: visitors never download it, and it never pulls in
@@ -31,6 +35,7 @@ const AdminGallery      = lazy(() => import('./pages/admin/EditGallery.jsx'))
 const AdminGeneric      = lazy(() => import('./pages/admin/EditGeneric.jsx'))
 const AdminVideoReviews = lazy(() => import('./pages/admin/EditVideoReviews.jsx'))
 const AdminSound        = lazy(() => import('./pages/admin/EditSound.jsx'))
+const AdminSocial       = lazy(() => import('./pages/admin/EditSocial.jsx'))
 
 import { SiteProvider } from './lib/SiteContext.jsx'
 import { AuthProvider } from './lib/AuthContext.jsx'
@@ -74,6 +79,10 @@ function PublicApp() {
         <Route path="/about"    element={<About />} />
         <Route path="/gallery"  element={<Gallery />} />
         <Route path="/contact"  element={<Contact />} />
+        <Route path="/faq"      element={<Faq />} />
+        <Route path="/guides"   element={<Guides />} />
+        <Route path="/guides/:slug" element={<Guide />} />
+        <Route path="/updates"  element={<Updates />} />
         <Route path="/team/:slug" element={<TeamMember />} />
         <Route path="*"         element={<NotFound />} />
       </TransitionRoutes>
@@ -105,6 +114,7 @@ export default function App({ initialContent }) {
               <Route path="testimonials" element={<AdminTestimonials />} />
               <Route path="video-reviews" element={<AdminVideoReviews />} />
               <Route path="sound"        element={<AdminSound />} />
+              <Route path="social"       element={<AdminSocial />} />
               <Route path="team"         element={<AdminTeam />} />
               <Route path="gallery"      element={<AdminGallery />} />
               <Route path="sanctuaries"  element={<AdminGeneric type="sanctuaries" title="Sanctuaries" />} />

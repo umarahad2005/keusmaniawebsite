@@ -104,6 +104,9 @@ export default function Footer() {
               <li><Link to="/about">About</Link></li>
               <li><Link to="/gallery">Gallery</Link></li>
               <li><Link to="/contact">Contact</Link></li>
+              <li><Link to="/faq">Questions</Link></li>
+              <li><Link to="/guides">Umrah guides</Link></li>
+              <li><Link to="/updates">Updates</Link></li>
             </ul>
           </nav>
 

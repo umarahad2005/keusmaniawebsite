@@ -21,7 +21,8 @@ import { organizationSchema, websiteSchema, speakableSchema } from '../lib/schem
 
 /* Home (DESIGN-LANGUAGE §5.1): the film, the seam, then the letter.
    Running-head numbers: 03 ledger · 04 packages · 05 steps · 06 services ·
-   07 Makkah/Madinah · 08 why · 09 voices · 10 questions · 11 closing letter. */
+   07 Makkah/Madinah · 08 why · 09 voices · 10 questions (the first eight;
+   all of them, with the FAQPage markup, on /faq) · 11 closing letter. */
 export default function Home() {
   const { site, packages } = useSite()
   // "Prices per person" only when a card actually shows a price (not while
@@ -39,7 +40,7 @@ export default function Home() {
 
   return (
     <>
-      <JsonLd data={[organizationSchema(site, packages), websiteSchema(), speakableSchema()]} />
+      <JsonLd data={[organizationSchema(site, packages), websiteSchema(), speakableSchema('/')]} />
 
       <VideoHero />
       <Seam />

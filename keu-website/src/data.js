@@ -424,3 +424,218 @@ export const PACKAGES = [
     waMessage: 'Assalamu Alaikum! I would like details about your premium Umrah packages, dates and hotels.',
   },
 ]
+
+/* =========================================================
+   GUIDES: AWAITING OWNER REVIEW (drafted 2026-10-23)
+   ---------------------------------------------------------
+   The /guides/<slug> pages answer the questions pilgrims ask before they
+   choose a package. Each opens with a short answer (2–3 sentences), then H2
+   sections. Facts about Karwan e Usmania International come only from this
+   file and the owner-approved FAQ answers; everything else is general Umrah
+   practice, phrased generally. No prices, hotel names, licence numbers or
+   promises here: live prices come from the packages in the admin.
+
+   Please read each guide and correct anything that is not how we work, then
+   set its `approved` to true: only then does the page say "Last reviewed …
+   by Karwan e Usmania International" (until then it says "Updated …"). When a
+   guide changes, update its `reviewed` date (YYYY-MM-DD): it is the date on
+   the page and the article's last-modified date for search engines.
+   `published` is the day the guide first went up and never changes.
+
+   Section fields: h (the H2), p (paragraphs), list (bullet points), link (a
+   related page), and block, which inserts live content: 'packages-table' (the
+   current packages, sold-out ones marked) or 'office' (address and hours from
+   the admin).
+   ========================================================= */
+export const GUIDES = [
+  {
+    slug: 'compare-umrah-packages',
+    title: 'How to compare Umrah packages from Pakistan',
+    metaTitle: 'How to Compare Umrah Packages from Pakistan | Karwan e Usmania International',
+    description: 'Compare Umrah packages from Pakistan on price per person, nights in Makkah and Madinah, hotels, air ticket and transport, with a checklist of questions to ask before you pay.',
+    image: 'keu/makkah/makkah-city',
+    imageAlt: 'Makkah skyline with the Clock Tower',
+    published: '2026-10-23',
+    reviewed: '2026-10-23',
+    approved: false,
+    answer: 'Compare Umrah packages on the same five points: the price per person and what it covers, the nights in Makkah and in Madinah, the hotels and how you reach the Haram, whether the air ticket is included, and how you travel between the cities. Ask for every cost in writing before you pay, so two offers can be compared line by line.',
+    sections: [
+      {
+        h: 'Start with what the price covers',
+        p: [
+          'Two packages at a similar price can include very different things. Some include the air ticket; others are sold without it, for pilgrims who book their own flights. Check whether the visa, insurance, transport, ziyarah and meals are part of the price or extra.',
+          'At Karwan e Usmania International every package includes Saudi visa processing, insurance, documentation and 24/7 on-ground support. Hotels, transport, flights and ziyarah depend on the package, and each package lists exactly what it includes. Meals are not included as standard and can be added on request.',
+        ],
+      },
+      {
+        h: 'Check the nights and the hotels in each city',
+        p: [
+          'Look at how the nights are split between Makkah and Madinah, the name and star rating of each hotel, and how you get to the Haram: on foot, or by the hotel shuttle. The price per person also depends on room sharing, so compare offers on the same room type.',
+        ],
+      },
+      {
+        h: 'Check the transport',
+        p: [
+          'Every Umrah trip needs airport transfers, the journey between Makkah and Madinah, and usually ziyarah trips. Ask whether these are by shared coach or private transport, and whether a train journey is included.',
+        ],
+        link: { to: '/guides/private-transport-umrah', label: 'Shared or private transport: what is the difference?' },
+      },
+      {
+        h: 'Our current packages side by side',
+        p: ['Read from our live packages. Prices are per person; each package card has the full details.'],
+        block: 'packages-table',
+      },
+      {
+        h: 'Questions to ask before you pay',
+        list: [
+          'Is the price per person, and for which room sharing?',
+          'Is the air ticket included? If not, what do you need from me?',
+          'Which hotels, and how many nights in each city?',
+          'How do we reach the Haram from the hotel?',
+          'Is transport shared or private, including between Makkah and Madinah?',
+          'Is ziyarah included? Are meals included?',
+          'How much is the deposit, and when is the balance due?',
+          'What happens if my dates or traveller names change?',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'what-an-umrah-package-includes',
+    title: 'What does an Umrah package include?',
+    metaTitle: 'What Does an Umrah Package Include? | Karwan e Usmania International',
+    description: 'What an Umrah package from Pakistan usually includes: visa, hotels in Makkah and Madinah, transport, insurance and, in some packages, the air ticket. What varies, and what a 7-day Umrah should include.',
+    image: 'keu/makkah/masjid-al-haram',
+    imageAlt: 'Masjid al-Haram with the Kaaba at its centre',
+    published: '2026-10-23',
+    reviewed: '2026-10-23',
+    approved: false,
+    answer: 'An Umrah package from Pakistan usually brings together the Saudi Umrah visa, hotels in Makkah and Madinah, transport on the ground and, in some packages, the air ticket. Insurance, ziyarah and meals vary from one package to another, so read the inclusions of each package before you book.',
+    sections: [
+      {
+        h: 'The core of a package',
+        list: [
+          'Saudi Umrah visa processing',
+          'Hotels in Makkah and Madinah, for a set number of nights in each city',
+          'Transport: airport transfers and the journey between Makkah and Madinah',
+          'Insurance and documentation',
+        ],
+        p: ['At Karwan e Usmania International every package includes visa processing, insurance, documentation and 24/7 on-ground support. Each package card lists everything else it includes.'],
+      },
+      {
+        h: 'What varies between packages',
+        list: [
+          'The air ticket: some packages include it, some are sold without it',
+          'Hotel star rating, and how you reach the Haram (on foot or by hotel shuttle)',
+          'Shared coach or private transport, and sometimes a train journey between the cities',
+          'Ziyarah of the historic sites of Makkah and Madinah',
+          'Meals: not included as standard; breakfast, half board or full board can be added on request',
+          'Room sharing, which changes the price per person',
+        ],
+      },
+      {
+        h: 'What should a 7-day Umrah package include?',
+        p: [
+          'A short Umrah needs the same essentials as a longer one: the visa, a hotel close to the Haram in Makkah, airport transfers and insurance. If Madinah is part of the trip, it also needs nights there and transport between the two cities. With only a few days, hotel distance and flight times matter more, because every hour of travel comes out of your time at the Haram.',
+          'Our current packages are longer stays. If you only have a week, ask us on WhatsApp whether a shorter stay can be arranged for your dates.',
+        ],
+      },
+      {
+        h: 'What you arrange yourself',
+        list: [
+          'A passport valid for at least six months from your travel date',
+          'Recent passport-size photographs with a white background',
+          'A polio vaccination certificate (for Pakistani travellers)',
+          'Your ihram, comfortable shoes and personal items',
+          'A copy of your confirmed air ticket, if your package does not include one',
+        ],
+        p: ['We confirm the current document list when you book.'],
+      },
+    ],
+  },
+  {
+    slug: 'choosing-an-umrah-agency-in-lahore',
+    title: 'How to choose an Umrah agency in Lahore',
+    metaTitle: 'How to Choose an Umrah Agency in Lahore: a Checklist | Karwan e Usmania International',
+    description: 'A checklist for choosing an Umrah agency in Lahore: experience, costs in writing, named hotels and transport, support in Saudi Arabia, an office you can visit, and registration you can check.',
+    image: 'keu/madinah/prophets-mosque',
+    imageAlt: 'Masjid an-Nabawi, the green dome at sunset',
+    published: '2026-10-23',
+    reviewed: '2026-10-23',
+    approved: false,
+    answer: 'Choose an Umrah agency in Lahore that can show how long it has operated, puts every cost in writing before you pay, names the hotels and transport in your package, and stays reachable while you are in Saudi Arabia. Visit the office if you can, and check the company’s registration and authorisation details for yourself before paying.',
+    sections: [
+      {
+        h: 'A checklist before you pay',
+        list: [
+          'How long has the agency arranged Umrah, and for how many pilgrims?',
+          'Does it put every cost in writing before you pay?',
+          'Does it name the hotels, the nights in each city and the transport?',
+          'Who looks after you in Makkah and Madinah, and how do you reach them at night?',
+          'Is there an office you can visit, with set opening hours?',
+          'Can it show its company registration and Umrah authorisation details? Check them yourself.',
+          'Are the deposit, the balance and the rules for changes clear?',
+        ],
+      },
+      {
+        h: 'How we answer the checklist',
+        list: [
+          'Serving pilgrims since 2005: more than 21 years and over 25,000 pilgrims',
+          'Every cost explained in writing before you commit',
+          'Each package lists what it includes, and we work with 80+ partner hotels',
+          'Trusted partners on the ground in Makkah and Madinah for hotels, transport and ziyarah',
+          '24/7 on-ground support: WhatsApp us anytime, even from the Haram',
+          'Umrah is our only focus',
+        ],
+      },
+      {
+        h: 'Visit our office in Johar Town',
+        p: ['No appointment is needed. If you message us on WhatsApp first, we can make sure the right person is there to meet you.'],
+        block: 'office',
+      },
+    ],
+  },
+  {
+    slug: 'private-transport-umrah',
+    title: 'Private transport for Umrah: how it works',
+    metaTitle: 'Private Transport for Umrah: Shared vs Private | Karwan e Usmania International',
+    description: 'Shared and private transport on Umrah explained: airport transfers, the journey between Makkah and Madinah, ziyarah trips and hotel shuttles, and what to ask before you book.',
+    image: 'keu/madinah/madinah-city',
+    imageAlt: 'Madinah city view at golden hour',
+    published: '2026-10-23',
+    reviewed: '2026-10-23',
+    approved: false,
+    answer: 'Transport on Umrah covers three kinds of trip: airport transfers on arrival and departure, the journey between Makkah and Madinah, and ziyarah trips to the historic sites. Shared transport is a coach with other pilgrims on a set schedule; private transport is a car or van for your family or group alone, so you choose the time.',
+    sections: [
+      {
+        h: 'Shared and private transport',
+        list: [
+          'Shared coach: you travel with other pilgrims at a set time. It costs less and suits most travellers.',
+          'Private transport: a vehicle for your family or group only. You set the time, which helps with elderly parents, young children or a lot of luggage. It costs more.',
+        ],
+      },
+      {
+        h: 'Airport transfers',
+        p: ['A transfer meets you at the airport in Saudi Arabia, takes you to your hotel and brings you back for your flight home. Transport, including airport transfers, is part of our packages; ask whether yours is shared or private.'],
+      },
+      {
+        h: 'Between Makkah and Madinah',
+        p: ['The two cities are a few hours apart by road. Pilgrims travel by shared coach or private car, and some packages include a journey on the Haramain high-speed train, which is faster. Check which one your package uses and when it leaves.'],
+      },
+      {
+        h: 'Ziyarah and hotel shuttles',
+        p: ['Ziyarah trips visit the historic sites of Makkah and Madinah and are arranged by our partners on the ground. Some hotels also run a shuttle to the Haram, which matters when the hotel is not within walking distance.'],
+      },
+      {
+        h: 'What to ask before you book',
+        list: [
+          'Are airport transfers included, and are they shared or private?',
+          'How do we travel between Makkah and Madinah: coach, private car or train?',
+          'Is ziyarah included, and by what transport?',
+          'Does the hotel run a shuttle to the Haram?',
+          'Can private transport be added, and what is the difference in price?',
+        ],
+      },
+    ],
+  },
+]

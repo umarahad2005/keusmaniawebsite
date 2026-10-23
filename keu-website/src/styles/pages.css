@@ -678,3 +678,102 @@
 .notfound__inner { max-width: 640px; text-align: center; }
 .notfound__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--s-3); margin-top: var(--s-8); }
 .notfound__contact { margin: var(--s-6) 0 0; }
+
+/* =========================================================
+   Questions (/faq): topic chips under the header, then one FAQ
+   block per topic (the Home FAQ layout), then the way to the guides.
+   ========================================================= */
+.faq-topics { padding-bottom: var(--s-8); }
+.faq-topics ul { display: flex; flex-wrap: wrap; gap: var(--s-2); margin-block: 0; list-style: none; }
+.faq-topics__n { margin-left: var(--s-2); font-weight: 500; color: var(--text-muted); }
+.faq--topic { scroll-margin-top: var(--nav-h); }
+.faq-guides { padding-block: var(--s-16); }
+.faq-guides__title { margin: 0 0 var(--s-2); font: 500 var(--fs-d4)/1.15 var(--font-display); color: var(--green-800); }
+.faq-guides p { margin: 0; }
+
+/* =========================================================
+   Umrah guides: the index (/guides) and a guide (/guides/<slug>).
+   One reading column; the short answer first, between gold rules.
+   ========================================================= */
+.guides__list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--gold-hairline); }
+.guides__item { padding: var(--s-8) 0; border-bottom: 1px solid var(--gold-hairline); }
+.guides__title { margin: 0; font: 500 var(--fs-d4)/1.15 var(--font-display); }
+.guides__title a { color: var(--green-800); text-decoration: none; }
+.guides__title a:hover { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+.guides__title a:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; }
+.guides__answer { margin: var(--s-3) 0 0; max-width: 72ch; font: 400 var(--fs-body)/1.65 var(--font-sans); color: var(--text-body); }
+.guides__faq { margin: var(--s-8) 0 0; }
+
+.guide { padding-top: var(--s-8); }
+.guide__inner { max-width: 760px; }
+.guide__answer {
+  margin: 0 0 var(--s-12);
+  padding: var(--s-6) 0;
+  border-block: 1px solid var(--gold-hairline);
+}
+.guide__answer p { margin: 0; font: 400 var(--fs-lead)/1.65 var(--font-sans); color: var(--ink); }
+.guide__answer .guide__reviewed { margin-top: var(--s-4); font: 500 var(--fs-meta)/1.4 var(--font-sans); color: var(--text-muted); }
+.guide__section { margin: 0 0 var(--s-12); }
+.guide__h { margin: 0 0 var(--s-4); font: 500 var(--fs-d4)/1.15 var(--font-display); color: var(--green-800); text-wrap: balance; }
+.guide__section > p,
+.guide__list li { font: 400 var(--fs-body)/1.7 var(--font-sans); color: var(--text-body); }
+.guide__section > p { margin: 0 0 var(--s-4); max-width: 68ch; }
+.guide__list { margin: 0 0 var(--s-4); padding-left: 1.25em; }
+.guide__list li { margin: 0 0 var(--s-2); padding-left: var(--s-1); }
+.guide__list li::marker { color: var(--gold-800); }
+.guide__table-wrap { margin: var(--s-4) 0; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.guide__table { width: 100%; min-width: 560px; border-collapse: collapse; font: 400 var(--fs-small)/1.5 var(--font-sans); color: var(--text-body); }
+.guide__table th,
+.guide__table td { padding: var(--s-3) var(--s-3) var(--s-3) 0; border-bottom: 1px solid var(--gold-hairline); text-align: left; vertical-align: top; }
+.guide__table thead th { font: 600 var(--fs-caption)/1.4 var(--font-sans); letter-spacing: .08em; text-transform: uppercase; color: var(--gold-800); }
+.guide__table tbody th { font-weight: 600; }
+.guide__table tbody th a { color: var(--green-800); }
+.guide__table .is-sold-out { color: var(--text-muted); }
+.guide__table .is-sold-out a { color: var(--text-muted); }
+.guide__office { margin: var(--s-4) 0 0; }
+.guide__office div { display: grid; grid-template-columns: 120px 1fr; gap: var(--s-3); padding: var(--s-2) 0; border-bottom: 1px solid var(--gold-hairline); }
+.guide__office dt { font: 600 var(--fs-meta)/1.5 var(--font-sans); color: var(--green-800); }
+.guide__office dd { margin: 0; font: 400 var(--fs-body)/1.5 var(--font-sans); color: var(--text-body); }
+.guide__next { display: flex; flex-wrap: wrap; gap: var(--s-3); margin: var(--s-8) 0 0; }
+.guide__more { margin: var(--s-6) 0 0; color: var(--text-muted); }
+@media (max-width: 767px) {
+  .guide__next { flex-direction: column; }
+  .guide__next .k-btn { justify-content: center; width: 100%; }
+  .guide__office div { grid-template-columns: 1fr; gap: 0; }
+}
+.guide-loading { min-height: 100vh; }
+
+/* =========================================================
+   Updates (/updates): the social feed. A grid of ruled posts on paper:
+   the image (a carousel scrolls sideways, one image per stop), the date, the
+   text with Arabic and Urdu paragraphs right to left in their own faces
+   (KEU Arabic; Urdu in Nastaliq, which loads only here), then the link out.
+   ========================================================= */
+.updates__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+  gap: var(--s-12) var(--s-8);
+  align-items: start;
+}
+.update { display: flex; flex-direction: column; min-width: 0; border-top: 1px solid var(--gold-hairline); padding-top: var(--s-4); scroll-margin-top: var(--nav-h); }
+.update__media { position: relative; margin: 0 0 var(--s-4); }
+.update__slides { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: thin; border-radius: var(--radius-card); }
+.update__slides:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+.update__img { flex: 0 0 100%; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; scroll-snap-align: start; background: var(--gold-hairline); }
+.update__count {
+  position: absolute; top: var(--s-3); right: var(--s-3);
+  padding: var(--s-1) var(--s-2);
+  border-radius: var(--radius-control);
+  background: rgba(0, 0, 0, .55);
+  color: #fff;
+  font: 600 var(--fs-caption)/1.2 var(--font-sans);
+  pointer-events: none;
+}
+.update__date { display: block; margin: 0 0 var(--s-3); font: 600 var(--fs-caption)/1.4 var(--font-sans); letter-spacing: .08em; text-transform: uppercase; color: var(--gold-800); }
+.update__text { margin: 0 0 var(--s-3); font: 400 var(--fs-small)/1.65 var(--font-sans); color: var(--text-body); white-space: pre-line; overflow-wrap: anywhere; }
+.update__text--ar { font-family: var(--font-ar); font-size: 1.2em; line-height: 1.9; color: var(--ink); text-align: right; }
+.update__text--ur { font-family: var(--font-ur); line-height: 2.2; color: var(--ink); text-align: right; }
+.update__link { align-self: flex-start; margin-top: var(--s-1); }
+.updates__status { margin: 0; max-width: 60ch; font: 400 var(--fs-body)/1.65 var(--font-sans); color: var(--text-body); }
+.updates__more { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-6); margin-top: var(--s-12); }
+.updates__more:empty { display: none; }

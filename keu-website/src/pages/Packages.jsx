@@ -72,7 +72,8 @@ export default function Packages() {
       </section>
 
       <QafilaSection />
-      <FAQSection num="03" schema={false} />
+      {/* Package questions only; the rest are on /faq. */}
+      <FAQSection num="03" topics={['packages']} limit={0} lead="What pilgrims ask about packages, hotels and flights." />
       <CTABanner num="04" />
     </>
   )

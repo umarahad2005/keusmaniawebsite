@@ -1,9 +1,10 @@
 /* JSON-LD schema builders. Pure functions — pass data, get schema.org objects. */
 
 import { cldUrl } from './images.js'
-import { SITE_URL, BRAND, DESCRIPTION, LOGO_PATH, ogCard } from './brand.js'
+import { SITE_URL, BRAND, DESCRIPTION, LOGO_PATH, TAGLINE, ALT_NAMES, KNOWS_ABOUT, ogCard } from './brand.js'
 import { hoursRows } from './hours.js'
-import { packageAnchor, memberUrl } from './team.js'
+import { packageAnchor, packageLength, memberUrl } from './team.js'
+import { headline } from './social.js'
 
 /* Cloudinary public_id, full URL or /public path → absolute URL. */
 const absImage = (src, w) => {
@@ -64,8 +65,10 @@ export function organizationSchema(site, packages = []) {
     '@type': ['TravelAgency', 'LocalBusiness'],
     '@id': `${SITE_URL}/#organization`,
     name: BRAND,
-    alternateName: ['Karwan e Usmania', 'Karwan e Usmania International Travel & Tours'],
+    alternateName: ALT_NAMES,
     description: DESCRIPTION,
+    slogan: c.tagline || TAGLINE,
+    knowsAbout: KNOWS_ABOUT,
     url: SITE_URL,
     logo: `${SITE_URL}${LOGO_PATH}`,
     image: ogCard('home'),
@@ -116,7 +119,10 @@ export function breadcrumbSchema(items) {
 /** TouristTrip with Offer per package. The price comes from the label the
     owner typed ("PKR 78,500"); the numeric `price` field is never trusted.
     The @id and URL fragment use packageAnchor() ("Star Package" → star-package),
-    the same id the card and the footer link use. */
+    the same id the card and the footer link use. `duration` comes from
+    packageLength(): the days the package names ("21 days" → P21D), else the
+    admin's nights plus the day of arrival (14 nights → P15D); left out when
+    neither is set. */
 export function packageSchema(pkg) {
   const amount = Number(String(pkg.priceLabel || '').replace(/[^\d]/g, ''))
   const url = `${SITE_URL}/packages#${packageAnchor(pkg)}`
@@ -124,6 +130,8 @@ export function packageSchema(pkg) {
   const description = [pkg.subtitle, inclusions.length ? `Includes: ${inclusions.join(', ')}` : '']
     .map(t => String(t || '').trim()).filter(Boolean).join('. ')
   const soldOut = pkg.soldOut ? 'https://schema.org/SoldOut' : null
+  const length = packageLength(pkg)
+  const days = length ? length.days || length.nights + 1 : 0
   return {
     '@context': 'https://schema.org',
     '@type': 'TouristTrip',
@@ -131,6 +139,7 @@ export function packageSchema(pkg) {
     name: String(pkg.name || '').trim(),
     description: description || undefined,
     touristType: 'Umrah pilgrimage',
+    duration: days > 0 ? `P${days}D` : undefined,
     provider: { '@id': `${SITE_URL}/#organization` },
     image: ogCard('packages'),
     offers: amount >= 1000 ? {
@@ -154,15 +163,15 @@ export function packageSchema(pkg) {
   }
 }
 
+/* The list carries the one @context; nested items never repeat it. */
 export function packageListSchema(packages) {
   return {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    itemListElement: packages.map((p, i) => ({
-      '@type': 'ListItem',
-      position: i + 1,
-      item: packageSchema(p),
-    })),
+    itemListElement: packages.map((p, i) => {
+      const { '@context': _, ...item } = packageSchema(p)
+      return { '@type': 'ListItem', position: i + 1, item }
+    }),
   }
 }
 
@@ -203,14 +212,117 @@ export function imageGallerySchema(site) {
   }
 }
 
-/** Speakable schema — voice-search hint about what to read aloud. */
-export function speakableSchema() {
+/** Speakable schema — voice-search hint about what to read aloud, on the
+    page's own WebPage node (path is the page's URL path). */
+export function speakableSchema(path = '/') {
+  const url = `${SITE_URL}${path}`
   return {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
+    '@id': `${url}#webpage`,
+    url,
+    isPartOf: { '@id': `${SITE_URL}/#website` },
     speakable: {
       '@type': 'SpeakableSpecification',
       cssSelector: ['.section-heading__title', '.hero__title', '.faq-item__q'],
     },
+  }
+}
+
+/* Answers with a claim the site must not make ("100% approval rate") stay out
+   of the structured data until the owner fixes them in admin → FAQs
+   (scripts/apply-trust-fixes.mjs). Same rule in generate-seo.js. */
+const UNBACKED = /100\s*%/
+
+/** FAQPage for /faq, the one URL that marks the questions up (Home and
+    Packages show subsets without it). */
+export function faqPageSchema(faqs) {
+  faqs = faqs.filter(f => !UNBACKED.test(`${f.q} ${f.a}`))
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    '@id': `${SITE_URL}/faq#faqpage`,
+    url: `${SITE_URL}/faq`,
+    name: `Umrah questions and answers | ${BRAND}`,
+    inLanguage: 'en-PK',
+    isPartOf: { '@id': `${SITE_URL}/#website` },
+    mainEntity: faqs.map(({ q, a }) => ({
+      '@type': 'Question',
+      name: q,
+      acceptedAnswer: { '@type': 'Answer', text: a },
+    })),
+  }
+}
+
+/** Article for a guide page (/guides/<slug>). datePublished is the guide's
+    fixed `published` day, dateModified its latest `reviewed` day; written and
+    published by the organization. */
+export function guideSchema(guide) {
+  const url = `${SITE_URL}/guides/${guide.slug}`
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    '@id': `${url}#article`,
+    headline: guide.title,
+    description: guide.description,
+    url,
+    mainEntityOfPage: url,
+    image: ogCard(guide.og || 'packages'),
+    datePublished: guide.published || guide.reviewed,
+    dateModified: guide.reviewed || guide.published,
+    inLanguage: 'en-PK',
+    author: { '@id': `${SITE_URL}/#organization` },
+    publisher: { '@id': `${SITE_URL}/#organization` },
+    isPartOf: { '@id': `${SITE_URL}/#website` },
+  }
+}
+
+/** CollectionPage for /guides: the index, pointing at each guide's Article. */
+export function guidesIndexSchema(guides) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    '@id': `${SITE_URL}/guides#collection`,
+    name: `Umrah guides | ${BRAND}`,
+    url: `${SITE_URL}/guides`,
+    inLanguage: 'en-PK',
+    isPartOf: { '@id': `${SITE_URL}/#website` },
+    hasPart: guides.map(g => ({ '@id': `${SITE_URL}/guides/${g.slug}#article` })),
+  }
+}
+
+/** ItemList of SocialMediaPosting for /updates: one item per post, in the
+    order shown, each with its images and text. A post's own URL is its
+    Instagram permalink when it has one, else its anchor on /updates. */
+export function socialFeedSchema(posts) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    '@id': `${SITE_URL}/updates#feed`,
+    name: `Updates | ${BRAND}`,
+    url: `${SITE_URL}/updates`,
+    itemListElement: posts.map((p, i) => {
+      const url = p.permalink || `${SITE_URL}/updates#post-${p.id}`
+      const title = headline(p)
+      return {
+        '@type': 'ListItem',
+        position: i + 1,
+        item: {
+          '@type': 'SocialMediaPosting',
+          '@id': `${SITE_URL}/updates#post-${p.id}`,
+          url,
+          headline: title || undefined,
+          articleBody: p.text || undefined,
+          datePublished: p.date,
+          image: (p.images || []).map(img => ({
+            '@type': 'ImageObject',
+            contentUrl: absImage(img.src, 1080),
+            caption: img.alt || title || undefined,
+          })),
+          author: { '@id': `${SITE_URL}/#organization` },
+          publisher: { '@id': `${SITE_URL}/#organization` },
+        },
+      }
+    }),
   }
 }

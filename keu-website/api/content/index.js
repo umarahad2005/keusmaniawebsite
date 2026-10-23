@@ -6,34 +6,16 @@
    function region skip the database round trip. The admin reads with a
    ?t=<timestamp> cache-buster (see SiteContext), and any request carrying the
    admin cookie or that buster is answered no-store, so editors never see a
-   cached copy and their responses never fill the shared cache. */
+   cached copy and their responses never fill the shared cache.
+
+   X-Content-Updated ("packages=<ISO>, site=<ISO>") carries each row's
+   updatedAt, so the build can date sitemap entries by their content instead of
+   by the build time (scripts/generate-seo.js). The body stays { type: data }.
+
+   A save asks Vercel for a fresh build (triggerRebuild in api/_lib/http.js). */
 import { connectDB, Content } from '../_lib/db.js'
 import { requireAdmin } from '../_lib/auth.js'
-import { readJSON, methodNotAllowed, withErrors } from '../_lib/http.js'
-
-const PUBLIC_CACHE = 'public, s-maxage=60, stale-while-revalidate=600'
-const NO_STORE     = 'no-store'
-
-/* True when this read must not be shared: the admin cookie is present, or the
-   caller asked for a fresh copy with ?t=. Cookie presence is enough here — the
-   body is identical either way; this only decides whether the CDN may keep it. */
-function isPrivateRead(req) {
-  if (/(?:^|;\s*)keu_admin=/.test(req.headers.cookie || '')) return true
-  const q = req.query || {}
-  if (q.t !== undefined) return true
-  return /[?&]t=/.test(req.url || '')
-}
-
-/* Pages are pre-rendered at build time (scripts/prerender.mjs), so a save asks
-   Vercel for a fresh build through a Deploy Hook (Vercel → Settings → Git →
-   Deploy Hooks; the URL goes in VERCEL_DEPLOY_HOOK_URL). Until it finishes the
-   static HTML is a little behind, but visitors' browsers still load the live
-   content. Without the variable, or if the call fails, the save still succeeds. */
-async function triggerRebuild() {
-  const hook = process.env.VERCEL_DEPLOY_HOOK_URL
-  if (!hook) return
-  try { await fetch(hook, { method: 'POST', signal: AbortSignal.timeout(4000) }) } catch { /* the save already succeeded */ }
-}
+import { readJSON, methodNotAllowed, withErrors, isPrivateRead, triggerRebuild, PUBLIC_CACHE, NO_STORE } from '../_lib/http.js'
 
 async function handler(req, res) {
   if (req.method === 'GET') {
@@ -42,7 +24,12 @@ async function handler(req, res) {
     await connectDB()
     const docs = await Content.find({}).lean()
     const map = {}
-    docs.forEach(d => { map[d.type] = d.data })
+    const updated = []
+    docs.forEach(d => {
+      map[d.type] = d.data
+      if (d.updatedAt && /^[a-z0-9_-]+$/i.test(d.type)) updated.push(`${d.type}=${new Date(d.updatedAt).toISOString()}`)
+    })
+    if (updated.length) res.setHeader('X-Content-Updated', updated.join(', '))
     if (!isPrivateRead(req)) {
       res.setHeader('Cache-Control', PUBLIC_CACHE)
       res.removeHeader('Set-Cookie')

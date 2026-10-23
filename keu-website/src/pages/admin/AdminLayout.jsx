@@ -17,6 +17,7 @@ const NAV = [
   { to: '/admin/sound',        label: 'Background sound', icon: 'support' },
   { to: '/admin/team',         label: 'Team',         icon: 'users'       },
   { to: '/admin/gallery',      label: 'Gallery',      icon: 'building'    },
+  { to: '/admin/social',       label: 'Social feed',  icon: 'instagram'   },
   { to: '/admin/sanctuaries',  label: 'Sanctuaries',  icon: 'crescent'    },
   { to: '/admin/why',          label: 'Why Choose Us', icon: 'shield'     },
   { to: '/admin/faqs',         label: 'FAQs',          icon: 'support'    },
