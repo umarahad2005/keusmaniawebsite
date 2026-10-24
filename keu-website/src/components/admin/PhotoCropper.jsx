@@ -5,10 +5,33 @@
    The image can never leave a gap in the frame: the minimum zoom is worked out
    for the current angle, and the pan is clamped in the image's own (rotated)
    axes. `guides` draws the centre square and circle that the team grid and the
-   digital card crop to, so the admin sees all three framings at once. */
+   digital card crop to, so the admin sees all three framings at once.
+
+   Kept light so it never hangs the admin (owner report, 2026-10-24):
+   - rendered into <body> through a portal, so a transformed ancestor (the
+     team card lifts on hover) cannot trap the fixed overlay inside the card;
+   - big phone photos are scaled down once on load (longest side MAX_SRC), so
+     each redraw paints ~2 MP instead of 12+ MP;
+   - drags redraw at most once per frame, and the page scroll lock is set once
+     for the dialog's lifetime instead of on every zoom or move. */
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 
 const MAX_ZOOM = 5
+const MAX_SRC = 2400
+
+/* A copy of a large image no bigger than MAX_SRC on its longest side. */
+function downscale(im) {
+  const w = im.naturalWidth, h = im.naturalHeight
+  const k = MAX_SRC / Math.max(w, h)
+  if (k >= 1) return { src: im, w, h }
+  const c = document.createElement('canvas')
+  c.width = Math.round(w * k); c.height = Math.round(h * k)
+  const ctx = c.getContext('2d')
+  ctx.imageSmoothingQuality = 'high'
+  ctx.drawImage(im, 0, 0, c.width, c.height)
+  return { src: c, w: c.width, h: c.height }
+}
 
 export default function PhotoCropper({ src, aspect = 4 / 5, output = 1080, guides = true, onCancel, onDone }) {
   const OW = output
@@ -25,11 +48,12 @@ export default function PhotoCropper({ src, aspect = 4 / 5, output = 1080, guide
   const [busy, setBusy] = useState(false)
   const pointers = useRef(new Map())
   const pinch = useRef(null)
+  const pending = useRef({ x: 0, y: 0, raf: 0 })
 
   useEffect(() => {
     const im = new Image()
     im.crossOrigin = 'anonymous'
-    im.onload = () => setImg(im)
+    im.onload = () => setImg(downscale(im))
     im.onerror = () => setError('This photo could not be opened. Try another file (JPG or PNG).')
     im.src = src
   }, [src])
@@ -40,7 +64,7 @@ export default function PhotoCropper({ src, aspect = 4 / 5, output = 1080, guide
   const coverScale = useCallback((t) => {
     if (!img) return 1
     const c = Math.abs(Math.cos(t)), s = Math.abs(Math.sin(t))
-    return Math.max((OW * c + OH * s) / img.naturalWidth, (OW * s + OH * c) / img.naturalHeight)
+    return Math.max((OW * c + OH * s) / img.w, (OW * s + OH * c) / img.h)
   }, [img, OW, OH])
 
   const clamp = useCallback((o, z = zoom, t = theta) => {
@@ -48,8 +72,8 @@ export default function PhotoCropper({ src, aspect = 4 / 5, output = 1080, guide
     const sc = coverScale(t) * z
     const c = Math.cos(t), s = Math.sin(t)
     const ac = Math.abs(c), as = Math.abs(s)
-    const mx = Math.max(0, (sc * img.naturalWidth - (OW * ac + OH * as)) / 2)
-    const my = Math.max(0, (sc * img.naturalHeight - (OW * as + OH * ac)) / 2)
+    const mx = Math.max(0, (sc * img.w - (OW * ac + OH * as)) / 2)
+    const my = Math.max(0, (sc * img.h - (OW * as + OH * ac)) / 2)
     // Into the image's axes, clamp, and back.
     let ix = o.x * c + o.y * s
     let iy = -o.x * s + o.y * c
@@ -70,8 +94,9 @@ export default function PhotoCropper({ src, aspect = 4 / 5, output = 1080, guide
       ctx.translate(OW / 2 + offset.x, OH / 2 + offset.y)
       ctx.rotate(theta)
       ctx.scale(flip ? -sc : sc, sc)
-      ctx.imageSmoothingQuality = 'high'
-      ctx.drawImage(img, -img.naturalWidth / 2, -img.naturalHeight / 2)
+      // Best quality for the saved file; the default is plenty for the preview.
+      if (!withGuides) ctx.imageSmoothingQuality = 'high'
+      ctx.drawImage(img.src, -img.w / 2, -img.h / 2)
     }
     ctx.restore()
     if (!withGuides) return
@@ -126,9 +151,17 @@ export default function PhotoCropper({ src, aspect = 4 / 5, output = 1080, guide
       setZoom(Math.max(1, Math.min(MAX_ZOOM, z)))
       return
     }
-    const r = ratio()
-    setOffset(o => clamp({ x: o.x + (next.x - prev.x) * r, y: o.y + (next.y - prev.y) * r }))
+    // Add up the movement and apply it once per frame.
+    const r = ratio(), acc = pending.current
+    acc.x += (next.x - prev.x) * r
+    acc.y += (next.y - prev.y) * r
+    if (!acc.raf) acc.raf = requestAnimationFrame(() => {
+      const { x, y } = acc
+      acc.x = 0; acc.y = 0; acc.raf = 0
+      setOffset(o => clamp({ x: o.x + x, y: o.y + y }))
+    })
   }
+  useEffect(() => () => cancelAnimationFrame(pending.current.raf), [])
   const onPointerUp = (e) => {
     pointers.current.delete(e.pointerId)
     if (pointers.current.size < 2) pinch.current = null
@@ -147,9 +180,18 @@ export default function PhotoCropper({ src, aspect = 4 / 5, output = 1080, guide
     return () => el.removeEventListener('wheel', onWheel)
   }, [])
 
+  // Page scroll lock for the dialog's lifetime only.
   useEffect(() => {
     document.body.classList.add('no-scroll')
+    return () => document.body.classList.remove('no-scroll')
+  }, [])
+
+  // Keys read the latest handlers through refs, so the listener is added once.
+  const latest = useRef({})
+  latest.current = { onCancel, clamp }
+  useEffect(() => {
     const onKey = (e) => {
+      const { onCancel, clamp } = latest.current
       if (e.key === 'Escape') onCancel()
       const step = e.shiftKey ? 40 : 10
       const move = { ArrowLeft: [-step, 0], ArrowRight: [step, 0], ArrowUp: [0, -step], ArrowDown: [0, step] }[e.key]
@@ -161,11 +203,8 @@ export default function PhotoCropper({ src, aspect = 4 / 5, output = 1080, guide
       if (e.key === '-' && document.activeElement === canvas.current) setZoom(z => Math.max(1, z / 1.1))
     }
     document.addEventListener('keydown', onKey)
-    return () => {
-      document.body.classList.remove('no-scroll')
-      document.removeEventListener('keydown', onKey)
-    }
-  }, [onCancel, clamp])
+    return () => document.removeEventListener('keydown', onKey)
+  }, [])
 
   const reset = () => { setQuarter(0); setFine(0); setFlip(false); setZoom(1); setOffset({ x: 0, y: 0 }) }
 
@@ -181,8 +220,8 @@ export default function PhotoCropper({ src, aspect = 4 / 5, output = 1080, guide
     }, 'image/jpeg', 0.9)
   }
 
-  return (
-    <div className="modal-overlay" data-open="true">
+  return createPortal(
+    <div className="modal-overlay cropper-overlay" data-open="true">
       <div className="modal cropper" role="dialog" aria-modal="true" aria-labelledby="cropper-title">
         <button className="modal__close" type="button" onClick={onCancel} aria-label="Close">×</button>
         <h2 className="cropper__title" id="cropper-title">Adjust photo</h2>
@@ -237,5 +276,5 @@ export default function PhotoCropper({ src, aspect = 4 / 5, output = 1080, guide
         </div>
       </div>
     </div>
-  )
+  , document.body)
 }

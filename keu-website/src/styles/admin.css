@@ -317,6 +317,9 @@
    Photo cropper (team photos): canvas on the left, controls on the right;
    stacks on narrow screens.
    ========================================================= */
+/* No backdrop blur behind the editor: re-blurring the page on every redraw
+   is what made slower machines stutter. */
+.cropper-overlay { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(0, 36, 15, .78); }
 .cropper {
   width: min(880px, 100%);
   max-height: min(94vh, 900px);
